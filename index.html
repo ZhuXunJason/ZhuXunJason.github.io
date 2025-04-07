@@ -1,6 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>朱洵的个人博客</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
 <body>
-<h1>Hello Everyone!</h1>
+    <header>
+        <nav>
+            <div class="logo">朱洵 | Jason Zhu</div>
+            <ul>
+                <li><a href="#home">首页</a></li>
+                <li><a href="#academic">学术</a></li>
+                <li><a href="#life">生活</a></li>
+                <li><a href="#about">关于我</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="banner">
+        <div class="banner-content">
+            <h1>欢迎来到我的博客</h1>
+            <p>分享学术思考与生活感悟</p>
+        </div>
+    </section>
+
+    <main>
+        <section id="featured" class="featured-posts">
+            <h2>精选文章</h2>
+            <div class="post-grid">
+                <div class="post-card featured">
+                    <div class="post-img">
+                        <img src="assets/images/placeholder-1.jpg" alt="精选文章">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category academic">学术</span>
+                        <h3>人工智能发展前景与伦理思考</h3>
+                        <p>探讨人工智能技术的最新发展以及面临的伦理挑战...</p>
+                        <a href="posts/academic/ai-ethics.html" class="read-more">阅读全文 <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="academic" class="category-section">
+            <h2>学术专栏</h2>
+            <div class="post-grid">
+                <div class="post-card">
+                    <div class="post-img">
+                        <img src="assets/images/academic-1.jpg" alt="学术文章1">
+                    </div>
+                    <div class="post-content">
+                        <h3>深度学习在图像识别中的应用</h3>
+                        <p class="post-date">2025年3月15日</p>
+                        <p>本文探讨了深度学习技术在现代图像识别领域的重要应用...</p>
+                        <a href="posts/academic/deep-learning.html" class="read-more">阅读全文 <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="post-card">
+                    <div class="post-img">
+                        <img src="assets/images/academic-2.jpg" alt="学术文章2">
+                    </div>
+                    <div class="post-content">
+                        <h3>量子计算：未来计算的新范式</h3>
+                        <p class="post-date">2025年2月28日</p>
+                        <p>量子计算正在彻底改变我们对计算能力的认知，本文讨论了...</p>
+                        <a href="posts/academic/quantum-computing.html" class="read-more">阅读全文 <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="post-card">
+                    <div class="post-img">
+                        <img src="assets/images/academic-3.jpg" alt="学术文章3">
+                    </div>
+                    <div class="post-content">
+                        <h3>可持续发展与绿色技术</h3>
+                        <p class="post-date">2025年1月10日</p>
+                        <p>在气候变化的背景下，绿色技术将如何推动可持续发展...</p>
+                        <a href="posts/academic/green-tech.html" class="read-more">阅读全文 <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="view-more">
+                <a href="posts/academic/">查看更多学术文章 <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <section id="life" class="category-section">
+            <h2>生活专栏</h2>
+            <div class="post-grid">
+                <div class="post-card">
+                    <div class="post-img">
+                        <img src="assets/images/life-1.jpg" alt="生活文章1">
+                    </div>
+                    <div class="post-content">
+                        <h3>徒步青山：寻找内心的宁静</h3>
+                        <p class="post-date">2025年4月2日</p>
+                        <p>记录一次难忘的山间徒步旅行，以及大自然带来的心灵启示...</p>
+                        <a href="posts/life/hiking.html" class="read-more">阅读全文 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="post-card">
+                    <div class="post-img">
+                        <img src="assets/images/life-2.jpg" alt="生活文章2">
+                    </div>
+                    <div class="post-content">
+                        <h3>阅读与思考：我的2025年书单</h3>
+                        <p class="post-date">2025年3月20日</p>
+                        <p>分享今年以来我读过的几本好书以及阅读心得...</p>
+                        <a href="posts/life/reading-list.html" class="read-more">阅读全文 <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="post-card">
+                    <div class="post-img">
+                        <img src="assets/images/life-3.jpg" alt="生活文章3">
+                    </div>
+                    <div class="post-content">
+                        <h3>咖啡馆时光：城市中的宁静角落</h3>
+                        <p class="post-date">2025年2月15日</p>
+                        <p>探访城市中几家有特色的咖啡馆，享受独处与思考的美好时光...</p>
+                        <a href="posts/life/cafe-time.html" class="read-more">阅读全文 <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="view-more">
+                <a href="posts/life/">查看更多生活文章 <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我</h3>
+                <p>朱洵 (Jason Zhu)，热爱技术与生活，在这里分享我的所思所想。</p>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p><i class="fas fa-envelope"></i> email@example.com</p>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>订阅更新</h3>
+                <form class="subscribe-form">
+                    <input type="email" placeholder="您的邮箱">
+                    <button type="submit">订阅</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 朱洵的个人博客. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
 </body>
+
 </html>
