@@ -37,12 +37,44 @@ document.addEventListener('DOMContentLoaded', function () {
     navToggle.className = 'nav-toggle';
     navToggle.innerHTML = '<i class="fas fa-bars"></i>';
     const nav = document.querySelector('nav');
-    nav.appendChild(navToggle);
-
-    navToggle.addEventListener('click', function () {
+    nav.appendChild(navToggle); navToggle.addEventListener('click', function () {
         document.querySelector('nav ul').classList.toggle('active');
         this.classList.toggle('active');
-    });    // 添加CSS样式到头部
+    });    // 点击导航菜单项后立即关闭菜单
+    document.querySelectorAll('nav ul li a').forEach(link => {
+        link.addEventListener('click', function () {
+            const navMenu = document.querySelector('nav ul');
+            const toggle = document.querySelector('.nav-toggle');
+            if (navMenu && toggle) {
+                // 立即隐藏菜单，避免闪烁
+                navMenu.style.display = 'none';
+                navMenu.classList.remove('active');
+                toggle.classList.remove('active');
+
+                // 短暂延迟后恢复正常显示状态
+                setTimeout(() => {
+                    navMenu.style.display = '';
+                }, 50);
+            }
+        });
+    });    // 点击页面其他区域关闭导航菜单
+    document.addEventListener('click', function (e) {
+        const nav = document.querySelector('nav');
+        const navMenu = document.querySelector('nav ul');
+        const toggle = document.querySelector('.nav-toggle');
+
+        if (nav && !nav.contains(e.target) && navMenu && toggle) {
+            // 立即隐藏菜单，避免闪烁
+            navMenu.style.display = 'none';
+            navMenu.classList.remove('active');
+            toggle.classList.remove('active');
+
+            // 短暂延迟后恢复正常显示状态
+            setTimeout(() => {
+                navMenu.style.display = '';
+            }, 50);
+        }
+    });// 添加CSS样式到头部
     const style = document.createElement('style');
     style.textContent = `
         .nav-toggle {
@@ -63,10 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 top: 50%;
                 transform: translateY(-50%);
                 z-index: 1002;
-            }
-            
-            nav ul {
-                display: none;
+            }            nav ul {
+                display: none !important;
                 flex-direction: column;
                 width: 100%;
                 text-align: center;
@@ -76,10 +106,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 top: 100%;
                 left: 0;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                border-top: 1px solid rgba(0, 0, 0, 0.05);
+                margin: 0;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.2s ease;
             }
             
             nav ul.active {
-                display: flex;
+                display: flex !important;
+                opacity: 1;
+                visibility: visible;
+                z-index: 1002;
             }
             
             nav ul li {
