@@ -120,10 +120,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     observer.unobserve(img);
                 }
             });
-        });
-
-        document.querySelectorAll('img[data-src]').forEach(img => {
+        }); document.querySelectorAll('img[data-src]').forEach(img => {
             imgObserver.observe(img);
         });
+    }
+
+    // 动态签名SVG初始化
+    const newSignaturePath = document.querySelector('.dynamic-jason-signature-new path#jason-new-path');
+    if (newSignaturePath) {
+        const length = newSignaturePath.getTotalLength();
+
+        document.documentElement.style.setProperty('--path-length', length);
+
+        // 设置stroke-dash属性
+        newSignaturePath.style.strokeDasharray = length;
+        newSignaturePath.style.strokeDashoffset = length;
+
+        console.log('SVG签名路径长度:', length); // 调试信息
     }
 });
