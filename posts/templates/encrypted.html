@@ -94,18 +94,69 @@
         }
 
         header {
-            position: relative;
-            z-index: 1001;
-        }
-
-        footer {
-            position: fixed;
-            bottom: 0;
+            position: fixed !important;
+            top: 0;
             left: 0;
             right: 0;
             z-index: 1001;
-            background-color: var(--white, #ffffff);
-            border-top: 1px solid var(--border-color, #e5e5e5);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            position: relative;
+            z-index: 1000;
+            background-color: #f1f3f5;
+        }
+
+        /* 移动端样式优化 */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 80px !important;
+            }
+
+            #password-prompt-overlay {
+                padding-top: 80px;
+                z-index: 1002;
+            }
+
+            #password-prompt-container {
+                margin: 20px;
+                width: calc(100% - 40px);
+                max-width: 320px;
+                padding: 25px 30px;
+            }
+
+            /* 确保文章显示后紧挨header和footer */
+            .article-container {
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+                padding: 1.5rem;
+                background-color: var(--white, #ffffff);
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            /* 移动端完全禁用背景 */
+            body.article-with-background {
+                background: #fbfbfb !important;
+                animation: none;
+                padding-top: 80px !important;
+            }
+
+            /* 导航栏在移动端的调整 */
+            nav {
+                padding: 1rem;
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+            }
+
+            nav ul li {
+                margin: 0 0.5rem;
+            }
         }
     </style>
 </head>

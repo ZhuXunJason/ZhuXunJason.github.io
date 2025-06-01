@@ -84,15 +84,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 ciphertext
             ); const decryptedText = new TextDecoder().decode(decryptedBuffer);
             mainArticleContent.innerHTML = decryptedText;
-            mainArticleContent.style.display = 'block'; // 或你希望的显示方式
+            mainArticleContent.style.display = 'block';
             passwordPromptOverlay.style.display = 'none'; // 隐藏密码输入界面
+
+            // 移动端优化：确保页面布局正确
+            if (window.innerWidth <= 768) {
+                // 移动端：确保body有正确的padding-top
+                document.body.style.paddingTop = '80px';
+
+                // 确保文章容器样式正确
+                const articleContainer = document.querySelector('.article-container');
+                if (articleContainer) {
+                    articleContainer.style.marginTop = '0';
+                    articleContainer.style.marginBottom = '0';
+                    articleContainer.style.backgroundColor = '#ffffff';
+                    articleContainer.style.boxShadow = 'none';
+                    articleContainer.style.borderRadius = '0';
+                    articleContainer.style.padding = '1.5rem';
+                }
+
+                // 确保背景在移动端是纯色
+                if (document.body.classList.contains('article-with-background')) {
+                    document.body.style.background = '#fbfbfb';
+                    document.body.style.animation = 'none';
+                }
+            }
 
             // 修改 footer 位置，让它不再固定在底部
             const footer = document.querySelector('footer');
             if (footer) {
                 footer.style.position = 'relative';
                 footer.style.bottom = 'auto';
-                footer.style.marginTop = '2rem';
+                footer.style.marginTop = window.innerWidth <= 768 ? '0' : '2rem';
             }
 
         } catch (error) {

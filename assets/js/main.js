@@ -42,9 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     navToggle.addEventListener('click', function () {
         document.querySelector('nav ul').classList.toggle('active');
         this.classList.toggle('active');
-    });
-
-    // 添加CSS样式到头部
+    });    // 添加CSS样式到头部
     const style = document.createElement('style');
     style.textContent = `
         .nav-toggle {
@@ -62,7 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 display: block;
                 position: absolute;
                 right: 1rem;
-                top: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 1002;
             }
             
             nav ul {
@@ -71,6 +71,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 width: 100%;
                 text-align: center;
                 padding: 1rem 0;
+                background: rgba(255, 255, 255, 0.98);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             }
             
             nav ul.active {
@@ -79,6 +84,20 @@ document.addEventListener('DOMContentLoaded', function () {
             
             nav ul li {
                 margin: 0.5rem 0;
+            }
+
+            /* 确保导航栏在移动端正确显示 */
+            header {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 1001 !important;
+            }
+
+            /* 密码输入框在移动端的层级调整 */
+            #password-prompt-overlay {
+                z-index: 1003 !important;
             }
         }
         
