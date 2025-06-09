@@ -57,8 +57,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 50);
             }
         });
-    });    // 点击页面其他区域关闭导航菜单
+    });    // 点击页面其他区域关闭导航菜单（仅在移动端执行）
     document.addEventListener('click', function (e) {
+        // 只在移动端（窗口宽度 <= 768px）执行导航菜单关闭逻辑
+        if (window.innerWidth > 768) {
+            return;
+        }
+
         const nav = document.querySelector('nav');
         const navMenu = document.querySelector('nav ul');
         const toggle = document.querySelector('.nav-toggle');
@@ -74,7 +79,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 navMenu.style.display = '';
             }, 50);
         }
-    });// 添加CSS样式到头部
+    });
+
+    // 窗口大小调整时重置导航菜单状态
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) {
+            const navMenu = document.querySelector('nav ul');
+            const toggle = document.querySelector('.nav-toggle');
+            if (navMenu && toggle) {
+                // 在桌面端时，确保导航菜单状态正常
+                navMenu.style.display = '';
+                navMenu.classList.remove('active');
+                toggle.classList.remove('active');
+            }
+        }
+    });
+
+    // 添加CSS样式到头部
     const style = document.createElement('style');
     style.textContent = `
         .nav-toggle {
@@ -82,18 +103,17 @@ document.addEventListener('DOMContentLoaded', function () {
             cursor: pointer;
             font-size: 1.5rem;
         }
-        
-        @media (max-width: 768px) {
+          @media (max-width: 768px) {
             nav {
                 position: relative;
             }
             
             .nav-toggle {
                 display: block;
-                position: absolute;
-                right: 1rem;
-                top: 50%;
-                transform: translateY(-50%);
+                position: relative;
+                margin-left: auto;
+                order: 3;
+                flex: 0 0 auto;
                 z-index: 1002;
             }            nav ul {
                 display: none !important;

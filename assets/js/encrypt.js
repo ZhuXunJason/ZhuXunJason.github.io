@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const decryptedBuffer = await crypto.subtle.decrypt(
                 {
                     name: "AES-GCM",
-                    iv: iv // IV 必须与加密时使用的相同
+                    iv: iv
                 },
                 key,
                 ciphertext
@@ -89,10 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 移动端优化：确保页面布局正确
             if (window.innerWidth <= 768) {
-                // 移动端：确保body有正确的padding-top
                 document.body.style.paddingTop = '80px';
 
-                // 确保文章容器样式正确
                 const articleContainer = document.querySelector('.article-container');
                 if (articleContainer) {
                     articleContainer.style.marginTop = '0';
@@ -103,14 +101,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     articleContainer.style.padding = '1.5rem';
                 }
 
-                // 确保背景在移动端是纯色
+                // 纯色
                 if (document.body.classList.contains('article-with-background')) {
                     document.body.style.background = '#fbfbfb';
                     document.body.style.animation = 'none';
                 }
             }
 
-            // 修改 footer 位置，让它不再固定在底部
             const footer = document.querySelector('footer');
             if (footer) {
                 footer.style.position = 'relative';
