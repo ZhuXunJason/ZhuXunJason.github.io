@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isIndexBuilt = false;
 
     // 定义需要爬取并索引的文章列表
-    // 注意：这里的路径是相对于你网站的根目录
+    // 注意：这里的路径是相对于网站的根目录
     const articleUrls = [
         '/posts/academic/ai-ethics.html',
         '/posts/life/fate.html',
