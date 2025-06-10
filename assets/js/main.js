@@ -64,9 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {    // 打字机效�
         </div>
     `;
     const nav = document.querySelector('nav');
-    nav.appendChild(navToggle);
-
-    navToggle.addEventListener('click', function () {
+    nav.appendChild(navToggle); navToggle.addEventListener('click', function () {
         const navMenu = document.querySelector('nav ul');
         const isActive = this.classList.contains('active');
 
@@ -80,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {    // 打字机效�
                 item.style.animationDelay = `${index * 0.1}s`;
             });
         }
-    });    // 点击导航菜单项后立即关闭菜单
+    });// 点击导航菜单项后立即关闭菜单
     document.querySelectorAll('nav ul li a').forEach(link => {
         link.addEventListener('click', function () {
             const navMenu = document.querySelector('nav ul');
@@ -117,9 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {    // 打字机效�
                 navMenu.style.display = '';
             }, 50);
         }
-    });
-
-    // 窗口大小调整时重置导航菜单状态
+    });    // 窗口大小调整时重置导航菜单状态
     window.addEventListener('resize', function () {
         if (window.innerWidth > 768) {
             const navMenu = document.querySelector('nav ul');
@@ -130,167 +126,35 @@ document.addEventListener('DOMContentLoaded', function () {    // 打字机效�
                 navMenu.classList.remove('active');
                 toggle.classList.remove('active');
             }
+            // 移除移动端类
+            document.body.classList.remove('mobile-body');
+            const header = document.querySelector('header');
+            if (header) {
+                header.classList.remove('mobile-header');
+            }
+        } else {
+            // 添加移动端类
+            document.body.classList.add('mobile-body');
+            const header = document.querySelector('header');
+            if (header) {
+                header.classList.add('mobile-header');
+            }
         }
-    });    // 添加CSS样式到头部
-    const style = document.createElement('style');
-    style.textContent = `
-        .nav-toggle {
-            display: none;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-        
-        .nav-toggle:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-        
-        /* 汉堡菜单图标样式 */
-        .hamburger {
-            width: 24px;
-            height: 18px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .hamburger .line {
-            width: 100%;
-            height: 2px;
-            background-color: var(--text-color, #333);
-            border-radius: 1px;
-            transition: all 0.3s ease;
-            transform-origin: center;
-        }
-        
-        /* 汉堡菜单激活状态动画 */
-        .nav-toggle.active .line1 {
-            transform: translateY(8px) rotate(45deg);
-        }
-        
-        .nav-toggle.active .line2 {
-            opacity: 0;
-            transform: scaleX(0);
-        }
-        
-        .nav-toggle.active .line3 {
-            transform: translateY(-8px) rotate(-45deg);
-        }
+    });
 
-        @media (max-width: 768px) {
-            nav {
-                position: relative;
-            }
-            
-            .nav-toggle {
-                display: block;
-                position: relative;
-                margin-left: auto;
-                order: 3;
-                flex: 0 0 auto;
-                z-index: 1002;
-            }
-
-            nav ul {
-                display: none !important;
-                flex-direction: column;
-                width: 100%;
-                text-align: center;
-                padding: 1.5rem 0;
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(10px);
-                position: absolute;
-                top: 100%;
-                left: 0;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-                border-top: 1px solid rgba(0, 0, 0, 0.05);
-                margin: 0;
-                opacity: 0;
-                visibility: hidden;
-                transform: translateY(-10px);
-                transition: all 0.3s ease;
-            }
-            
-            nav ul.active {
-                display: flex !important;
-                opacity: 1;
-                visibility: visible;
-                transform: translateY(0);
-                z-index: 1002;
-            }
-            
-            nav ul li {
-                margin: 0.8rem 0;
-                opacity: 0;
-                transform: translateX(-20px);
-                animation: slideInFromLeft 0.3s ease forwards;
-            }
-            
-            nav ul.active li {
-                animation: slideInFromLeft 0.3s ease forwards;
-            }
-            
-            /* 菜单项滑入动画 */
-            @keyframes slideInFromLeft {
-                to {
-                    opacity: 1;
-                    transform: translateX(0);
-                }
-            }
-            
-            nav ul li a {
-                display: block;
-                padding: 0.8rem 1.5rem;
-                border-radius: 6px;
-                transition: all 0.3s ease;
-                position: relative;
-                overflow: hidden;
-            }
-            
-            nav ul li a::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
-                transition: left 0.5s ease;
-            }
-            
-            nav ul li a:hover::before {
-                left: 100%;
-            }
-            
-            nav ul li a:hover {
-                background-color: rgba(37, 99, 235, 0.05);
-                color: var(--primary-color, #2563eb);
-                transform: translateY(-2px);
-            }
-
-            /* 确保导航栏在移动端正确显示 */
-            header {
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
-                right: 0 !important;
-                z-index: 1001 !important;
-            }
-
-            /* 密码输入框在移动端的层级调整 */
-            #password-prompt-overlay {
-                z-index: 1003 !important;
+    // 初始化移动端样式类
+    function initMobileClasses() {
+        if (window.innerWidth <= 768) {
+            document.body.classList.add('mobile-body');
+            const header = document.querySelector('header');
+            if (header) {
+                header.classList.add('mobile-header');
             }
         }
-        
-        header.scrolled {
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-    `;
-    document.head.appendChild(style);
+    }
+
+    // 页面加载完成后初始化
+    initMobileClasses();
 
     // 订阅表单处理
     const subscribeForm = document.querySelector('.subscribe-form');

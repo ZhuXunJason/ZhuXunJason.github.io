@@ -1,11 +1,15 @@
-<!-- 当需要新增文章时，复制templates/article-template.html到相应目录（如posts/academic/或posts/life/）
+<!-- 当需要新增加密文章时，复制templates/encrypted.html到相应目录（如posts/academic/或posts/life/）
 将文件重命名为符合内容的名称（如new-article.html）
 修改文件中的以下内容：
-<title>标签中的标题
-    文章类别标签（学术或生活）
-    文章标题、日期和阅读时间
-    特色图片路径和说明
-    加密后的JSON数据
+1. <title>标签中的标题
+2. meta标签中的搜索元数据：
+   - article-title: 文章在搜索结果中显示的标题
+   - article-category: 文章分类名称（如"学术"或"生活"）
+   - article-category-class: 文章分类CSS类名（academic或life）
+3. 文章类别标签（学术或生活）
+4. 文章标题、日期和阅读时间
+5. 特色图片路径和说明
+6. 加密后的JSON数据
 -->
 
 
@@ -16,6 +20,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{PAGE_TITLE}} - Jason's Blog</title>
+
+    <!-- 搜索元数据：用于搜索功能读取加密文章信息 -->
+    <meta name="article-title" content="{{ARTICLE_TITLE}}">
+    <meta name="article-category" content="{{ARTICLE_CATEGORY}}">
+    <meta name="article-category-class" content="{{CATEGORY_CLASS}}">
+    <meta name="article-encrypted" content="true">
+
     <link rel="icon" href="../../assets/images/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
