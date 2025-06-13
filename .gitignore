@@ -1,2 +1,11 @@
 /.idea/
 /encrypt-tool.html
+
+# Jekyll artifacts
+/_site/
+/.jekyll-cache/
+/.jekyll-metadata
+
+
+# Bundler local vendor directory
+/vendor/

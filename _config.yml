@@ -1,0 +1,26 @@
+# 网站配置
+title: Jason's Blog
+author: Jason Zhu
+description: >- # 这里的 ">-" 符号表示忽略换行符
+  一个由 Jekyll 驱动的，关于技术与生活的个人博客。
+
+# 构建设置
+plugins:
+  - jekyll-feed
+
+# 定义文章集合，以保持你现有的 URL 结构
+collections:
+  academic:
+    output: true
+    permalink: /posts/academic/:name/
+  life:
+    output: true
+    permalink: /posts/life/:name/
+
+# 排除不需要处理的文件
+exclude:
+  - encrypt-tool.html
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - .gitignore
