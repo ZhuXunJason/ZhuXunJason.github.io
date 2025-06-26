@@ -1,38 +1,131 @@
-document.addEventListener('DOMContentLoaded', function () {    // 打字机效果
+document.addEventListener('DOMContentLoaded', function () {
+    // 增强的打字机效果
     function typeWriter() {
-        const text = "Welcome to my blog";
+        const texts = [
+            "Welcome to my Blog",
+            "欢迎来到我的博客",
+        ];
         const element = document.getElementById('typewriter-text');
         if (!element) return;
 
-        let i = 0;
-        element.textContent = ''; // 清空内容
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const pauseTime = 2000;
 
         function type() {
-            if (i < text.length) {
-                element.textContent += text.charAt(i);
-                i++;
-                setTimeout(type, 100); // 每个字符间隔100ms
+            const currentText = texts[textIndex];
+
+            if (isDeleting) {
+                element.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                element.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
             }
+
+            let speed = isDeleting ? deleteSpeed : typeSpeed;
+
+            if (!isDeleting && charIndex === currentText.length) {
+                speed = pauseTime;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                speed = 500;
+            }
+
+            setTimeout(type, speed);
         }
 
-        // 延迟500ms开始打字效果
-        setTimeout(type, 500);
+        // 启动打字效果
+        setTimeout(type, 1000);
     }
 
     // 执行打字机效果
     typeWriter();
 
-    // 导航栏滚动效果
+    // 动态粒子背景初始化
+    function initParticleBackground() {
+        const banner = document.querySelector('.banner');
+        if (!banner) return;
+
+        // 创建粒子容器
+        const particleContainer = document.createElement('div');
+        particleContainer.className = 'particle-container';
+        banner.appendChild(particleContainer);
+
+        // 创建粒子
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particleContainer.appendChild(particle);
+        }
+    }
+
+    // 初始化粒子背景
+    initParticleBackground();
+
+    // 导航栏滚动效果增强
     const header = document.querySelector('header');
-    const scrollThreshold = 100;
+    const scrollThreshold = 50;
 
     window.addEventListener('scroll', function () {
-        if (window.scrollY > scrollThreshold) {
+        const scrolled = window.scrollY;
+
+        if (scrolled > scrollThreshold) {
             header.classList.add('scrolled');
+            header.style.backdropFilter = 'blur(10px)';
+            header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
         } else {
             header.classList.remove('scrolled');
+            header.style.backdropFilter = '';
+            header.style.backgroundColor = '';
         }
     });
+
+    // SVG动态签名修复s和动画
+    function initSVGSignature() {
+        const svgElement = document.querySelector('.dynamic-jason-signature-new');
+        const pathElement = svgElement ? svgElement.querySelector('path') : null;
+
+        if (svgElement && pathElement) {
+            // 确保SVG可见
+            svgElement.style.opacity = '1';
+            svgElement.style.visibility = 'visible';
+
+            // 添加动画类
+            svgElement.classList.add('svg-animated');
+
+            // 计算路径长度并设置动画
+            const pathLength = pathElement.getTotalLength();
+            pathElement.style.strokeDasharray = pathLength;
+            pathElement.style.strokeDashoffset = pathLength;
+
+            // 触发动画
+            setTimeout(() => {
+                pathElement.style.strokeDashoffset = '0';
+            }, 500);
+
+            console.log('SVG签名初始化成功，路径长度:', pathLength);
+        } else {
+            console.warn('SVG签名元素未找到，使用备用文字');
+            // 显示备用文字
+            const logoElement = document.querySelector('.logo');
+            if (logoElement) {
+                logoElement.innerHTML = '<span class="fallback-logo">Jason</span>';
+            }
+        }
+    }
+
+    // 初始化SVG签名
+    initSVGSignature();
 
     // 平滑滚动到锚点
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

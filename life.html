@@ -2,22 +2,24 @@
 layout: default
 title: 生活专栏 - Jason's Blog
 ---
+
 <div class="page-header">
     <h1>生活专栏</h1>
 </div>
 <main>
     <section class="category-section">
         <div class="post-grid">
-            {% for post in site.life %}
+            {% assign sorted_posts = site.life | sort: 'date' | reverse %}
+            {% for post in sorted_posts %}
             <a href="{{ post.url | relative_url }}" class="post-card">
                 <div class="post-img">
                     <img src="{{ post.featured_image | default: '/assets/images/default.webp' | relative_url }}"
                         alt="{{ post.title }}">
                 </div>
                 <div class="post-content">
-                    <span class="post-category life">{{ post.collection | capitalize }}</span>
+                    <span class="post-category life">生活</span>
                     <h3>{{ post.title }}</h3>
-                    <p class="post-date">{{ post.date | date: "%Y年%m月%d日" }}</p>
+                    <p class="post-date">{{ post.date | date: "%Y年%m月" }}</p>
                     <p>{{ post.excerpt }}</p>
                 </div>
             </a>

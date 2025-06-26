@@ -1,75 +1,43 @@
 ---
 layout: default
 title: Jason's Blog
+is_home: true
 ---
 
+<section id="home" class="banner">
+    <div class="banner-content">
+        <h1 id="typewriter-text"></h1>
+    </div>
+</section>
 <main>
-    <section id="home" class="banner">
-        <div class="banner-content">
-            <h1 id="typewriter-text"></h1>
-        </div>
-    </section>
-
-    <section id="featured" class="featured-posts">
-        <h2>精选文章</h2>
-        <div class="post-grid">
-            <a href="posts/academic/ai-ethics.html" class="post-card featured">
-                <div class="post-img">
-                    <img src="assets/images/acdemic-1.jpg" alt="精选文章" style="opacity: 0.6;">
-                </div>
-                <div class="post-content">
-                    <span class="post-category academic">学术</span>
-                    <h3>人工智能发展前景与伦理思考</h3>
-                    <p>探讨人工智能技术的最新发展以及面临的伦理挑战...</p>
-                </div>
-            </a>
-        </div>
-    </section>
-
     <section id="academic" class="category-section">
-        <h2>学术专栏</h2>
+        <h2 class="section-title">最新学术文章</h2>
         <div class="post-grid">
-            <a href="posts/academic/ai-ethics.html" class="post-card">
+            {% assign sorted_posts = site.academic | sort: 'date' | reverse %}
+            {% for post in sorted_posts limit: 6 %}
+            <a href="{{ post.url | relative_url }}" class="post-card">
                 <div class="post-img">
-                    <img src="assets/images/default.webp" alt="学术文章1">
+                    <img src="{{ post.featured_image | default: '/assets/images/default.webp' | relative_url }}"
+                        alt="{{ post.title }}">
                 </div>
                 <div class="post-content">
                     <span class="post-category academic">学术</span>
-                    <h3>人工智能发展前景与伦理思考</h3>
-                    <p class="post-date">2025年4月10日</p>
-                    <p>探讨人工智能技术的最新发展以及面临的伦理挑战...</p>
+                    <h3>{{ post.title }}</h3>
+                    <p class="post-date">{{ post.date | date: "%Y年%m月" }}</p>
+                    <p class="excerpt">{{ post.excerpt }}</p>
                 </div>
             </a>
-            <a href="posts/academic/quantum-computing.html" class="post-card">
-                <div class="post-img">
-                    <img src="assets/images/academic-2.jpg" alt="学术文章2">
-                </div>
-                <div class="post-content">
-                    <span class="post-category academic">学术</span>
-                    <h3>量子计算：未来计算的新范式</h3>
-                    <p class="post-date">2025年2月28日</p>
-                    <p>量子计算正在彻底改变我们对计算能力的认知，本文讨论了...</p>
-                </div>
-            </a>
-            <a href="posts/academic/green-tech.html" class="post-card">
-                <div class="post-img">
-                    <img src="assets/images/default.webp" alt="学术文章3">
-                </div>
-                <div class="post-content">
-                    <span class="post-category academic">学术</span>
-                    <h3>可持续发展与绿色技术</h3>
-                    <p class="post-date">2025年1月10日</p>
-                    <p>在气候变化的背景下，绿色技术将如何推动可持续发展...</p>
-                </div>
-            </a>
+            {% endfor %}
         </div>
         <div class="view-more">
             <a href="academic.html">查看更多学术文章 <i class="fas fa-arrow-right"></i></a>
         </div>
     </section>
+    </div>
+    </section>
 
     <!-- <section id="life" class="category-section">
-        <h2>生活专栏</h2>
+        <h2 class="section-title">生活专栏</h2>
         <div class="post-grid">
             <div class="post-card">
                 <div class="post-img">

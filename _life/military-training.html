@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Military Training - Jason's Blog
+title: 军训感言
+tag: 生活
 date: 2021-09-01
 featured_image: /assets/images/default.webp
 excerpt: "军训生活的感悟与思考"
@@ -9,16 +10,20 @@ encrypted: false
 
 <div class="article-container">
     <div class="article-header">
-        <span class="post-category life">生活</span>
-        <h1>军训感言</h1>
+        <span class="post-category life">{{ page.tag }}</span>
+        <h1>{{ page.title }}</h1>
         <div class="article-meta">
             <span>作者：朱洵</span>
             <span class="divider">|</span>
-            <span>日期：2021年9月</span>
+            <span>日期：{{ page.date | date: "%Y年%m月" }}</span>
         </div>
     </div>
 
-    <!-- Removed featured image section -->
+    {% if page.featured_image %}
+    <div class="article-featured-img">
+        <img src="{{ page.featured_image | relative_url }}" alt="{{ page.title }}">
+    </div>
+    {% endif %}
 
     <div class="article-content">
         <p>

@@ -14,9 +14,22 @@ document.addEventListener('DOMContentLoaded', () => {
             showError("无法加载加密内容。");
             return;
         }
+
+        console.log("原始加密数据:", encryptedDataElement.textContent.trim());
         encryptedPayload = JSON.parse(encryptedDataElement.textContent);
+        console.log("解析后的加密数据:", encryptedPayload);
+
         if (!encryptedPayload || !encryptedPayload.salt || !encryptedPayload.iv || !encryptedPayload.ciphertext) {
             console.error("加密数据格式不正确:", encryptedPayload);
+            console.error("验证结果:", {
+                hasPayload: !!encryptedPayload,
+                hasSalt: !!(encryptedPayload && encryptedPayload.salt),
+                hasIV: !!(encryptedPayload && encryptedPayload.iv),
+                hasCiphertext: !!(encryptedPayload && encryptedPayload.ciphertext),
+                saltType: encryptedPayload && typeof encryptedPayload.salt,
+                ivType: encryptedPayload && typeof encryptedPayload.iv,
+                ciphertextType: encryptedPayload && typeof encryptedPayload.ciphertext
+            });
             showError("加密数据无效。");
             return;
         }
@@ -32,12 +45,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function hexToUint8Array(hexString) {
-        if (hexString.length % 2 !== 0) {
-            throw "无效的十六进制字符串";
+        if (!hexString || typeof hexString !== 'string') {
+            console.error("hexToUint8Array: 输入不是有效字符串:", hexString, typeof hexString);
+            throw new Error("十六进制字符串无效");
         }
-        const byteArray = new Uint8Array(hexString.length / 2);
+
+        // 清理字符串：去除所有空白字符
+        let cleanHexString = hexString.replace(/\s+/g, '');
+        console.log("hexToUint8Array: 原始字符串长度:", hexString.length, "清理后长度:", cleanHexString.length);
+        console.log("hexToUint8Array: 清理后的字符串前50个字符:", cleanHexString.substring(0, 50));
+
+        // 如果长度是奇数，可能是数据被截断了，我们移除最后一个字符
+        if (cleanHexString.length % 2 !== 0) {
+            console.warn("hexToUint8Array: 字符串长度不是偶数，可能数据被截断。原长度:", cleanHexString.length);
+            cleanHexString = cleanHexString.substring(0, cleanHexString.length - 1);
+            console.warn("hexToUint8Array: 移除最后一个字符后的长度:", cleanHexString.length);
+        }
+
+        // 检查是否包含无效字符
+        if (!/^[0-9a-fA-F]*$/.test(cleanHexString)) {
+            console.error("hexToUint8Array: 包含无效的十六进制字符");
+            console.error("无效字符示例:", cleanHexString.match(/[^0-9a-fA-F]/g));
+            throw new Error("无效的十六进制字符串");
+        }
+
+        const byteArray = new Uint8Array(cleanHexString.length / 2);
         for (let i = 0; i < byteArray.length; i++) {
-            byteArray[i] = parseInt(hexString.substr(i * 2, 2), 16);
+            const hexByte = cleanHexString.substr(i * 2, 2);
+            byteArray[i] = parseInt(hexByte, 16);
         }
         return byteArray;
     }
@@ -50,9 +85,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
+            console.log("开始解密，密码长度:", password.length);
+            console.log("加密数据字段:", {
+                saltLength: encryptedPayload.salt ? encryptedPayload.salt.length : 'null',
+                ivLength: encryptedPayload.iv ? encryptedPayload.iv.length : 'null',
+                ciphertextLength: encryptedPayload.ciphertext ? encryptedPayload.ciphertext.length : 'null'
+            });
+
             const salt = hexToUint8Array(encryptedPayload.salt);
             const iv = hexToUint8Array(encryptedPayload.iv);
             const ciphertext = hexToUint8Array(encryptedPayload.ciphertext);
+
+            console.log("十六进制转换成功，字节数组长度:", {
+                saltBytes: salt.length,
+                ivBytes: iv.length,
+                ciphertextBytes: ciphertext.length
+            });
 
             const keyMaterial = await crypto.subtle.importKey(
                 "raw",
@@ -117,8 +165,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("解密错误:", error);
-            if (error.message.toLowerCase().includes("bad data") || error.message.toLowerCase().includes("decryption failed") || error.name === "OperationError") {
+            const errorMessage = error.message || error.toString() || "未知错误";
+            if (errorMessage.toLowerCase().includes("bad data") ||
+                errorMessage.toLowerCase().includes("decryption failed") ||
+                error.name === "OperationError") {
                 showError('密码错误或内容已损坏。');
+            } else if (errorMessage.toLowerCase().includes("十六进制字符串")) {
+                showError('加密数据格式错误。');
             } else {
                 showError('解密过程中发生错误。');
             }
