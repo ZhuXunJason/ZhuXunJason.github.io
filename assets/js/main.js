@@ -47,31 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // 执行打字机效果
     typeWriter();
 
-    // 动态粒子背景初始化
-    function initParticleBackground() {
-        const banner = document.querySelector('.banner');
-        if (!banner) return;
-
-        // 创建粒子容器
-        const particleContainer = document.createElement('div');
-        particleContainer.className = 'particle-container';
-        banner.appendChild(particleContainer);
-
-        // 创建粒子
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            particleContainer.appendChild(particle);
-        }
-    }
-
-    // 初始化粒子背景
-    initParticleBackground();
-
     // 导航栏滚动效果增强
     const header = document.querySelector('header');
     const scrollThreshold = 50;
@@ -89,43 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
             header.style.backgroundColor = '';
         }
     });
-
-    // SVG动态签名修复s和动画
-    function initSVGSignature() {
-        const svgElement = document.querySelector('.dynamic-jason-signature-new');
-        const pathElement = svgElement ? svgElement.querySelector('path') : null;
-
-        if (svgElement && pathElement) {
-            // 确保SVG可见
-            svgElement.style.opacity = '1';
-            svgElement.style.visibility = 'visible';
-
-            // 添加动画类
-            svgElement.classList.add('svg-animated');
-
-            // 计算路径长度并设置动画
-            const pathLength = pathElement.getTotalLength();
-            pathElement.style.strokeDasharray = pathLength;
-            pathElement.style.strokeDashoffset = pathLength;
-
-            // 触发动画
-            setTimeout(() => {
-                pathElement.style.strokeDashoffset = '0';
-            }, 500);
-
-            console.log('SVG签名初始化成功，路径长度:', pathLength);
-        } else {
-            console.warn('SVG签名元素未找到，使用备用文字');
-            // 显示备用文字
-            const logoElement = document.querySelector('.logo');
-            if (logoElement) {
-                logoElement.innerHTML = '<span class="fallback-logo">Jason</span>';
-            }
-        }
-    }
-
-    // 初始化SVG签名
-    initSVGSignature();
 
     // 平滑滚动到锚点
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -171,7 +109,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 item.style.animationDelay = `${index * 0.1}s`;
             });
         }
-    });// 点击导航菜单项后立即关闭菜单
+    });
+
+    // 点击导航菜单项后立即关闭菜单
     document.querySelectorAll('nav ul li a').forEach(link => {
         link.addEventListener('click', function () {
             const navMenu = document.querySelector('nav ul');
@@ -186,7 +126,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 300);
             }
         });
-    });// 点击页面其他区域关闭导航菜单（仅在移动端执行）
+    });
+
+    // 点击页面其他区域关闭导航菜单（仅在移动端执行）
     document.addEventListener('click', function (e) {
         // 只在移动端（窗口宽度 <= 768px）执行导航菜单关闭逻辑
         if (window.innerWidth > 768) {
@@ -196,19 +138,53 @@ document.addEventListener('DOMContentLoaded', function () {
         const nav = document.querySelector('nav');
         const navMenu = document.querySelector('nav ul');
         const toggle = document.querySelector('.nav-toggle');
+        const searchContainer = document.querySelector('.search-container');
+
+        // 如果点击的是搜索容器内的元素，不关闭菜单
+        if (searchContainer && searchContainer.contains(e.target)) {
+            return;
+        }
 
         if (nav && !nav.contains(e.target) && navMenu && toggle) {
-            // 立即隐藏菜单，避免闪烁
-            navMenu.style.display = 'none';
-            navMenu.classList.remove('active');
+            // 平滑关闭菜单，避免闪烁
+            navMenu.classList.add('closing');
             toggle.classList.remove('active');
 
-            // 短暂延迟后恢复正常显示状态
             setTimeout(() => {
-                navMenu.style.display = '';
-            }, 50);
+                navMenu.classList.remove('active', 'closing');
+            }, 300);
         }
-    });    // 窗口大小调整时重置导航菜单状态
+    });
+
+    // 修复搜索框失焦闪烁问题
+    const searchInput = document.getElementById('search-input');
+    const searchContainer = document.querySelector('.search-container');
+
+    if (searchInput && searchContainer) {
+        // 防止搜索框失焦时的闪烁
+        let searchFocusTimeout;
+
+        searchInput.addEventListener('focus', function () {
+            clearTimeout(searchFocusTimeout);
+            this.style.transition = 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+
+        searchInput.addEventListener('blur', function () {
+            // 延迟应用失焦样式，防止闪烁
+            searchFocusTimeout = setTimeout(() => {
+                this.style.transition = 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+            }, 100);
+        });
+
+        // 搜索容器点击事件
+        searchContainer.addEventListener('click', function (e) {
+            if (e.target === searchInput) {
+                e.stopPropagation();
+            }
+        });
+    }
+
+    // 窗口大小调整时重置导航菜单状态
     window.addEventListener('resize', function () {
         if (window.innerWidth > 768) {
             const navMenu = document.querySelector('nav ul');
