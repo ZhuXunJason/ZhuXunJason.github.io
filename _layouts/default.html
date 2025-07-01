@@ -1,43 +1,49 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }}</title>
+  <title>{% if page.title %}{{ page.title }} - {% endif %}Jason's Blog</title>
   <link rel="icon" href="{{ '/assets/images/favicon.svg' | relative_url }}" type="image/svg+xml">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
+<!-- 生成搜索数据 -->
 <script id="search-articles-data" type="application/json">
 [
-  {% assign all_posts = site.academic | concat: site.life %}
-  {% for item in all_posts %}
+  {% for post in site.academic %}
   {
-    "title": {{ item.title | jsonify }},
-    "url": {{ item.url | relative_url | jsonify }},
-    "date": {{ item.date | date_to_string | jsonify }},
-    "tags": {{ item.tags | jsonify }},
-    "category": {% if item.collection == "academic" %}"academic"{% elsif item.collection == "life" %}"life"{% else %}"general"{% endif %},
-    "excerpt": {{ item.content | strip_html | normalize_whitespace | truncatewords: 30 | jsonify }}
+    "title": "{{ post.title | escape }}",
+    "url": "{{ post.url | relative_url }}",
+    "date": "{{ post.date | date: '%d %b %Y' }}",
+    "tags": [{% if post.tags %}{% assign tag_string = post.tags | join: ',' %}{% assign tag_list = tag_string | split: ',' %}{% for tag in tag_list %}"{{ tag | strip }}"{% unless forloop.last %},{% endunless %}{% endfor %}{% else %}"{{ post.category | default: 'academic' }}"{% endif %}],
+    "category": "{{ post.category | default: 'academic' }}",
+    "excerpt": "{{ post.excerpt | strip_html | truncatewords: 50 | escape }}"
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+  {% if site.academic.size > 0 and site.life.size > 0 %},{% endif %}
+  {% for post in site.life %}
+  {
+    "title": "{{ post.title | escape }}",
+    "url": "{{ post.url | relative_url }}",
+    "date": "{{ post.date | date: '%d %b %Y' }}",
+    "tags": [{% if post.tags %}{% assign tag_string = post.tags | join: ',' %}{% assign tag_list = tag_string | split: ',' %}{% for tag in tag_list %}"{{ tag | strip }}"{% unless forloop.last %},{% endunless %}{% endfor %}{% else %}"{{ post.category | default: 'life' }}"{% endif %}],
+    "category": "{{ post.category | default: 'life' }}",
+    "excerpt": "{{ post.excerpt | strip_html | truncatewords: 50 | escape }}"
   }{% unless forloop.last %},{% endunless %}
   {% endfor %}
 ]
 </script>
 
-<body class="{% if page.collection %}article-with-background{% endif %}{% if page.is_home %} has-banner{% endif %}">
-
-  <header>
-    {% include header.html %}
-  </header>
+<body class="{% if page.is_home %}has-banner{% endif %}">
+  {% include header.html %}
 
   <div class="content-wrapper">
     {{ content }}
   </div>
 
-  <footer>
-    {% include footer.html %}
-  </footer>
+  {% include footer.html %}
 
   <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
@@ -51,5 +57,4 @@
     }
   </script>
 </body>
-
 </html>

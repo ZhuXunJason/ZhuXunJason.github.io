@@ -18,7 +18,24 @@ title: 学术专栏 - Jason's Blog
                         alt="{{ post.title }}">
                 </div>
                 <div class="post-content">
-                    <span class="post-category academic">学术</span>
+                    {% if post.tags %}
+                        <div class="post-tags">
+                            {% assign tag_string = post.tags | join: ',' %}
+                            {% assign tag_list = tag_string | split: ',' %}
+                            {% for tag in tag_list %}
+                                {% assign trimmed_tag = tag | strip %}
+                                {% assign tag_class = 'default' %}
+                                {% if trimmed_tag contains '学术' or trimmed_tag contains 'academic' %}
+                                    {% assign tag_class = 'academic' %}
+                                {% elsif trimmed_tag contains '生活' or trimmed_tag contains 'life' %}
+                                    {% assign tag_class = 'life' %}
+                                {% endif %}
+                                <span class="post-tag {{ tag_class }}">{{ trimmed_tag }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <span class="post-category academic">学术</span>
+                    {% endif %}
                     <h3>{{ post.title }}</h3>
                     <p class="post-date">{{ post.date | date: "%Y年%m月" }}</p>
                     <p>{{ post.excerpt }}</p>

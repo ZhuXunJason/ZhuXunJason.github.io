@@ -1,7 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 桌面端搜索元素
     const searchInput = document.getElementById('search-input');
     const resultsContainer = document.getElementById('search-results-container');
     const searchIcon = document.querySelector('.search-icon');
+
+    // 移动端搜索元素
+    const searchInputMobile = document.getElementById('search-input-mobile');
+    const resultsContainerMobile = document.getElementById('search-results-container-mobile');
+    const searchIconMobile = document.querySelector('.search-icon-mobile');
+    const searchBarMobileContainer = document.getElementById('search-bar-mobile-container');
+
     let articles = [];
     let isIndexBuilt = false;
     let searchTimeout = null;
@@ -140,20 +148,26 @@ document.addEventListener('DOMContentLoaded', () => {
         return highlightedText;
     }
 
-    // 显示搜索结果 - 优化版
-    function displayResults(results, query = '') {
+    // 显示搜索结果 - 优化版，支持移动端
+    function displayResults(results, query = '', isMobile = false) {
         // 清除之前的超时
         if (searchTimeout) {
             clearTimeout(searchTimeout);
         }
 
+        const container = isMobile ? resultsContainerMobile : resultsContainer;
+
         if (!results || results.length === 0) {
-            resultsContainer.innerHTML = `
+            container.innerHTML = `
                 <div class="search-result-item no-results">
                     <div class="search-result-title">没有找到相关文章</div>
                     <span class="search-result-snippet">尝试使用其他关键词进行搜索</span>
                 </div>`;
-            showResults();
+            if (isMobile) {
+                showResultsMobile();
+            } else {
+                showResults();
+            }
             return;
         }
 
@@ -161,21 +175,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const maxResults = Math.min(results.length, 10);
         const limitedResults = results.slice(0, maxResults);
 
-        resultsContainer.innerHTML = limitedResults.map((article, index) => {
-            // 确定文章类别
-            let categoryDisplay = '';
+        container.innerHTML = limitedResults.map((article, index) => {
+            // 处理标签显示 - 显示所有标签
+            let tagsHtml = '';
             let categoryClass = 'general';
 
             if (article.tags && article.tags.length > 0) {
+                // 显示所有标签，基于标签内容决定颜色
+                tagsHtml = article.tags.map(tag => {
+                    let tagClass = 'general'; // 默认橙色
+                    const lowerTag = tag.toLowerCase();
+
+                    if (lowerTag === '学术' || lowerTag === 'academic') {
+                        tagClass = 'academic'; // 蓝色
+                    } else if (lowerTag === '生活' || lowerTag === 'life') {
+                        tagClass = 'life'; // 绿色
+                    }
+                    // 其他所有标签使用 general (橙色)
+
+                    return `<span class="search-result-category ${tagClass}">${tag}</span>`;
+                }).join('');
+
+                // 设置主要类别（用于其他样式，基于第一个标签）
                 const firstTag = article.tags[0].toLowerCase();
-                categoryDisplay = article.tags[0];
                 if (firstTag === 'academic' || firstTag === '学术') {
                     categoryClass = 'academic';
                 } else if (firstTag === 'life' || firstTag === '生活') {
                     categoryClass = 'life';
+                } else {
+                    categoryClass = 'general';
                 }
             } else if (article.category) {
-                categoryDisplay = article.category;
+                tagsHtml = `<span class="search-result-category ${categoryClass}">${article.category}</span>`;
                 categoryClass = article.category.toLowerCase();
             }
 
@@ -188,23 +219,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 <a href="${article.url}" class="search-result-item" data-index="${index}">
                     <div class="search-result-title">${highlightedTitle}</div>
                     <div class="search-result-meta">
-                        ${categoryDisplay ? `<span class="search-result-category ${categoryClass}">${categoryDisplay}</span>` : ''}
+                        ${tagsHtml}
                         ${article.date ? `<span class="search-result-date">${formatDateForSearch(article.date)}</span>` : ''}
                     </div>
-                    <p class="search-result-snippet">${highlightedSnippet}</p>
-                </a>
-            `;
+                    <div class="search-result-snippet">${highlightedSnippet}</div>
+                </a>`;
         }).join('');
 
-        // 如果有更多结果，显示提示
-        if (results.length > maxResults) {
-            resultsContainer.innerHTML += `
-                <div class="search-result-item more-results">
-                    <div class="search-result-snippet">还有 ${results.length - maxResults} 个相关结果...</div>
-                </div>`;
+        if (isMobile) {
+            showResultsMobile();
+        } else {
+            showResults();
         }
+    }
 
-        showResults();
+    // 显示移动端搜索结果
+    function showResultsMobile() {
+        if (resultsContainerMobile) {
+            resultsContainerMobile.classList.add('show');
+        }
+    }
+
+    // 隐藏移动端搜索结果
+    function hideResultsMobile() {
+        if (resultsContainerMobile) {
+            resultsContainerMobile.classList.remove('show');
+        }
     }
 
     // 显示搜索结果容器
@@ -224,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 执行搜索 - 优化版
-    function performSearch(query) {
+    function performSearch(query, isMobile = false) {
         if (!query || !query.trim()) {
             hideResults();
             return;
@@ -270,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .filter(article => article.relevance > 0)
                 .sort((a, b) => b.relevance - a.relevance);
 
-            displayResults(searchResults, trimmedQuery);
+            displayResults(searchResults, trimmedQuery, isMobile);
 
         } catch (error) {
             console.error('Search error:', error);
@@ -332,6 +372,70 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 移动端搜索按钮点击事件
+    if (searchIconMobile && searchBarMobileContainer) {
+        searchIconMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const isActive = searchBarMobileContainer.classList.contains('active');
+
+            if (!isActive) {
+                // 显示搜索栏
+                searchBarMobileContainer.classList.add('active');
+                // 确保搜索框获得焦点并处于输入状态
+                setTimeout(() => {
+                    if (searchInputMobile) {
+                        searchInputMobile.focus();
+                        // 在移动端，直接focus可能不够，需要额外触发
+                        searchInputMobile.setAttribute('readonly', false);
+                        searchInputMobile.removeAttribute('readonly');
+                    }
+                }, 350); // 稍微延长延迟，确保动画完成
+            } else {
+                // 隐藏搜索栏
+                searchBarMobileContainer.classList.remove('active');
+                if (searchInputMobile) {
+                    searchInputMobile.blur();
+                    searchInputMobile.value = ''; // 清空搜索内容
+                }
+                displayResults([], '', true);
+            }
+        });
+    }
+
+    // 点击外部区域关闭移动端搜索栏
+    document.addEventListener('click', (e) => {
+        if (searchBarMobileContainer && searchBarMobileContainer.classList.contains('active')) {
+            if (!searchBarMobileContainer.contains(e.target) &&
+                !searchIconMobile.contains(e.target)) {
+                searchBarMobileContainer.classList.remove('active');
+                displayResults([], '', true);
+            }
+        }
+    });
+
+    // 移动端搜索事件
+    if (searchInputMobile) {
+        searchInputMobile.addEventListener('input', (e) => {
+            const query = e.target.value;
+
+            if (searchTimeout) {
+                clearTimeout(searchTimeout);
+            }
+
+            searchTimeout = setTimeout(() => {
+                performSearch(query, true);
+            }, 300);
+        });
+
+        searchInputMobile.addEventListener('focus', () => {
+            if (searchInputMobile.value.trim()) {
+                performSearch(searchInputMobile.value, true);
+            }
+        });
+    }
+
     // 点击其他地方隐藏搜索结果
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.search-container')) {
@@ -366,21 +470,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (selectedIndex >= 0 && items[selectedIndex]) {
                     // 模拟点击
                     items[selectedIndex].click();
-                } else if (searchInput.value.trim()) {
-                    // 如果没有选中项但有搜索内容，选择第一个结果
-                    if (items.length > 0) {
-                        items[0].click();
-                    }
                 }
-                break;
             case 'Escape':
                 hideResults();
                 searchInput.blur();
                 selectedIndex = -1;
-                break;
-            case 'Tab':
-                // Tab 键切换焦点时隐藏结果
-                setTimeout(() => hideResults(), 100);
                 break;
         }
     });
