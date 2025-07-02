@@ -4,9 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordPromptOverlay = document.getElementById('password-prompt-overlay');
     const mainArticleContent = document.getElementById('main-article-content');
     const errorMessageElement = document.getElementById('error-message');
+    const contentHintElement = document.getElementById('content-hint');
 
-    // 从 HTML 中获取加密数据
-    let encryptedPayload;
+    // 从 HTML 中获取多套加密数据
+    let encryptedPayloads = {};
+    let contentHints = {};
+
     try {
         const encryptedDataElement = document.getElementById('encryptedDataContainer');
         if (!encryptedDataElement || !encryptedDataElement.textContent) {
@@ -15,24 +18,34 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        console.log("原始加密数据:", encryptedDataElement.textContent.trim());
-        encryptedPayload = JSON.parse(encryptedDataElement.textContent);
-        console.log("解析后的加密数据:", encryptedPayload);
+        const encryptedData = JSON.parse(encryptedDataElement.textContent);
+        console.log("解析后的加密数据:", encryptedData);
 
-        if (!encryptedPayload || !encryptedPayload.salt || !encryptedPayload.iv || !encryptedPayload.ciphertext) {
-            console.error("加密数据格式不正确:", encryptedPayload);
-            console.error("验证结果:", {
-                hasPayload: !!encryptedPayload,
-                hasSalt: !!(encryptedPayload && encryptedPayload.salt),
-                hasIV: !!(encryptedPayload && encryptedPayload.iv),
-                hasCiphertext: !!(encryptedPayload && encryptedPayload.ciphertext),
-                saltType: encryptedPayload && typeof encryptedPayload.salt,
-                ivType: encryptedPayload && typeof encryptedPayload.iv,
-                ciphertextType: encryptedPayload && typeof encryptedPayload.ciphertext
-            });
-            showError("加密数据无效。");
-            return;
+        // 支持旧格式（单一密码）和新格式（多密码）
+        if (encryptedData.salt && encryptedData.iv && encryptedData.ciphertext) {
+            // 旧格式：转换为新格式
+            encryptedPayloads['default'] = {
+                salt: encryptedData.salt,
+                iv: encryptedData.iv,
+                ciphertext: encryptedData.ciphertext
+            };
+            contentHints['default'] = "请输入密码查看内容";
+        } else if (encryptedData.contents) {
+            // 新格式：多套内容
+            encryptedPayloads = encryptedData.contents;
+            contentHints = encryptedData.hints || {};
+        } else {
+            throw new Error("加密数据格式不正确");
         }
+
+        // 验证所有加密数据
+        for (const [key, payload] of Object.entries(encryptedPayloads)) {
+            if (!payload.salt || !payload.iv || !payload.ciphertext) {
+                throw new Error(`加密数据 ${key} 格式不正确`);
+            }
+        }
+
+        console.log("成功加载", Object.keys(encryptedPayloads).length, "套加密内容");
     } catch (e) {
         console.error("解析加密数据失败:", e);
         showError("无法解析加密内容。");
@@ -42,6 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function showError(message) {
         errorMessageElement.textContent = message;
         errorMessageElement.style.display = 'block';
+        setTimeout(() => {
+            errorMessageElement.style.display = 'none';
+        }, 3000);
+    }
+
+    function showContentHint(hint) {
+        if (contentHintElement && hint) {
+            contentHintElement.textContent = hint;
+            contentHintElement.style.display = 'block';
+        }
     }
 
     function hexToUint8Array(hexString) {
@@ -50,22 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
             throw new Error("十六进制字符串无效");
         }
 
-        // 清理字符串：去除所有空白字符
         let cleanHexString = hexString.replace(/\s+/g, '');
-        console.log("hexToUint8Array: 原始字符串长度:", hexString.length, "清理后长度:", cleanHexString.length);
-        console.log("hexToUint8Array: 清理后的字符串前50个字符:", cleanHexString.substring(0, 50));
 
-        // 如果长度是奇数，可能是数据被截断了，我们移除最后一个字符
         if (cleanHexString.length % 2 !== 0) {
-            console.warn("hexToUint8Array: 字符串长度不是偶数，可能数据被截断。原长度:", cleanHexString.length);
+            console.warn("hexToUint8Array: 字符串长度不是偶数，移除最后一个字符");
             cleanHexString = cleanHexString.substring(0, cleanHexString.length - 1);
-            console.warn("hexToUint8Array: 移除最后一个字符后的长度:", cleanHexString.length);
         }
 
-        // 检查是否包含无效字符
         if (!/^[0-9a-fA-F]*$/.test(cleanHexString)) {
             console.error("hexToUint8Array: 包含无效的十六进制字符");
-            console.error("无效字符示例:", cleanHexString.match(/[^0-9a-fA-F]/g));
             throw new Error("无效的十六进制字符串");
         }
 
@@ -77,114 +93,145 @@ document.addEventListener('DOMContentLoaded', () => {
         return byteArray;
     }
 
+    async function tryDecryptWithPassword(password, payloadKey, payload) {
+        const salt = hexToUint8Array(payload.salt);
+        const iv = hexToUint8Array(payload.iv);
+        const ciphertext = hexToUint8Array(payload.ciphertext);
+
+        const keyMaterial = await crypto.subtle.importKey(
+            "raw",
+            new TextEncoder().encode(password),
+            { name: "PBKDF2" },
+            false,
+            ["deriveBits", "deriveKey"]
+        );
+
+        const key = await crypto.subtle.deriveKey(
+            {
+                name: "PBKDF2",
+                salt: salt,
+                iterations: 100000,
+                hash: "SHA-256"
+            },
+            keyMaterial,
+            { name: "AES-GCM", length: 256 },
+            true,
+            ["encrypt", "decrypt"]
+        );
+
+        const decryptedBuffer = await crypto.subtle.decrypt(
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+            key,
+            ciphertext
+        );
+
+        return new TextDecoder().decode(decryptedBuffer);
+    }
+
     async function decryptContent(password) {
-        errorMessageElement.style.display = 'none'; // 重置错误消息
+        errorMessageElement.style.display = 'none';
         if (!password) {
             showError('密码不能为空！');
             return;
         }
 
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 解密中...';
+
         try {
-            console.log("开始解密，密码长度:", password.length);
-            console.log("加密数据字段:", {
-                saltLength: encryptedPayload.salt ? encryptedPayload.salt.length : 'null',
-                ivLength: encryptedPayload.iv ? encryptedPayload.iv.length : 'null',
-                ciphertextLength: encryptedPayload.ciphertext ? encryptedPayload.ciphertext.length : 'null'
-            });
+            let decryptedContent = null;
+            let matchedKey = null;
 
-            const salt = hexToUint8Array(encryptedPayload.salt);
-            const iv = hexToUint8Array(encryptedPayload.iv);
-            const ciphertext = hexToUint8Array(encryptedPayload.ciphertext);
-
-            console.log("十六进制转换成功，字节数组长度:", {
-                saltBytes: salt.length,
-                ivBytes: iv.length,
-                ciphertextBytes: ciphertext.length
-            });
-
-            const keyMaterial = await crypto.subtle.importKey(
-                "raw",
-                new TextEncoder().encode(password),
-                { name: "PBKDF2" },
-                false,
-                ["deriveBits", "deriveKey"]
-            );
-
-            const key = await crypto.subtle.deriveKey(
-                {
-                    name: "PBKDF2",
-                    salt: salt,
-                    iterations: 100000, // 必须与加密时使用的迭代次数相同
-                    hash: "SHA-256"    // 必须与加密时使用的哈希算法相同
-                },
-                keyMaterial,
-                { name: "AES-GCM", length: 256 }, // 必须与加密时使用的算法和密钥长度相同
-                true,
-                ["encrypt", "decrypt"]
-            );
-
-            const decryptedBuffer = await crypto.subtle.decrypt(
-                {
-                    name: "AES-GCM",
-                    iv: iv
-                },
-                key,
-                ciphertext
-            ); const decryptedText = new TextDecoder().decode(decryptedBuffer);
-            mainArticleContent.innerHTML = decryptedText;
-            mainArticleContent.style.display = 'block';
-            passwordPromptOverlay.style.display = 'none'; // 隐藏密码输入界面
-
-            // 移动端优化：确保页面布局正确
-            if (window.innerWidth <= 768) {
-                document.body.style.paddingTop = '80px';
-
-                const articleContainer = document.querySelector('.article-container');
-                if (articleContainer) {
-                    articleContainer.style.marginTop = '0';
-                    articleContainer.style.marginBottom = '0';
-                    articleContainer.style.backgroundColor = '#ffffff';
-                    articleContainer.style.boxShadow = 'none';
-                    articleContainer.style.borderRadius = '0';
-                    articleContainer.style.padding = '1.5rem';
-                }
-
-                // 纯色
-                if (document.body.classList.contains('article-with-background')) {
-                    document.body.style.background = '#fbfbfb';
-                    document.body.style.animation = 'none';
+            // 尝试用输入的密码解密所有内容
+            for (const [key, payload] of Object.entries(encryptedPayloads)) {
+                try {
+                    console.log(`尝试解密内容: ${key}`);
+                    decryptedContent = await tryDecryptWithPassword(password, key, payload);
+                    matchedKey = key;
+                    console.log(`成功解密内容: ${key}`);
+                    break;
+                } catch (e) {
+                    console.log(`密码不匹配内容: ${key}`);
+                    continue;
                 }
             }
 
-            const footer = document.querySelector('footer');
-            if (footer) {
-                footer.style.position = 'relative';
-                footer.style.bottom = 'auto';
-                footer.style.marginTop = window.innerWidth <= 768 ? '0' : '2rem';
-            }
+            if (decryptedContent) {
+                mainArticleContent.innerHTML = decryptedContent;
+                mainArticleContent.style.display = 'block';
+                passwordPromptOverlay.style.display = 'none';
 
-        } catch (error) {
-            console.error("解密错误:", error);
-            const errorMessage = error.message || error.toString() || "未知错误";
-            if (errorMessage.toLowerCase().includes("bad data") ||
-                errorMessage.toLowerCase().includes("decryption failed") ||
-                error.name === "OperationError") {
-                showError('密码错误或内容已损坏。');
-            } else if (errorMessage.toLowerCase().includes("十六进制字符串")) {
-                showError('加密数据格式错误。');
+                // 显示解密成功的内容提示
+                if (contentHints[matchedKey]) {
+                    console.log(`解密成功 - ${contentHints[matchedKey]}`);
+                }
+
+                // 移动端优化
+                if (window.innerWidth <= 768) {
+                    document.body.style.paddingTop = '80px';
+                    const articleContainer = document.querySelector('.article-container');
+                    if (articleContainer) {
+                        articleContainer.style.marginTop = '0';
+                        articleContainer.style.marginBottom = '0';
+                        articleContainer.style.backgroundColor = '#ffffff';
+                        articleContainer.style.boxShadow = 'none';
+                        articleContainer.style.borderRadius = '0';
+                        articleContainer.style.padding = '1.5rem';
+                    }
+                }
+
+                // 重新渲染页面元素（如果有的话）
+                if (typeof window.renderMathJax === 'function') {
+                    window.renderMathJax();
+                }
+
+                const decryptedContentContainer = document.querySelector('.article-content');
+                if (decryptedContentContainer) {
+                    decryptedContentContainer.innerHTML = decryptedContent;
+                }
             } else {
-                showError('解密过程中发生错误。');
+                showError('密码错误，请重试！');
+                passwordInput.value = '';
+                passwordInput.focus();
             }
+        } catch (error) {
+            console.error("解密过程中发生错误:", error);
+            showError('解密失败！');
+            passwordInput.value = '';
+            passwordInput.focus();
+        } finally {
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<i class="fas fa-key"></i> <span>解锁</span>';
         }
     }
 
-    submitButton.addEventListener('click', () => {
-        decryptContent(passwordInput.value);
-    });
+    // 事件监听器
+    if (submitButton) {
+        submitButton.addEventListener('click', () => {
+            const password = passwordInput.value.trim();
+            decryptContent(password);
+        });
+    }
 
-    passwordInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            decryptContent(passwordInput.value);
-        }
-    });
+    if (passwordInput) {
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const password = passwordInput.value.trim();
+                decryptContent(password);
+            }
+        });
+
+        // 自动聚焦密码输入框
+        passwordInput.focus();
+    }
+
+    // 显示可用内容的提示
+    const hintKeys = Object.keys(contentHints);
+    if (hintKeys.length > 1) {
+        const hintText = hintKeys.map(key => contentHints[key]).join(' / ');
+        showContentHint(`可用内容: ${hintText}`);
+    }
 });

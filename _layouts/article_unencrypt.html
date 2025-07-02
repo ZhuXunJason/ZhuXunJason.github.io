@@ -1,0 +1,176 @@
+---
+layout: default
+---
+
+<div class="article-main-content">
+    <div class="article-container">
+        <div class="article-header">
+            <div class="post-tags">
+                {% if page.tags %}
+                {% assign tag_string = page.tags | join: ',' %}
+                {% assign tag_list = tag_string | split: ',' %}
+                {% for tag in tag_list %}
+                {% assign trimmed_tag = tag | strip %}
+                {% assign tag_class = 'default' %}
+                {% if trimmed_tag contains '学术' or trimmed_tag contains 'academic' %}
+                {% assign tag_class = 'academic' %}
+                {% elsif trimmed_tag contains '生活' or trimmed_tag contains 'life' %}
+                {% assign tag_class = 'life' %}
+                {% endif %}
+                <span class="post-tag {{ tag_class }}">{{ trimmed_tag }}</span>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <h1>{{ page.title }}</h1>
+            <div class="article-meta">
+                <span>作者：朱洵</span>
+                <span class="divider">|</span>
+                <span>日期：{{ page.date | date: "%Y年%m月" }}</span>
+            </div>
+        </div>
+
+        {% if page.featured_image %}
+        <div class="article-featured-img">
+            <img src="{{ page.featured_image | relative_url }}" alt="{{ page.title }}">
+        </div>
+        {% endif %}
+
+        <div class="article-content">
+            {{ content }}
+        </div>
+    </div>
+
+    <!-- 相关文章推荐 -->
+<!--    <section class="related-articles">-->
+<!--        <h3>相关文章</h3>-->
+<!--        <div class="related-articles-grid">-->
+<!--            {% assign related_posts = site[page.tag] | where_exp: "item", "item.url != page.url" | sample: 3 %}-->
+<!--            {% for post in related_posts limit: 3 %}-->
+<!--            <article class="related-article-card">-->
+<!--                <a href="{{ post.url | relative_url }}">-->
+<!--                    {% if post.featured_image %}-->
+<!--                    <div class="related-article-image">-->
+<!--                        <img src="{{ post.featured_image | relative_url }}" alt="{{ post.title }}" loading="lazy">-->
+<!--                    </div>-->
+<!--                    {% endif %}-->
+<!--                    <div class="related-article-content">-->
+<!--                        <h4>{{ post.title }}</h4>-->
+<!--                        <p>{{ post.excerpt | strip_html | truncatewords: 15 }}</p>-->
+<!--                        <time>{{ post.date | date: "%Y-%m-%d" }}</time>-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            </article>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    </section>-->
+</div>
+
+<!--<style>-->
+
+<!--.btn-primary, .btn-secondary {-->
+<!--    padding: 0.75rem 1.5rem;-->
+<!--    border: none;-->
+<!--    border-radius: var(&#45;&#45;border-radius);-->
+<!--    cursor: pointer;-->
+<!--    font-size: 0.9rem;-->
+<!--    transition: var(&#45;&#45;transition-fast);-->
+<!--    display: inline-flex;-->
+<!--    align-items: center;-->
+<!--    gap: 0.5rem;-->
+<!--}-->
+
+<!--.btn-primary {-->
+<!--    background: var(&#45;&#45;primary-color);-->
+<!--    color: white;-->
+<!--}-->
+
+<!--.btn-primary:hover {-->
+<!--    background: var(&#45;&#45;secondary-color);-->
+<!--    transform: translateY(-2px);-->
+<!--}-->
+
+<!--.btn-secondary {-->
+<!--    background: white;-->
+<!--    color: var(&#45;&#45;text-color);-->
+<!--    border: 1px solid var(&#45;&#45;border-color);-->
+<!--}-->
+
+<!--.btn-secondary:hover {-->
+<!--    background: #f8f9fa;-->
+<!--    transform: translateY(-2px);-->
+<!--}-->
+
+<!--.related-articles {-->
+<!--    margin-top: 3rem;-->
+<!--}-->
+
+<!--.related-articles h3 {-->
+<!--    font-size: 1.5rem;-->
+<!--    margin-bottom: 1.5rem;-->
+<!--    color: var(&#45;&#45;text-color);-->
+<!--}-->
+
+<!--.related-articles-grid {-->
+<!--    display: grid;-->
+<!--    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));-->
+<!--    gap: 1.5rem;-->
+<!--}-->
+
+<!--.related-article-card {-->
+<!--    background: var(&#45;&#45;card-bg);-->
+<!--    border-radius: var(&#45;&#45;border-radius);-->
+<!--    box-shadow: var(&#45;&#45;light-shadow);-->
+<!--    overflow: hidden;-->
+<!--    transition: var(&#45;&#45;transition-fast);-->
+<!--}-->
+
+<!--.related-article-card:hover {-->
+<!--    transform: translateY(-5px);-->
+<!--    box-shadow: var(&#45;&#45;shadow);-->
+<!--}-->
+
+<!--.related-article-card a {-->
+<!--    text-decoration: none;-->
+<!--    color: inherit;-->
+<!--    display: block;-->
+<!--}-->
+
+<!--.related-article-image {-->
+<!--    height: 150px;-->
+<!--    overflow: hidden;-->
+<!--}-->
+
+<!--.related-article-image img {-->
+<!--    width: 100%;-->
+<!--    height: 100%;-->
+<!--    object-fit: cover;-->
+<!--}-->
+
+<!--.related-article-content {-->
+<!--    padding: 1rem;-->
+<!--}-->
+
+<!--.related-article-content h4 {-->
+<!--    font-size: 1rem;-->
+<!--    margin-bottom: 0.5rem;-->
+<!--    color: var(&#45;&#45;text-color);-->
+<!--}-->
+
+<!--.related-article-content p {-->
+<!--    font-size: 0.9rem;-->
+<!--    color: var(&#45;&#45;text-light);-->
+<!--    margin-bottom: 0.5rem;-->
+<!--}-->
+
+<!--.related-article-content time {-->
+<!--    font-size: 0.8rem;-->
+<!--    color: var(&#45;&#45;text-light);-->
+<!--}-->
+
+<!--/* 移动端适配 */-->
+<!--@media (max-width: 768px) {-->
+<!--    .related-articles-grid {-->
+<!--        grid-template-columns: 1fr;-->
+<!--    }-->
+<!--}-->
+<!--</style>-->
