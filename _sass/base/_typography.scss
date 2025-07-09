@@ -1,0 +1,75 @@
+/* 排版样式 (Typography)
+-------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition-fast);
+
+    &:hover {
+        color: var(--secondary-color);
+        text-decoration: none;
+    }
+}
+
+.section-title {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    padding-bottom: 0.8rem;
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 70px;
+        height: 3px;
+        background-color: var(--primary-color);
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+}
+
+.page-header {
+    /* 用于学术/生活等列表页的顶部标题 */
+    text-align: center;
+    padding: 2rem 1rem 1.5rem;
+    background-color: transparent;
+    position: relative;
+    margin-top: 0;
+
+    h1{
+        font-size: 2.2rem;
+        color: var(--primary-color);
+    }
+}

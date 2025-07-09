@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (article.tags && article.tags.length > 0) {
                 // 显示所有标签，基于标签内容决定颜色
                 tagsHtml = article.tags.map(tag => {
-                    let tagClass = 'general'; // 默认橙色
+                    let tagClass = 'default'; // 默认橙色
                     const lowerTag = tag.toLowerCase();
 
                     if (lowerTag === '学术' || lowerTag === 'academic') {
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     // 其他所有标签使用 general (橙色)
 
-                    return `<span class="search-result-category ${tagClass}">${tag}</span>`;
+                    return `<span class="search-result-tag ${tagClass}">${tag}</span>`;
                 }).join('');
 
                 // 设置主要类别（用于其他样式，基于第一个标签）
@@ -203,10 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (firstTag === 'life' || firstTag === '生活') {
                     categoryClass = 'life';
                 } else {
-                    categoryClass = 'general';
+                    categoryClass = 'default';
                 }
             } else if (article.category) {
-                tagsHtml = `<span class="search-result-category ${categoryClass}">${article.category}</span>`;
+                tagsHtml = `<span class="search-result-tag ${categoryClass}">${article.category}</span>`;
                 categoryClass = article.category.toLowerCase();
             }
 

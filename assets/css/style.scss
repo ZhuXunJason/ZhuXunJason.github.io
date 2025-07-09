@@ -1,0 +1,24 @@
+---
+# Jekyll 需要这个 front matter 来处理文件
+---
+
+// Base Styles (基础样式)
+@import "base/variables";
+@import "base/reset";
+@import "base/typography";
+
+// Layout Styles (布局样式)
+@import "layout/header";
+@import "layout/navigation";
+@import "layout/footer";
+
+// Component Styles (组件样式)
+@import "components/buttons";
+@import "components/article-card";
+@import "components/search";
+@import "components/password-prompt";
+
+// Page-specific Styles (特定页面样式)
+@import "pages/home";
+@import "pages/about";
+@import "pages/article";

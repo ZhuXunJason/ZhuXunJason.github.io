@@ -29,8 +29,8 @@ exclude:
   - node_modules/
   - vendor/bundle/
   - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
-  - README.md
-  - encrypt-tool.html
-  - build_search_index.py
+
+# Sass 配置
+sass:
+  sass_dir: _sass
+  style: compressed  # 在构建时自动压缩CSS

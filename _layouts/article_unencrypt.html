@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<div class="article-main-content">
+<div class="article-page">
     <div class="article-container">
         <div class="article-header">
             <div class="post-tags">
@@ -41,28 +41,28 @@ layout: default
     </div>
 
     <!-- 相关文章推荐 -->
-<!--    <section class="related-articles">-->
-<!--        <h3>相关文章</h3>-->
-<!--        <div class="related-articles-grid">-->
-<!--            {% assign related_posts = site[page.tag] | where_exp: "item", "item.url != page.url" | sample: 3 %}-->
-<!--            {% for post in related_posts limit: 3 %}-->
-<!--            <article class="related-article-card">-->
-<!--                <a href="{{ post.url | relative_url }}">-->
-<!--                    {% if post.featured_image %}-->
-<!--                    <div class="related-article-image">-->
-<!--                        <img src="{{ post.featured_image | relative_url }}" alt="{{ post.title }}" loading="lazy">-->
-<!--                    </div>-->
-<!--                    {% endif %}-->
-<!--                    <div class="related-article-content">-->
-<!--                        <h4>{{ post.title }}</h4>-->
-<!--                        <p>{{ post.excerpt | strip_html | truncatewords: 15 }}</p>-->
-<!--                        <time>{{ post.date | date: "%Y-%m-%d" }}</time>-->
-<!--                    </div>-->
-<!--                </a>-->
-<!--            </article>-->
-<!--            {% endfor %}-->
-<!--        </div>-->
-<!--    </section>-->
+    <!--    <section class="related-articles">-->
+    <!--        <h3>相关文章</h3>-->
+    <!--        <div class="related-articles-grid">-->
+    <!--            {% assign related_posts = site[page.tag] | where_exp: "item", "item.url != page.url" | sample: 3 %}-->
+    <!--            {% for post in related_posts limit: 3 %}-->
+    <!--            <article class="related-article-card">-->
+    <!--                <a href="{{ post.url | relative_url }}">-->
+    <!--                    {% if post.featured_image %}-->
+    <!--                    <div class="related-article-image">-->
+    <!--                        <img src="{{ post.featured_image | relative_url }}" alt="{{ post.title }}" loading="lazy">-->
+    <!--                    </div>-->
+    <!--                    {% endif %}-->
+    <!--                    <div class="related-article-content">-->
+    <!--                        <h4>{{ post.title }}</h4>-->
+    <!--                        <p>{{ post.excerpt | strip_html | truncatewords: 15 }}</p>-->
+    <!--                        <time>{{ post.date | date: "%Y-%m-%d" }}</time>-->
+    <!--                    </div>-->
+    <!--                </a>-->
+    <!--            </article>-->
+    <!--            {% endfor %}-->
+    <!--        </div>-->
+    <!--    </section>-->
 </div>
 
 <!--<style>-->

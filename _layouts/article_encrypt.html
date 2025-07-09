@@ -33,28 +33,28 @@ layout: default
 }
 -->
 
-<div id="password-prompt-overlay" class="visible">
-    <div id="password-prompt-container">
-        <div class="password-icon">
-            <i class="fas fa-lock"></i>
-        </div>
-        <h3>🔐 请输入密码查看内容</h3>
-        <div class="password-input-wrapper">
-            <input type="password" id="password-input">
-            <button id="password-submit-button">
-                <i class="fas fa-key"></i>
-                <span>解锁</span>
-            </button>
-        </div>
-        <p id="error-message" style="display:none;"></p>
-        <div class="password-footer">
-            <small>💡 忘记密码？请联系作者获取</small>
+<div class="article-page">
+    <div id="password-prompt-overlay" class="visible">
+        <div id="password-prompt-container">
+            <div class="password-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h3>🔐 请输入密码查看内容</h3>
+            <div class="password-input-wrapper">
+                <input type="password" id="password-input">
+                <button id="password-submit-button">
+                    <i class="fas fa-key"></i>
+                    <span>解锁</span>
+                </button>
+            </div>
+            <p id="error-message" style="display:none;"></p>
+            <div class="password-footer">
+                <small>💡 忘记密码？请联系作者获取</small>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- 解密后的文章内容 -->
-<div class="article-main-content">
     <div class="article-container">
         <div class="article-header">
             <div class="post-tags">
@@ -90,10 +90,10 @@ layout: default
         <div class="article-content" id="main-article-content" style="display:none;">
         </div>
     </div>
-</div>
 
-<script id="encryptedDataContainer" type="application/json">
+    <script id="encryptedDataContainer" type="application/json">
 {{ content | strip }}
 </script>
 
-<script src="{{ '/assets/js/encrypt.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/encrypt.js' | relative_url }}"></script>
+</div>

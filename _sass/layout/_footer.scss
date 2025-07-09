@@ -1,0 +1,46 @@
+/* 页脚样式 (Footer)
+-------------------------------------------------- */
+
+footer {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    text-align: center;
+    padding: 1.5rem 1rem;
+    margin-top: auto;
+    z-index: 1000;
+}
+
+.copyright {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.3rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+// 社交媒体链接
+.footer-social {
+    display: flex;
+    gap: 1rem;
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--text-light);
+        transition: var(--transition-normal);
+
+        &:hover{
+            background: var(--primary-color);
+            color: var(--card-bg);
+            transform: translateY(-3px);
+        }
+    }
+}
+

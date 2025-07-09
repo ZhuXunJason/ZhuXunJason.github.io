@@ -1,0 +1,105 @@
+/* 首页样式 (Home Page)
+-------------------------------------------------- */
+
+.banner {
+    height: 70vh;
+    background-image: url('../images/banner.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    color: var(--card-bg);
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .banner-content {
+        position: relative;
+        z-index: 1;
+        padding: 1rem;
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            color: var(--card-bg);
+        }
+
+        p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 1.5rem auto;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+        }
+    }
+}
+
+// 首页特色部分
+.featured-section {
+    padding: 4rem 0;
+    background-color: var(--card-bg);
+
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+}
+
+// 首页统计数据
+.stats-section {
+    background-color: var(--primary-color);
+    color: var(--card-bg);
+    padding: 3rem 0;
+    text-align: center;
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .stat-item {
+        h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--card-bg);
+        }
+
+        p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+    }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+    .banner {
+        height: 50vh;
+
+        .banner-content {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+    }
+}

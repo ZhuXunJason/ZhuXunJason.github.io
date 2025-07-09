@@ -1,0 +1,20 @@
+/* 头部样式 (Header)
+-------------------------------------------------- */
+
+header {
+    background-color: var(--card-bg);
+    box-shadow: var(--light-shadow);
+    position: fixed;
+    top: 0;
+    z-index: 1001;
+    width: 100%;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    width: 100%;
+}
