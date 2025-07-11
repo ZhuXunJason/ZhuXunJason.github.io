@@ -390,6 +390,34 @@
     }
 }
 
+//回到顶部按钮
+#back-to-top-btn{
+    position: fixed;
+    top: 8rem;
+    right: 1rem;
+    z-index: 1000;
+    background-color: var(--primary-color);
+    color: var(--card-bg);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: none;
+    width:50px;
+    height: 50px;
+
+    &:hover {
+        background-color: var(--secondary-color);
+        transform: scale(1.05);
+    }
+
+    i {
+        transform: scale(0.95);
+    }
+}
+
 // 响应式设计
 @media (max-width: 768px) {
     .article-page {
