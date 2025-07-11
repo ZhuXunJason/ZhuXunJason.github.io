@@ -8,14 +8,6 @@
     max-width: 900px;
     margin: 2rem auto;
     position: relative;
-
-    h1{
-        /* 页面大标题 "关于我" */
-        text-align: center;
-        font-size: 2.2rem;
-        color: var(--primary-color);
-        margin-bottom: 2.5rem;
-    }
 }
 
 .profile-section {
@@ -184,7 +176,7 @@
 // 响应式设计
 @media (max-width: 768px) {
     .about-container {
-        padding: 4rem;
+        margin:0 auto;
         .profile-section {
             flex-direction: column;
             text-align: center;

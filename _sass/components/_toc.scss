@@ -1,0 +1,49 @@
+#toc-container {
+    position: fixed;
+    left: 20px;
+    top: 100px;
+    width: 200px;
+    max-height: calc(100vh - 120px);
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-large);
+    z-index: 1000;
+    padding: 15px;
+    overflow-y: auto; // Add scrollbar ONLY when content overflows the container
+
+    @media (max-width: 1200px) {
+        display: none;
+    }
+
+
+        li {
+            list-style-position: inside; // Ensure marker is inside the list item flow
+            padding-left: 0; // Reset padding if needed
+
+            a {
+                text-decoration: none;
+                color: var(--text-color);
+                display: inline; // Display link inline with the marker
+                padding: 8px 0px 10px;
+                border-radius: var(--border-radius-small);
+                transition: all 0.2s ease;
+
+                &.toc-h2 {
+                    font-weight: 500;
+                    font-size: 0.9em;
+                }
+
+                &.toc-h3 {
+                    font-size: 0.85em;
+                    padding-left: 25px;
+                }
+
+                &:hover,
+                &.active {
+                    background-color: var(--primary-color-light);
+                    color: var(--primary-color);
+                    transform: translateX(3px);
+                }
+            }
+        }
+}

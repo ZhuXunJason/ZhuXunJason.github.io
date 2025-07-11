@@ -15,9 +15,11 @@ footer {
     margin: 0 auto;
     padding: 0.3rem 1rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    column-gap: 3rem;
+    row-gap: 1rem;
 }
 
 // 社交媒体链接

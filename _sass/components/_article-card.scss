@@ -156,7 +156,8 @@
 // 移动端响应式
 @media (max-width: 768px) {
     .post-card {
-        width: 100%;
+        width: 90%;
         max-width: none;
+        margin: 0 auto;
     }
 }

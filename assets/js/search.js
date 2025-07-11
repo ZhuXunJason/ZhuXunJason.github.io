@@ -14,61 +14,39 @@ document.addEventListener('DOMContentLoaded', () => {
     let isIndexBuilt = false;
     let searchTimeout = null;
 
-    // 从 script 标签中获取 Jekyll 生成的文章数据
-    function loadArticlesFromData() {
-        const articlesDataElement = document.getElementById('search-articles-data');
-
-        if (!articlesDataElement) {
-            console.error('Search articles data element not found.');
-            articles = [];
-            isIndexBuilt = false;
-            return;
-        }
-
-        try {
-            const textContent = articlesDataElement.textContent.trim();
-
-            if (!textContent) {
-                console.warn('Search articles data element is empty.');
-                articles = [];
-                isIndexBuilt = false;
-                return;
-            }
-
-            console.log('Raw JSON data:', textContent.substring(0, 200) + '...');
-
-            const data = JSON.parse(textContent);
-
-            if (!Array.isArray(data)) {
-                console.error('Search data is not an array:', typeof data);
-                articles = [];
-                isIndexBuilt = false;
-                return;
-            }
-
-            articles = data.filter(article => {
-                const isValid = article &&
-                    article.title &&
-                    article.url &&
-                    article.title.trim() !== '';
-
-                if (!isValid) {
-                    console.warn('Invalid article found:', article);
+    // 从 /assets/json/posts.json 异步加载文章数据
+    function loadArticlesAsync() {
+        fetch('/assets/json/posts.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) {
+                    console.error('Search data is not an array:', typeof data);
+                    articles = [];
+                    isIndexBuilt = false;
+                    return;
                 }
 
-                return isValid;
+                articles = data.filter(article => {
+                    const isValid = article && article.title && article.url && article.title.trim() !== '';
+                    if (!isValid) {
+                        console.warn('Invalid article found:', article);
+                    }
+                    return isValid;
+                });
+
+                isIndexBuilt = true;
+                console.log(`Successfully loaded ${articles.length} valid articles for search`);
+            })
+            .catch(error => {
+                console.error('Error fetching or parsing articles data:', error);
+                articles = [];
+                isIndexBuilt = false;
             });
-
-            isIndexBuilt = true;
-            console.log(`Successfully loaded ${articles.length} valid articles for search`);
-            console.log('Sample article:', articles[0]);
-
-        } catch (error) {
-            console.error('Error parsing articles data:', error);
-            console.error('Raw content:', articlesDataElement.textContent.substring(0, 500));
-            articles = [];
-            isIndexBuilt = false;
-        }
     }
 
     // 格式化日期，只显示年份和月份
@@ -339,8 +317,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // 页面加载时加载文章数据
-    loadArticlesFromData();
+    // 页面加载时异步加载文章数据
+    loadArticlesAsync();
 
     // 搜索功能事件监听
     const debouncedSearch = debounce(performSearch, 250);

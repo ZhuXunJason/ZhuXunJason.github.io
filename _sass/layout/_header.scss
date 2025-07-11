@@ -18,3 +18,108 @@ main {
     padding: 2rem 1.5rem;
     width: 100%;
 }
+
+/* 导航样式 (Navigation)
+-------------------------------------------------- */
+
+nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    a.logo {
+        display: flex;
+        align-items: center;
+        height: 45px;
+        flex-shrink: 0;
+        z-index: 10;
+    }
+
+    .dynamic-jason-signature-new {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: contain;
+
+        path#jason-new-path {
+            stroke-dasharray: 2300;
+            stroke-dashoffset: 2300;
+            stroke: url(#jasonSignatureSkyBlueGradient);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none !important;
+            animation: draw-new-signature 10s ease-out infinite;
+        }
+    }
+
+    ul {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 1.8rem;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+
+        li a {
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+
+            &::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -2px;
+                left: 0;
+                background-color: var(--primary-color);
+                transition: var(--transition-normal);
+            }
+
+            &:hover::after,
+            &.active::after {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@keyframes draw-new-signature {
+    to {
+        stroke-dashoffset: 2100;
+    }
+}
+
+/* 移动端样式 */
+@media (max-width: 768px) {
+  nav{
+    flex-wrap: wrap;
+    ul {
+      justify-content: space-around; /* 均匀分布 */
+      position: absolute;
+      top: 100%;
+      width: 100%;
+      background-color: var(--card-bg);
+      box-shadow: var(--light-shadow);
+      padding: 0.5rem 1rem;
+
+      &.active {
+        display: flex;
+      }
+
+      li {
+        text-align: center;
+        padding: 0; /* 移除内边距 */
+        border-top: none; /* 移除顶部边框 */
+      }
+    }
+  }
+}

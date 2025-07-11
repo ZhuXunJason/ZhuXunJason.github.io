@@ -84,32 +84,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         });
-    });    // 移动端导航菜单
-    const navToggle = document.createElement('div');
-    navToggle.className = 'nav-toggle';
-    navToggle.innerHTML = `
-        <div class="hamburger">
-            <span class="line line1"></span>
-            <span class="line line2"></span>
-            <span class="line line3"></span>
-        </div>
-    `;
-    const nav = document.querySelector('nav');
-    nav.appendChild(navToggle); navToggle.addEventListener('click', function () {
-        const navMenu = document.querySelector('nav ul');
-        const isActive = this.classList.contains('active');
-
-        this.classList.toggle('active');
-        navMenu.classList.toggle('active');
-
-        // 为每个菜单项添加延迟动画
-        if (!isActive) {
-            const menuItems = navMenu.querySelectorAll('li');
-            menuItems.forEach((item, index) => {
-                item.style.animationDelay = `${index * 0.1}s`;
-            });
-        }
     });
+    
+    // 移动端导航菜单
+    const navToggle = document.querySelector('.nav-toggle');
+    if (navToggle) {
+        navToggle.addEventListener('click', function () {
+            const navMenu = document.querySelector('nav ul');
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
 
     // 点击导航菜单项后立即关闭菜单
     document.querySelectorAll('nav ul li a').forEach(link => {
@@ -273,5 +258,22 @@ document.addEventListener('DOMContentLoaded', function () {
         newSignaturePath.style.strokeDashoffset = length;
 
         console.log('SVG签名路径长度:', length); // 调试信息
+    }
+
+    // Back to top button functionality
+    const backToTopButton = document.getElementById("back-to-top-btn");
+
+    if (backToTopButton) {
+        window.addEventListener("scroll", () => {
+            if (window.pageYOffset > 300) { // Show button after scrolling 300px
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
+        });
+
+        backToTopButton.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
     }
 });

@@ -73,3 +73,9 @@ a {
         color: var(--primary-color);
     }
 }
+
+@media (max-width: 768px) {
+    .page-header{
+        margin-top: 2rem;
+    }
+}

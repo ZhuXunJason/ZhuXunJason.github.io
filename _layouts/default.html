@@ -9,33 +9,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<!-- 生成搜索数据 -->
-<script id="search-articles-data" type="application/json">
-[
-  {% for post in site.academic %}
-  {
-    "title": "{{ post.title | escape }}",
-    "url": "{{ post.url | relative_url }}",
-    "date": "{{ post.date | date: '%d %b %Y' }}",
-    "tags": [{% if post.tags %}{% assign tag_string = post.tags | join: ',' %}{% assign tag_list = tag_string | split: ',' %}{% for tag in tag_list %}"{{ tag | strip }}"{% unless forloop.last %},{% endunless %}{% endfor %}{% else %}"{{ post.category | default: 'academic' }}"{% endif %}],
-    "category": "{{ post.category | default: 'academic' }}",
-    "excerpt": "{{ post.excerpt | strip_html | truncatewords: 50 | escape }}"
-  }{% unless forloop.last %},{% endunless %}
-  {% endfor %}
-  {% if site.academic.size > 0 and site.life.size > 0 %},{% endif %}
-  {% for post in site.life %}
-  {
-    "title": "{{ post.title | escape }}",
-    "url": "{{ post.url | relative_url }}",
-    "date": "{{ post.date | date: '%d %b %Y' }}",
-    "tags": [{% if post.tags %}{% assign tag_string = post.tags | join: ',' %}{% assign tag_list = tag_string | split: ',' %}{% for tag in tag_list %}"{{ tag | strip }}"{% unless forloop.last %},{% endunless %}{% endfor %}{% else %}"{{ post.category | default: 'life' }}"{% endif %}],
-    "category": "{{ post.category | default: 'life' }}",
-    "excerpt": "{{ post.excerpt | strip_html | truncatewords: 50 | escape }}"
-  }{% unless forloop.last %},{% endunless %}
-  {% endfor %}
-]
-</script>
-
 <body class="{% if page.is_home %}has-banner{% endif %}">
   {% include header.html %}
 

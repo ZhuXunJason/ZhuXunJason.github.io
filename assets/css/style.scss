@@ -9,7 +9,6 @@
 
 // Layout Styles (布局样式)
 @import "layout/header";
-@import "layout/navigation";
 @import "layout/footer";
 
 // Component Styles (组件样式)
@@ -17,6 +16,8 @@
 @import "components/article-card";
 @import "components/search";
 @import "components/password-prompt";
+@import "components/toc";
+@import "components/related-articles";
 
 // Page-specific Styles (特定页面样式)
 @import "pages/home";
