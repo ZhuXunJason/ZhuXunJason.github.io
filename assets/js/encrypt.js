@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+
     const passwordInput = document.getElementById('password-input');
     const submitButton = document.getElementById('password-submit-button');
     const passwordPromptOverlay = document.getElementById('password-prompt-overlay');
@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!encryptedDataElement || !encryptedDataElement.textContent) {
             console.error("未找到加密数据容器或容器为空。");
             showError("无法加载加密内容。");
-            return;
         }
 
         const encryptedData = JSON.parse(encryptedDataElement.textContent);
@@ -49,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
         console.error("解析加密数据失败:", e);
         showError("无法解析加密内容。");
-        return;
     }
 
     function showError(message) {
@@ -191,6 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const decryptedContentContainer = document.querySelector('.article-content');
                 if (decryptedContentContainer) {
                     decryptedContentContainer.innerHTML = decryptedContent;
+                    const script = document.createElement('script');
+                    script.src = 'assets/js//toc.js';
+                    script.onload = () => {
+                        console.log('toc.js loaded');
+                    };
+
+                    document.body.appendChild(script);
                 }
             } else {
                 showError('密码错误，请重试！');
@@ -234,4 +239,4 @@ document.addEventListener('DOMContentLoaded', () => {
         const hintText = hintKeys.map(key => contentHints[key]).join(' / ');
         showContentHint(`可用内容: ${hintText}`);
     }
-});
+

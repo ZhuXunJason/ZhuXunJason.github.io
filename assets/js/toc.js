@@ -1,15 +1,10 @@
-document.addEventListener("DOMContentLoaded", function() {
     const articleContent = document.querySelector(".article-content");
     const tocContainer = document.getElementById("toc-container");
 
-    if (!articleContent || !tocContainer) {
-        return;
-    }
-
     const headings = articleContent.querySelectorAll("h2, h3");
+
     if (headings.length === 0) {
         tocContainer.style.display = "none";
-        return;
     }
 
     let tocHTML = "";
@@ -62,4 +57,3 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
-});

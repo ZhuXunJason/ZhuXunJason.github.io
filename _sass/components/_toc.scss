@@ -7,7 +7,7 @@
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-large);
-    z-index: 1000;
+    z-index: 999;
     padding: 15px;
     overflow-y: auto; // Add scrollbar ONLY when content overflows the container
 
