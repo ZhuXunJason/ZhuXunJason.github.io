@@ -152,6 +152,11 @@
             color: var(--secondary-color);
         }
 
+        h4 {
+            font-size: 1.2rem;
+            color: var(--md-secondary);
+        }
+
         // 链接样式
         a {
             color: var(--primary-color);
@@ -223,7 +228,6 @@
             background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(41, 128, 185, 0.05));
             border-left: 4px solid var(--primary-color);
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
-            font-style: italic;
             position: relative;
 
             &::before {
@@ -242,28 +246,276 @@
             }
         }
 
+        //callout样式
+        .callout {
+            padding: 1.25rem 1.5rem 1.25rem 3.5rem;
+            /* 左边留出图标空间 */
+            margin: 2rem 0;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+
+            // The title is now a pseudo-element, ordered to the top
+            &::after {
+                order: -1;
+                display: block;
+                font-weight: bold;
+                margin-bottom: 0.75rem;
+                font-size: 1.1em;
+            }
+
+            &::before {
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 2.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                color: #fff;
+            }
+
+            &.note {
+                background-color: #e7f3fe;
+                border-left: 5px solid #2563eb;
+
+                &::before {
+                    content: "\f249";
+                    /* Font Awesome info icon */
+                    background-color: #2563eb;
+                }
+                &::after {
+                    content: "Note";
+                    color: #2563eb;
+                }
+                &[title]:not([title=""])::after {
+                    content: attr(title);
+                }
+            }
+
+            &.tip {
+                background-color: #f0fdfa;
+                border-left: 5px solid #06b6d4;
+
+                &::before {
+                    content: "\f05a";
+                    /* Font Awesome lightbulb icon */
+                    background-color: #06b6d4;
+                }
+                &::after {
+                    content: "Tip";
+                    color: #06b6d4;
+                }
+                &[title]:not([title=""])::after {
+                    content: attr(title);
+                }
+            }
+
+            &.warning {
+                background-color: #fffbeb;
+                border-left: 5px solid #f59e0b;
+
+                &::before {
+                    content: "\f071";
+                    /* Font Awesome exclamation-triangle icon */
+                    background-color: #f59e0b;
+                }
+                &::after {
+                    content: "Warning";
+                    color: #f59e0b;
+                }
+                &[title]:not([title=""])::after {
+                    content: attr(title);
+                }
+            }
+        }
+
         // 代码块样式
         code {
             background-color: #f8f9fa;
             padding: 0.2rem 0.4rem;
             border-radius: 3px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-family: 'Consolas', 'Monaco', 'SF Mono', 'Cascadia Code', monospace;
             font-size: 0.9em;
             color: #e83e8c;
         }
 
-        pre {
-            background-color: #2d3748;
-            color: #e2e8f0;
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            overflow-x: auto;
+        .highlighter-rouge {
             margin: 2rem 0;
+            .highlight {
+                background-color: #263238;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+                padding: 3rem 0 0;
+                border-radius: var(--border-radius);
+                overflow-x: auto;
+                position: relative;
 
-            code {
-                background: none;
-                padding: 0;
-                color: inherit;
+                // 代码块标题栏
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 3rem;
+                    background: linear-gradient(135deg, #3a444e 0%, #2d3741 100%);
+                    border-radius: var(--border-radius) var(--border-radius) 0 0;
+                    border-bottom: 1px solid #1a2129;
+                    z-index: 0;
+                }
+
+                // 苹果风格的三个圆灯
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 1rem;
+                    left: 1rem;
+                    width: 12px;
+                    height: 12px;
+                    background: #ff5f57;
+                    border-radius: 50%;
+                    box-shadow:
+                        22px 0 0 #ffbd2e,
+                        44px 0 0 #28ca42,
+                        0 0 0 1px rgba(0, 0, 0, 0.2),
+                        22px 0 0 1px rgba(0, 0, 0, 0.2),
+                        44px 0 0 1px rgba(0, 0, 0, 0.2);
+                    z-index: 2;
+                }
+
+                // 文件类型标签
+                .lang-label {
+                    position: absolute;
+                    top: 0.75rem;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    color: #a0aec0;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    z-index: 2;
+                    background: none;
+                    border: none;
+                    padding: 0;
+                    margin: 0;
+                }
+
+                // 复制按钮
+                .copy-btn {
+                    position: absolute;
+                    top: 0.5rem;
+                    right: 0.75rem;
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 7px;
+                    color: #a0aec0;
+                    padding: 0.5rem 0.4rem 0.6rem 0.5rem;
+                    font-size: 0.75rem;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    z-index: 1;
+
+                    &:hover {
+                        background: rgba(255, 255, 255, 0.15);
+                        color: #e2e8f0;
+                        transform: translateY(-1px);
+                    }
+
+                    &.copied {
+                        background: rgba(40, 202, 66, 0.2);
+                        border-color: #28ca42;
+                        color: #28ca42;
+                    }
+
+                    i {
+                        margin-right: 0.25rem;
+                    }
+                }
+
+                pre {
+                    margin: 0;
+                    padding: 1.5rem;
+                    color: #e2e8f0;
+                    border-radius: 0 0 var(--border-radius) var(--border-radius);
+                    overflow-x: auto;
+                    position: relative;
+
+                    &::before {
+                        display: none;
+                    }
+
+                    &::after {
+                        display: none;
+                    }
+
+                    code {
+                        background: none;
+                    }
+                }
+
+                // 合并相同样式的类
+                .c, .cm, .c1, .cs{
+                    color: #718096;
+                    font-style: italic;
+                }
+                .cs {
+                    font-weight: bold;
+                }
+                .err {
+                    color: #ff6b6b;
+                }
+                .k, .kc, .kd, .kr, .nt {
+                    color: #63b3ed;
+                    font-weight: bold;
+                }
+                .kn, .cp, .gh, .gp, .nt, .ow {
+                    color: #9f7aea;
+                    font-weight: bold;
+                }
+                .l, .m, .mf, .mh, .mi, .mo, .si, .ss, .il {
+                    color: #f687b3;
+                }
+                .n, .p, .py, .w {
+                    color: #e2e8f0;
+                }
+
+                .gd, .gr, .gt, .no, .nv, .vc, .vg, .vi, .ne{
+                    color: #fc8181;
+                }
+                .gi, .ld, .s, .sb, .sc, .sd, .sh, .sx, .sr, .s1, .s2, .o, .gu{
+                    color: #68d391;
+                }
+                .sd, .ge {
+                    font-style: italic;
+                }
+                .go {
+                    color: #a0aec0;
+                }
+                .gs, .nc, .ne, .gu, .kt, .nc{
+                    font-weight: bold;
+                }
+                .nc, .f6ad55 .na, .nl, .nn, .se, .kt{
+                    color: #f6ad55;
+                }
+                .nb, .nf, .nx, .bp {
+                    color: #90cdf4;
+                }
+                .nd, .ni {
+                    color: #9f7aea;
+                }
+
+                /* Keyword.Namespace */
+                .kp {
+                    color: #63b3ed;
+                }
             }
         }
 
@@ -360,20 +612,68 @@
         }
 
         // 脚注样式
-        .footnote {
+        .footnotes {
             font-size: 0.8rem;
-            color: var(--text-light);
+            color: #ababab;
             border-top: 1px solid var(--border-color);
             margin-top: 3rem;
             padding-top: 1rem;
+
+            .reversefootnote {
+                display: none;
+            }
         }
 
-        .footnote-ref {
-            color: var(--primary-color);
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 0.8em;
-            vertical-align: super;
+        sup[role="doc-noteref"] {
+            position: relative;
+        }
+
+        .footnote-tooltip {
+            /* 默认隐藏 */
+            visibility: hidden;
+            opacity: 0;
+
+            /* 外观样式 */
+            position: absolute;
+            left: 50%;
+            bottom: 1.8em; /* 显示在引用数字的上方 */
+            transform: translateX(-50%);
+
+            background-color: var(--card-bg, #fff);
+            color: var(--text-color, #34495e);
+            border: 1px solid var(--border-color, #bdc3c7);
+            border-radius: var(--border-radius, 6px);
+            box-shadow: var(--shadow, 0 5px 15px rgba(0, 0, 0, 0.08));
+
+            padding: 0.8rem 1rem;
+            width: 300px;
+            max-width: 80vw;
+            z-index: 10;
+
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: left;
+
+            /* 平滑过渡效果 */
+            transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+        }
+
+        /* 添加一个指向引用数字的小箭头 */
+        .footnote-tooltip::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 100%; /* 将箭头放在 tooltip 底部 */
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: var(--card-bg, #fff) transparent transparent transparent;
+        }
+
+        /*  当鼠标悬浮在 sup 元素上时，显示 tooltip */
+        sup[role="doc-noteref"]:hover .footnote-tooltip {
+            visibility: visible;
+            opacity: 1;
         }
     }
 }
@@ -391,7 +691,7 @@
 }
 
 //回到顶部按钮
-#back-to-top-btn{
+#back-to-top-btn {
     position: fixed;
     top: 8rem;
     right: 1rem;
@@ -405,7 +705,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease, transform 0.2s ease;
     display: none;
-    width:50px;
+    width: 50px;
     height: 50px;
 
     &:hover {

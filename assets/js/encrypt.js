@@ -1,4 +1,3 @@
-
     const passwordInput = document.getElementById('password-input');
     const submitButton = document.getElementById('password-submit-button');
     const passwordPromptOverlay = document.getElementById('password-prompt-overlay');
@@ -186,18 +185,16 @@
                     window.renderMathJax();
                 }
 
-                const decryptedContentContainer = document.querySelector('.article-content');
-                if (decryptedContentContainer) {
-                    decryptedContentContainer.innerHTML = decryptedContent;
-                    const script = document.createElement('script');
-                    script.src = 'assets/js//toc.js';
-                    script.onload = () => {
-                        console.log('toc.js loaded');
-                    };
 
-                    document.body.appendChild(script);
+                const script = document.createElement('script');
+                script.src = '/assets/js/toc.js';
+                script.onload = () => {
+                    console.log('toc.js loaded');
+                };
+
+                document.body.appendChild(script);
                 }
-            } else {
+            else {
                 showError('密码错误，请重试！');
                 passwordInput.value = '';
                 passwordInput.focus();

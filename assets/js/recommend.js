@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .filter(post => post && post.score > 0)
             .sort((a, b) => b.score - a.score)
-            .slice(0, 3);
+            .slice(0, 2);
 
             if (relatedPosts.length > 0) {
                 // Helper function to get tag class

@@ -1,7 +1,7 @@
     const articleContent = document.querySelector(".article-content");
     const tocContainer = document.getElementById("toc-container");
 
-    const headings = articleContent.querySelectorAll("h2, h3");
+    const headings = articleContent.querySelectorAll("h2, h3, h4");
 
     if (headings.length === 0) {
         tocContainer.style.display = "none";
@@ -27,6 +27,9 @@
         } else if (level === 'h3') {
             h3Index++;
             tocHTML += `<li><a href="#${id}" class="toc-h3">${title}</a></li>`;
+        }
+        else if (level === 'h4') {
+            tocHTML += `<li><a href="#${id}" class="toc-h4">${title}</a></li>`;
         }
     });
 

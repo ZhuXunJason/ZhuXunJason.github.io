@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-    
+
     // 移动端导航菜单
     const navToggle = document.querySelector('.nav-toggle');
     if (navToggle) {
@@ -210,23 +210,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // 页面加载完成后初始化
     initMobileClasses();
 
-    // 订阅表单处理
-    const subscribeForm = document.querySelector('.subscribe-form');
-    if (subscribeForm) {
-        subscribeForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const emailInput = this.querySelector('input[type="email"]');
-
-            if (emailInput.value) {
-                // 这里应该是发送到后端或API的代码
-                alert('感谢您的订阅！');
-                emailInput.value = '';
-            } else {
-                alert('请输入有效的电子邮箱地址');
-            }
-        });
-    }
-
     // 图片懒加载
     if ('IntersectionObserver' in window) {
         const imgObserver = new IntersectionObserver((entries, observer) => {
@@ -276,4 +259,103 @@ document.addEventListener('DOMContentLoaded', function () {
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
     }
+
+    // 代码块复制功能
+    function initCodeCopy() {
+        // 为所有代码块添加复制按钮和文件类型标签
+        const highlights = document.querySelectorAll('.highlight');
+
+        highlights.forEach((highlight, index) => {
+            const pre = highlight.querySelector('pre');
+            if (!pre) return;
+
+            // 检测语言类型
+            let language = 'text';
+            const languageClass = highlight.className.match(/language-(\w+)/);
+            if (languageClass) {
+                language = languageClass[1];
+            } else {
+                // 从父元素或其他地方检测语言
+                const parent = highlight.closest('[class*="language-"]');
+                if (parent) {
+                    const match = parent.className.match(/language-(\w+)/);
+                    if (match) language = match[1];
+                }
+            }
+
+            // 创建语言标签
+            const langLabel = document.createElement('span');
+            langLabel.className = 'lang-label';
+            langLabel.textContent = language;
+            highlight.appendChild(langLabel);
+
+            // 创建复制按钮
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+            copyBtn.setAttribute('data-code-index', index);
+
+            // 添加复制按钮到highlight容器
+            highlight.appendChild(copyBtn);
+
+            // 复制功能
+            copyBtn.addEventListener('click', async function () {
+                const code = pre.textContent;
+
+                try {
+                    await navigator.clipboard.writeText(code);
+
+                    // 显示复制成功状态
+                    copyBtn.classList.add('copied');
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i>Copied!';
+
+                    // 2秒后恢复原状
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copied');
+                        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 2000);
+
+                } catch (err) {
+                    console.error('复制失败:', err);
+                }
+            });
+        });
+    }
+
+    // 初始化代码复制功能
+    initCodeCopy();
+
+    function createFootnoteTooltips() {
+        // 选取页面上所有的脚注引用链接
+        // kramdown 会为脚注引用生成 class="footnote" 的 <a> 标签
+        const footnoteLinks = document.querySelectorAll('a.footnote');
+
+        footnoteLinks.forEach(link => {
+            // 1. 获取脚注定义的 ID (例如，从 href="#fn:1" 中获取 "fn:1")
+            const footnoteId = link.href.split('#').pop();
+            if (!footnoteId) return;
+
+            // 2. 根据 ID 找到对应的脚注定义元素
+            const footnoteElement = document.getElementById(footnoteId);
+            if (!footnoteElement) return;
+
+            // 3. 复制脚注内容。我们使用 innerHTML 来保留格式，并移除返回链接
+            let footnoteContent = footnoteElement.innerHTML.trim();
+            footnoteContent = footnoteContent.replace(/<a.+?class="reversefootnote".+?<\/a>/, ''); // 移除 "↩" 返回链接
+
+            // 4. 创建 tooltip 元素
+            const tooltip = document.createElement('span');
+            tooltip.classList.add('footnote-tooltip');
+            tooltip.innerHTML = footnoteContent;
+
+            // 5. 将 tooltip 插入到脚注引用的父元素 (<sup>) 中
+            if (link.parentElement && link.parentElement.tagName === 'SUP') {
+                link.parentElement.appendChild(tooltip);
+            }
+        });
+    }
+
+    // 执行函数
+    createFootnoteTooltips();
+
 });

@@ -8,8 +8,16 @@ url: "https://ZhuXunJason.github.io"
 github_username: ZhuXunJason
 
 markdown: kramdown
+highlighter: rouge
 plugins:
   - jekyll-feed
+
+# Kramdown 配置
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    line_numbers: false
 
 # 定义集合
 collections:
