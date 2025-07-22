@@ -27,15 +27,11 @@ excerpt: 寻路（pathfinding）是指规划从一个状态到另一个状态的
 ## 搜索算法
 - 搜索算法通常**基于优先队列** `priority_queue `（每次取出成本最低的状态）
     - priority_func 权重函数：用于优先队列的排序
-        - Uniform Cost Search (UCS)：基于<mark>$g(n)$:从起点沿最优路径到达节点$n$的成本</mark>
+        - Uniform Cost Search (UCS)：基于<mark>$g(n)$:从起点沿最优路径到达节点$n$的成本</mark>[^1]
         - Greedy search：基于<span style="background:#affad1">$h(n)$:从节点$n$到达终点的预估成本</span>（heuristic 启发式函数）
         - A* search：基于<span style="background:#add8e6">$f(n)=g(n)+h(n)$</span>
 - close_set：记录已访问过的状态
 - parent_map：记录每个状态的前驱状态和cost
-
-<div class="callout warning" title="Warning:关于g(n)">
-由于我们事先并不知道最优路径，因此每次找到一个节点时都需要关注对应的cost，通过比较替换找到最优(cost最小)路径
-</div>
 
 <div class="callout note" title="启发式函数的要求">
 <li>树搜索：具有可采纳性（admissibility）-> <mark>全局乐观性</mark> (不高估一个状态到目标状态的cost)</li>
@@ -141,4 +137,4 @@ def search():
 return list()
 ```
 
-
+[^1]: 由于我们事先并不知道最优路径，因此每次找到一个节点时都需要关注对应的cost，通过比较替换找到g(n)
