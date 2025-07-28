@@ -33,7 +33,7 @@ excerpt: 约束满足问题（Constraint Satisfaction Problems, CSPs）只关心
     * **高阶约束**: 涉及三个或更多变量。
 
 <div class="callout note">
-任何高阶约束都可以被转化为一组二元约束（虽然有时需要引入辅助变量），因此二元约束是CSP理论研究的核心。我们可以用<strong>约束图（Constraint Graph）</strong> 来可视化一个CSP，其中节点代表变量，边代表它们之间存在约束。
+<p>任何高阶约束都可以被转化为一组二元约束（虽然有时需要引入辅助变量），因此二元约束是CSP理论研究的核心。我们可以用<strong>约束图（Constraint Graph）</strong> 来可视化一个CSP，其中节点代表变量，边代表它们之间存在约束。</p>
 </div>
 
 ---
