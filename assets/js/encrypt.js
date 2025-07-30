@@ -166,20 +166,6 @@
                     console.log(`解密成功 - ${contentHints[matchedKey]}`);
                 }
 
-                // 移动端优化
-                if (window.innerWidth <= 768) {
-                    document.body.style.paddingTop = '80px';
-                    const articleContainer = document.querySelector('.article-container');
-                    if (articleContainer) {
-                        articleContainer.style.marginTop = '0';
-                        articleContainer.style.marginBottom = '0';
-                        articleContainer.style.backgroundColor = '#ffffff';
-                        articleContainer.style.boxShadow = 'none';
-                        articleContainer.style.borderRadius = '0';
-                        articleContainer.style.padding = '1.5rem';
-                    }
-                }
-
                 // 重新渲染页面元素（如果有的话）
                 if (typeof window.renderMathJax === 'function') {
                     window.renderMathJax();
