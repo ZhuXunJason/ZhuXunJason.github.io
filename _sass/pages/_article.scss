@@ -115,6 +115,7 @@
     }
 
     .article-content {
+        position: relative;
         line-height: 1.8;
         font-size: 1.1rem;
         color: var(--text-color);
@@ -619,6 +620,10 @@
             margin-top: 3rem;
             padding-top: 1rem;
 
+            // 防止长文本溢出，强制在单词内部换行
+            overflow-wrap: break-word;
+            word-break: break-all;
+
             .reversefootnote {
                 display: none;
             }
@@ -629,8 +634,8 @@
         }
 
         .footnote-tooltip {
-            /* 默认隐藏 */
-            visibility: hidden;
+            /* 默认隐藏，并从布局中移除 */
+            display: none;
             opacity: 0;
 
             /* 外观样式 */
@@ -646,7 +651,7 @@
             box-shadow: var(--shadow, 0 5px 15px rgba(0, 0, 0, 0.08));
 
             padding: 0.8rem 1rem;
-            width: 300px;
+            width: max-content;
             max-width: 80vw;
             z-index: 10;
 
@@ -655,7 +660,7 @@
             text-align: left;
 
             /* 平滑过渡效果 */
-            transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+            transition: opacity 0.2s ease-in-out;
         }
 
         /* 添加一个指向引用数字的小箭头 */
@@ -672,7 +677,7 @@
 
         /*  当鼠标悬浮在 sup 元素上时，显示 tooltip */
         sup[role="doc-noteref"]:hover .footnote-tooltip {
-            visibility: visible;
+            display: block;
             opacity: 1;
         }
     }
@@ -736,7 +741,7 @@
     }
 
     .article-container {
-        margin: 4rem auto;
+        margin: 4rem 0;
         width:100%;
         padding: 1.5rem 1rem;
         background: rgba(255, 255, 255, 0.9);

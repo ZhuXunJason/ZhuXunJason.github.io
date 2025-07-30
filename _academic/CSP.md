@@ -22,11 +22,11 @@ excerpt: 约束满足问题（Constraint Satisfaction Problems, CSPs）只关心
 - **变量 (Variables)**：一组需要被赋值的对象 `X = {X_1, X_2, ..., X_n}`。
     * *例如，在地图着色中，变量就是每一个地区。*
 
-2.  **域 (Domains)**：每个变量 `X_i` 可以被赋予的值的集合，表示为 `D_i`。
+**域 (Domains)**：每个变量 `X_i` 可以被赋予的值的集合，表示为 `D_i`。
     * 域可以是离散有限的（如颜色集合），也可以是连续的。本文主要关注离散有限域。
     * *例如，在地图着色中，域就是颜色的集合 `{红色, 绿色, 蓝色}`。*
 
-3.  **约束 (Constraints)**
+**约束 (Constraints)**
     * 规定了变量可以同时取哪些值的规则。一个约束关联了若干个变量，并指定了这些变量的合法赋值组合。
     * **一元约束**: 只涉及单个变量（如 `X_1 ≠ 红色`）。
     * **二元约束**: 涉及两个变量（如 `X_1 ≠ X_2`）。这是最常见的约束类型。
@@ -60,18 +60,29 @@ excerpt: 约束满足问题（Constraint Satisfaction Problems, CSPs）只关心
 
 ### 代码实现
 以澳大利亚着色问题为例：
+
 ![](/assets/images/澳大利亚着色问题.png)
 
 $$\begin{aligned}
+
 X =\{NT&, WA, Q, SA, NSW, V, T\}\\
+
 D_{i} = \{red&, blue, green\}\\
+
 C=\{WA&: [NT, SA],\\
+
 NT&: [WA, SA, Q],\\
+
 SA&: [WA, NT, Q, NSW, V],\\
+
 Q&: [NT, SA, NSW],\\
+
 NSW&: [Q, SA, V],\\
+
 V&: [SA, NSW],\\
+
 T&: [~]\}
+
 \end{aligned}$$
 
 #### 检查函数
