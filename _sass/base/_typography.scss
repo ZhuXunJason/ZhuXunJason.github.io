@@ -1,6 +1,26 @@
 /* 排版样式 (Typography)
 -------------------------------------------------- */
 
+@font-face {
+    font-family: 'cheese';
+    src: url('../fonts/cheese.woff2') format('woff2');
+    /* 字体文件的路径 */
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    /* 这是一个优化选项，能让文字先显示出来，再应用字体 */
+}
+
+
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url('../fonts/KumbhSans.woff2') format('woff2');
+    /* 字体文件的路径 */
+    font-weight: 450;
+    font-style: normal;
+    font-display: swap;
+}
+
 h1,
 h2,
 h3,
@@ -68,14 +88,14 @@ a {
     position: relative;
     margin-top: 0;
 
-    h1{
+    h1 {
         font-size: 2.2rem;
         color: var(--primary-color);
     }
 }
 
 @media (max-width: 768px) {
-    .page-header{
+    .page-header {
         margin-top: 2rem;
     }
 }

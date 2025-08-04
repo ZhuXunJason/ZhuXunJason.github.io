@@ -104,3 +104,33 @@ layout: default
 </div>
 
 <button id="back-to-top-btn" title="回到顶部"><i class="fas fa-arrow-up"></i></button>
+
+<!-- 音乐控件 - 仅在生活类文章中显示 -->
+{% assign is_life_article = false %}
+{% if page.tags %}
+    {% assign tag_string = page.tags | join: ',' %}
+    {% assign tag_list = tag_string | split: ',' %}
+    {% for tag in tag_list %}
+        {% assign trimmed_tag = tag | strip %}
+        {% if trimmed_tag contains '生活' or trimmed_tag contains 'life' %}
+            {% assign is_life_article = true %}
+            {% break %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if is_life_article %}
+<div id="music-controller">
+    <button id="music-btn" title="播放/暂停音乐">
+        <i class="fas fa-music"></i>
+    </button>
+    <audio id="background-music" preload="auto" loop>
+        {% if page.music and page.music != "" %}
+            <source src="{{ page.music | relative_url }}" type="audio/mpeg">
+        {% else %}
+            <source src="{{ '/assets/music/Summer (菊次郎的夏天)  - 久石让.mp3' | relative_url }}" type="audio/mpeg">
+        {% endif %}
+        您的浏览器不支持音频播放。
+    </audio>
+</div>
+{% endif %}

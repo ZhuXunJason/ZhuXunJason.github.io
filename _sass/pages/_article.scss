@@ -701,26 +701,204 @@
     top: 8rem;
     right: 1rem;
     z-index: 1000;
-    background-color: var(--primary-color);
-    color: var(--card-bg);
-    border: none;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    color: #64748b;
+    border: 2px solid #cbd5e1;
     border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: none;
     width: 50px;
     height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow:
+        0 4px 12px rgba(148, 163, 184, 0.15),
+        0 2px 4px rgba(148, 163, 184, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: none;
+    overflow: hidden;
+
+    // 内阴影效果
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(148, 163, 184, 0.1) 100%);
+        border-radius: 50%;
+        z-index: -1;
+    }
 
     &:hover {
-        background-color: var(--secondary-color);
-        transform: scale(1.05);
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        border-color: #94a3b8;
+        color: #475569;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow:
+            0 8px 20px rgba(148, 163, 184, 0.25),
+            0 4px 8px rgba(148, 163, 184, 0.15);
     }
 
     i {
         transform: scale(0.95);
+        z-index: 1;
+        position: relative;
     }
+
+    // 点击时的反馈效果
+    &:active {
+        transform: translateY(0) scale(0.98);
+        transition: transform 0.1s ease;
+    }
+}
+
+// 音乐控件样式 - 增加间距避免重叠
+#music-controller {
+    position: fixed;
+    top: 12.5rem; // 进一步向下移动，增加更多间距
+    right: 1rem;
+    z-index: 1000;
+    display: block; // 始终显示
+
+    #music-btn {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        color: #64748b;
+        border: 2px solid #cbd5e1;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        box-shadow:
+            0 4px 12px rgba(148, 163, 184, 0.15),
+            0 2px 4px rgba(148, 163, 184, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+
+        // 内阴影效果
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.8) 0%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(148, 163, 184, 0.1) 100%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        &:hover {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            border-color: #94a3b8;
+            color: #475569;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow:
+                0 8px 20px rgba(148, 163, 184, 0.25),
+                0 4px 8px rgba(148, 163, 184, 0.15);
+        }
+
+        &.playing {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-color: #f59e0b;
+            color: #d97706;
+            box-shadow:
+                0 6px 16px rgba(245, 158, 11, 0.3),
+                0 2px 8px rgba(245, 158, 11, 0.2);
+
+            &::before {
+                background: linear-gradient(135deg,
+                    rgba(254, 243, 199, 0.9) 0%,
+                    rgba(253, 230, 138, 0.5) 50%,
+                    rgba(245, 158, 11, 0.1) 100%);
+            }
+
+            i {
+                animation: musicRotate 3s linear infinite;
+                color: #d97706;
+            }
+
+            &:hover {
+                background: linear-gradient(135deg, #fde68a 0%, #fcd34d 100%);
+                transform: translateY(-2px) scale(1.05);
+                box-shadow:
+                    0 10px 24px rgba(245, 158, 11, 0.4),
+                    0 4px 12px rgba(245, 158, 11, 0.25);
+            }
+        }
+
+        &.paused {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-color: #cbd5e1;
+            color: #64748b;
+
+            i {
+                animation: none;
+                transition: transform 0.3s ease;
+            }
+        }
+
+        i {
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+            z-index: 1;
+            position: relative;
+        }
+
+        // 点击时的反馈效果
+        &:active {
+            transform: translateY(0) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+    }
+}
+
+// 优化的旋转动画 - 更平滑的效果
+@keyframes musicRotate {
+    0% {
+        transform: rotate(0deg) scale(0.9);
+    }
+    25% {
+        transform: rotate(90deg) scale(0.95);
+    }
+    50% {
+        transform: rotate(180deg) scale(1);
+    }
+    75% {
+        transform: rotate(270deg) scale(0.95);
+    }
+    100% {
+        transform: rotate(360deg) scale(0.9);
+    }
+}
+
+// 添加一个微妙的脉冲效果
+@keyframes musicPulse {
+    0%, 100% {
+        box-shadow:
+            0 6px 16px rgba(245, 158, 11, 0.3),
+            0 2px 8px rgba(245, 158, 11, 0.2);
+    }
+    50% {
+        box-shadow:
+            0 8px 20px rgba(245, 158, 11, 0.4),
+            0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+}
+
+// 为播放状态添加脉冲效果
+#music-controller #music-btn.playing {
+    animation: musicPulse 2s ease-in-out infinite;
 }
 
 // 响应式设计
@@ -767,6 +945,30 @@
 
             h3 {
                 font-size: 1.3rem;
+            }
+        }
+    }
+
+    // 移动端回���顶部按钮调整
+    #back-to-top-btn {
+        right: 0.5rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+
+    // 移动端音乐控件调整 - 增加更多间距避免重叠
+    #music-controller {
+        right: 0.5rem;
+        top: 12rem; // 从10rem增加到12rem，确保完全避免重叠
+
+        #music-btn {
+            width: 45px;
+            height: 45px;
+            font-size: 1.1rem;
+
+            &:hover {
+                transform: scale(1.02); // 移动端减少悬停效果
             }
         }
     }

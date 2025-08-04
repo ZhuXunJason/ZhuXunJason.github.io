@@ -260,6 +260,78 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // 音乐控件功能
+    function initMusicController() {
+        const musicController = document.getElementById("music-controller");
+        const musicBtn = document.getElementById("music-btn");
+        const backgroundMusic = document.getElementById("background-music");
+
+        if (!musicController || !musicBtn || !backgroundMusic) return;
+
+        let isPlaying = false;
+
+        // 设置音乐音量
+        backgroundMusic.volume = 0.08;
+
+        // 音乐控件始终显示（仅在生活类文章中）
+        if (musicController) {
+            musicController.style.display = "block";
+        }
+
+        // 播放/暂停切换功能
+        musicBtn.addEventListener("click", () => {
+            if (isPlaying) {
+                backgroundMusic.pause();
+                musicBtn.classList.remove("playing");
+                musicBtn.classList.add("paused");
+                musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                isPlaying = false;
+            } else {
+                // 尝试播放音乐
+                const playPromise = backgroundMusic.play();
+
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        musicBtn.classList.remove("paused");
+                        musicBtn.classList.add("playing");
+                        musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                        isPlaying = true;
+                    }).catch((error) => {
+                        console.log("音乐���放失败:", error);
+                        // 显示提示信息
+                        musicBtn.title = "请先与页面交互后再尝试播放";
+                    });
+                }
+            }
+        });
+
+        // 音乐加载错误处理
+        backgroundMusic.addEventListener("error", () => {
+            console.log("音乐文件加载失败");
+            musicBtn.style.opacity = "0.5";
+            musicBtn.style.cursor = "not-allowed";
+            musicBtn.title = "音乐文件加载失败";
+        });
+
+        // 音乐播放结束时重置状态
+        backgroundMusic.addEventListener("ended", () => {
+            musicBtn.classList.remove("playing");
+            musicBtn.classList.add("paused");
+            musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+            isPlaying = false;
+        });
+
+        // 页面离开时暂停音乐
+        window.addEventListener("beforeunload", () => {
+            if (!backgroundMusic.paused) {
+                backgroundMusic.pause();
+            }
+        });
+    }
+
+    // 初始化音乐控件
+    initMusicController();
+
     // 代码块复制功能
     function initCodeCopy() {
         // 为所有代码块添加复制按钮和文件类型标签
@@ -326,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initCodeCopy();
 
     function createFootnoteTooltips() {
-        // 选取页面上所有的脚注引用链接
+        // 选��页面上所有的脚注引用链接
         // kramdown 会为脚注引用生成 class="footnote" 的 <a> 标签
         const footnoteLinks = document.querySelectorAll('a.footnote');
 
