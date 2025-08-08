@@ -75,7 +75,7 @@ layout: default
             </div>
             <h1>{{ page.title }}</h1>
             <div class="article-meta">
-                <span>作者：朱洵</span>
+                <span>作者：{{ page.author | default: '朱洵' }}</span>
                 <span class="divider">|</span>
                 <span>日期：{{ page.date | date: "%Y年%m月" }}</span>
             </div>

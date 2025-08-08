@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 relatedPosts.forEach(post => {
                     html += `
                         <a href="${post.url}" class="post-card">
-                            <div class="post-img"><img src="${post.image}" alt="${post.title}" loading="lazy"></div>
+                            <div class="post-img"><img src="${post.image || "/assets/images/default.webp"}" alt="${post.title}" loading="lazy"></div>
                             <div class="post-content">
                                 <div class="post-tags">
                                     ${post.tags.map(tag => `<span class="post-tag ${getTagClass(tag)}">${tag}</span>`).join('')}

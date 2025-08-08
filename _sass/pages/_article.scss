@@ -142,6 +142,7 @@
         }
 
         h2 {
+            text-align: center;
             font-size: 1.8rem;
             color: var(--primary-color);
             padding-bottom: 0.5rem;
@@ -700,7 +701,7 @@
     position: fixed;
     top: 8rem;
     right: 1rem;
-    z-index: 1000;
+    z-index: 999;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     color: #64748b;
     border: 2px solid #cbd5e1;
@@ -760,7 +761,7 @@
     position: fixed;
     top: 12.5rem; // 进一步向下移动，增加更多间距
     right: 1rem;
-    z-index: 1000;
+    z-index: 999;
     display: block; // 始终显示
 
     #music-btn {

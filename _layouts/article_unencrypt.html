@@ -23,7 +23,7 @@ layout: default
             </div>
             <h1>{{ page.title }}</h1>
             <div class="article-meta">
-                <span>作者：朱洵</span>
+                <span>作者：{{ page.author | default: '朱洵' }}</span>
                 <span class="divider">|</span>
                 <span>日期：{{ page.date | date: "%Y年%m月" }}</span>
             </div>
@@ -52,16 +52,8 @@ layout: default
 
 <!-- 音乐控件 - 仅在生活类文章中显示 -->
 {% assign is_life_article = false %}
-{% if page.tags %}
-    {% assign tag_string = page.tags | join: ',' %}
-    {% assign tag_list = tag_string | split: ',' %}
-    {% for tag in tag_list %}
-        {% assign trimmed_tag = tag | strip %}
-        {% if trimmed_tag contains '生活' or trimmed_tag contains 'life' %}
+{% if page.collection and page.collection == 'life' %}
             {% assign is_life_article = true %}
-            {% break %}
-        {% endif %}
-    {% endfor %}
 {% endif %}
 
 {% if is_life_article %}
