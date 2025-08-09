@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     return `${year}年${month}月`;
                 };
 
-                let html = '<h3>相关推荐</h3><div class="related-articles-grid">';
+                let html = '<div class="related-articles-grid">';
                 relatedPosts.forEach(post => {
                     html += `
                         <a href="${post.url}" class="post-card">
@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                 </div>
                                 <h3>${post.title}</h3>
                                 <p class="excerpt">${post.excerpt}</p>
-                                <p class="post-date">${formatDate(post.date)}</p>
                                 <div class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></div>
                             </div>
                         </a>

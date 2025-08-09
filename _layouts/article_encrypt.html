@@ -89,6 +89,21 @@ layout: default
 
         <div class="article-content" id="main-article-content" style="display:none;">
         </div>
+
+        <!-- 分隔线 -->
+        <div class="article-divider">
+            <div class="divider-line"></div>
+            <div class="divider-content">
+                <div class="divider-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h2 class="divider-title">相关推荐</h2>
+            </div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- 相关文章推荐 - 现在在同一个容器中 -->
+        <div id="related-posts-container" class="related-articles-section"></div>
     </div>
 
     <script id="encryptedDataContainer" type="application/json">
@@ -97,9 +112,6 @@ layout: default
     <section id="toc-container"></section>
 
     <script src="{{ '/assets/js/encrypt.js' | relative_url }}"></script>
-
-    <!-- 相关文章推荐 -->
-    <section id="related-posts-container" class="related-articles"></section>
     <script src="{{ '/assets/js/recommend.js' | relative_url }}"></script>
 </div>
 
