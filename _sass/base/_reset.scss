@@ -20,6 +20,9 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    /* 防止 iOS/安卓底部回弹时出现白色背景闪烁 */
+    overscroll-behavior: contain;
+    background-attachment: fixed;
 }
 
 .content-wrapper {

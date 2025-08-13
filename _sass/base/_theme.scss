@@ -7,6 +7,8 @@
     --bg-bright: .8;
     --glass: rgba(255, 255, 255, 0.06);
     --glass-strong: rgba(255, 255, 255, 0.12);
+    /* 基础背景色（暗色默认），用于避免移动端底部回弹时出现白色闪烁 */
+    --bg-color: #0f161c; /* 与 page-grad-1 接近 */
     /* Semantic text scale (dark mode default) */
     --c-heading: #f8fafc;
     --c-text-1: #e3e7eb;
@@ -53,6 +55,7 @@ html[data-theme="light"] {
     --bg-bright: 1.0;
     --glass: rgba(255, 255, 255, .55);
     --glass-strong: rgba(255, 255, 255, .75);
+    --bg-color: #f6f8fb; /* 亮色模式背景 */
     /* Light mode semantic text */
     --c-heading: #101923;
     --c-text-1: #1e262e;
