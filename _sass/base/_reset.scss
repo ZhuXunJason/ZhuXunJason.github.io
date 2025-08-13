@@ -25,23 +25,6 @@ body {
 .content-wrapper {
     flex: 1 0 auto;
     min-height: calc(100vh - 160px);
-    padding-top: 70px;
-}
-
-// 带有banner的页面样式
-body.has-banner {
-    main {
-        margin-top: 0;
-    }
-
-    .content-wrapper {
-        padding-top: 60px;
-    }
-}
-
-// 其他页面的main样式
-body:not(.has-banner) main {
-    margin-top: 0;
 }
 
 img {

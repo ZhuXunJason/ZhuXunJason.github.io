@@ -1,72 +1,86 @@
+/* TOC 容器  */
 #toc-container {
     position: fixed;
     left: 20px;
     top: 100px;
     width: 200px;
     max-height: calc(100vh - 120px);
-    background-color: var(--card-bg);
+    background: rgba(28, 38, 48, .42);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-large);
+    box-shadow: 0 6px 24px -8px rgba(0, 0, 0, .5), 0 2px 8px -2px rgba(0, 0, 0, .35);
+    border: 1px solid rgba(255, 255, 255, .10);
     z-index: 999;
-    padding: 15px;
-    overflow-y: auto; // Add scrollbar ONLY when content overflows the container
+    padding: 15px 14px 18px;
+    overflow-y: auto;
+    transition: box-shadow .4s ease, border-color .4s ease, background .4s ease;
 
-    @media (max-width: 1200px) {
+    @media (max-width:1200px) {
         display: none;
     }
 
+    li {
+        list-style-position: inside;
+        padding-left: 0;
 
-        li {
-            list-style-position: inside; // Ensure marker is inside the list item flow
-            padding-left: 0; // Reset padding if needed
+        a {
+            text-decoration: none;
+            color: var(--text-light);
+            display: inline-block;
+            padding: 6px 4px 8px;
+            border-radius: 8px;
+            transition: color .3s ease, background .35s ease;
+            position: relative;
 
-            a {
-                text-decoration: none;
-                color: var(--text-color);
-                display: inline;
-                padding: 8px 0 10px;
-                border-radius: var(--border-radius-small);
-                transition: var(--transition-fast);
-                position: relative;
+            &::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: 6px;
+                left: 0;
+                background-color: var(--primary-color);
+                transition: var(--transition-normal);
+            }
 
-                &::after {
-                    content: '';
-                    position: absolute;
-                    width: 0;
-                    height: 2px;
-                    bottom: 6px;
-                    left: 0;
-                    background-color: var(--primary-color);
-                    transition: var(--transition-normal);
-                }
+            &.toc-h2 {
+                font-weight: 650;
+                font-size: 1em;
+            }
 
-                &.toc-h2 {
-                    font-weight: 650;
-                    font-size: 1em;
-                }
+            &.toc-h3 {
+                font-size: .9em;
+                font-weight: 500;
+                margin-left: 20px;
+            }
 
-                &.toc-h3 {
-                    font-size: 0.9em;
-                    font-weight: 500;
-                    margin-left: 20px;
-                }
+            &.toc-h4 {
+                font-size: .85em;
+                font-weight: 400;
+                margin-left: 40px;
+            }
 
-                &.toc-h4 {
-                    font-size: 0.85em;
-                    font-weight: 400;
-                    margin-left: 40px;
-                }
+            &:hover {
+                color: var(--primary-color);
+                background: rgba(255, 255, 255, .06);
+            }
 
-                &:hover,
-                &.active {
-                    color: var(--primary-color);
-                    text-decoration: none;
-                }
+            &.active {
+                color: var(--primary-color);
+                font-weight: 600;
+            }
 
-                &:hover::after,
-                &.active::after {
-                    width: 100%;
-                }
+            &:hover::after,
+            &.active::after {
+                width: 100%;
             }
         }
+    }
+}
+
+html[data-theme="light"] #toc-container {
+    background: rgba(255, 255, 255, .78);
+    border-color: rgba(0, 0, 0, .08);
+    box-shadow: 0 4px 18px -6px rgba(0, 0, 0, .18), 0 2px 6px -2px rgba(0, 0, 0, .08);
 }

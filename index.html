@@ -4,52 +4,82 @@ title: Jason's Blog
 is_home: true
 ---
 
-<section id="home" class="banner">
-    <div class="banner-content">
-        <h1 id="typewriter-text"></h1>
-    </div>
+<section id="home" class="hero">
+    <h1 id="typewriter-text"></h1>
 </section>
-<main>
-    <section id="academic" class="category-section">
-        <h2 class="section-title">最新学术文章</h2>
-        <div class="post-grid">
-            {% assign sorted_posts = site.academic | sort: 'date' | reverse %}
-            {% for post in sorted_posts limit: 6 %}
-            <a href="{{ post.url | relative_url }}" class="post-card">
-                <div class="post-img">
-                    <img src="{{ post.featured_image | default: '/assets/images/default.webp' | relative_url }}"
-                        alt="{{ post.title }}">
-                </div>
-                <div class="post-content">
-                    {% if post.tags %}
-                        <div class="post-tags">
-                            {% assign tag_string = post.tags | join: ',' %}
-                            {% assign tag_list = tag_string | split: ',' %}
-                            {% for tag in tag_list %}
-                                {% assign trimmed_tag = tag | strip %}
-                                {% assign tag_class = 'default' %}
-                                {% if trimmed_tag contains '学术' or trimmed_tag contains 'academic' %}
-                                    {% assign tag_class = 'academic' %}
-                                {% elsif trimmed_tag contains '生活' or trimmed_tag contains 'life' %}
-                                    {% assign tag_class = 'life' %}
-                                {% endif %}
-                                <span class="post-tag {{ tag_class }}">{{ trimmed_tag }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <span class="post-category academic">学术</span>
-                    {% endif %}
-                    <h3>{{ post.title }}</h3>
-                    <p class="post-date">{{ post.date | date: "%Y年%m月" }}</p>
-                    <p class="excerpt">{{ post.excerpt }}</p>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-        <div class="view-more">
-            <a href="academic.html">查看更多学术文章 <i class="fas fa-arrow-right"></i></a>
-        </div>
-    </section>
+
+<main class="container" role="main">
+    <!-- 切换器 -->
+    <div class="switch" role="tablist" aria-label="文章类型切换">
+        <div class="switch__thumb" aria-hidden="true"></div>
+        <button role="tab" aria-selected="true" class="active" data-target="life">生活</button>
+        <button role="tab" aria-selected="false" data-target="academic">学术</button>
     </div>
+
+    {% assign academic_posts = site.academic | sort: 'date' | reverse %}
+    {% assign life_posts = site.life | sort: 'date' | reverse %}
+
+    <!-- 生活列表 -->
+    <section id="list-life" class="post-grid" aria-label="生活文章列表">
+        {% for post in life_posts %}
+        <a class="post-card" href="{{ post.url | relative_url }}" data-title="{{ post.title | downcase }}"
+            data-tags="{% if post.tags %}{{ post.tags | join: ' ' | downcase }}{% endif %}">
+            <div class="post-img">
+                <img src="{{ post.featured_image | default: '/assets/images/default.webp' | relative_url }}"
+                    alt="{{ post.title }}" loading="lazy" />
+            </div>
+            <div class="post-content">
+                <div class="post-tags">
+                    {% if post.tags %}
+                    {% assign tag_list = post.tags | join: ',' | split: ',' %}
+                    {% for tag in tag_list %}
+                    {% assign trimmed = tag | strip %}
+                    {% assign cls = 'default' %}
+                    {% if trimmed contains '学术' or trimmed contains 'academic' %}{% assign cls = 'academic' %}
+                    {% elsif trimmed contains '生活' or trimmed contains 'life' %}{% assign cls = 'life' %}{% endif %}
+                    <span class="post-tag {{ cls }}">{{ trimmed }}</span>
+                    {% endfor %}
+                    {% else %}
+                    <span class="post-tag life">生活</span>
+                    {% endif %}
+                </div>
+                <h3>{{ post.title }}</h3>
+                <time class="post-date">{{ post.date | date: '%Y年%m月' }}</time>
+                <p class="excerpt">{{ post.excerpt }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </section>
+
+    <!-- 学术列表 -->
+    <section id="list-academic" class="post-grid hidden" aria-label="学术文章列表">
+        {% for post in academic_posts %}
+        <a class="post-card" href="{{ post.url | relative_url }}" data-title="{{ post.title | downcase }}"
+            data-tags="{% if post.tags %}{{ post.tags | join: ' ' | downcase }}{% endif %}">
+            <div class="post-img">
+                <img src="{{ post.featured_image | default: '/assets/images/default.webp' | relative_url }}"
+                    alt="{{ post.title }}" loading="lazy" />
+            </div>
+            <div class="post-content">
+                <div class="post-tags">
+                    {% if post.tags %}
+                    {% assign tag_list = post.tags | join: ',' | split: ',' %}
+                    {% for tag in tag_list %}
+                    {% assign trimmed = tag | strip %}
+                    {% assign cls = 'default' %}
+                    {% if trimmed contains '学术' or trimmed contains 'academic' %}{% assign cls = 'academic' %}
+                    {% elsif trimmed contains '生活' or trimmed contains 'life' %}{% assign cls = 'life' %}{% endif %}
+                    <span class="post-tag {{ cls }}">{{ trimmed }}</span>
+                    {% endfor %}
+                    {% else %}
+                    <span class="post-tag academic">学术</span>
+                    {% endif %}
+                </div>
+                <h3>{{ post.title }}</h3>
+                <time class="post-date">{{ post.date | date: '%Y年%m月' }}</time>
+                <p class="excerpt">{{ post.excerpt }}</p>
+            </div>
+        </a>
+        {% endfor %}
     </section>
 </main>

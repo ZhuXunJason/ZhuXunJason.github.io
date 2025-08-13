@@ -6,39 +6,115 @@
     position: relative;
     min-height: 100vh;
 
+    /* 主动态渐变层 */
+    /* Layer 1: base gradient + blobs movement (transform) */
     &::before {
         content: '';
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--article-bg-gradient);
-        z-index: -2;
-        animation: backgroundFloat 20s ease-in-out infinite;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        background:
+            radial-gradient(ellipse at 20% 78%, var(--blob1-color) 0%, transparent 60%),
+            radial-gradient(ellipse at 76% 26%, var(--blob2-color) 0%, transparent 62%),
+            radial-gradient(ellipse at 50% 42%, var(--blob3-color) 0%, transparent 58%),
+            var(--page-bg-gradient);
+        background-size: 220% 220%;
+        z-index: -3;
+        animation: fluidDrift 50s linear infinite, hueShift 90s linear infinite;
+        will-change: transform, filter;
     }
 
+    /* Layer 2: slow swirl conic layer (rotating) */
     &::after {
         content: '';
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: var(--article-decoration-gradient);
-        z-index: -1;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        background: var(--swirl-colors);
+        mix-blend-mode: overlay;
+        opacity: .45;
+        animation: swirlRotate 160s linear infinite;
+        z-index: -4;
+        pointer-events: none;
     }
 }
 
-@keyframes backgroundFloat {
+@keyframes swirlRotate {
+    from {
+        transform: rotate(0deg);
+    }
 
-    0%,
-    100% {
-        opacity: 0.95;
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fluidDrift {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: translate3d(2%, -1%, 0) scale(1.035) rotate(.4deg);
     }
 
     50% {
-        opacity: 0.85;
+        transform: translate3d(-1%, 1.5%, 0) scale(1.06) rotate(.8deg);
+    }
+
+    75% {
+        transform: translate3d(1.2%, -0.8%, 0) scale(1.03) rotate(.4deg);
+    }
+
+    100% {
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    }
+}
+
+@keyframes hueShift {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    50% {
+        filter: hue-rotate(18deg);
+    }
+
+    100% {
+        filter: hue-rotate(0deg);
+    }
+}
+
+@keyframes articleLightFloat {
+    0% {
+        opacity: .9;
+    }
+
+    50% {
+        opacity: .83;
+    }
+
+    100% {
+        opacity: .9;
+    }
+}
+
+/* 兼容旧动画命名（可移除旧引用） */
+@keyframes backgroundFloat {
+    from {
+        opacity: .95;
+    }
+
+    50% {
+        opacity: .85;
+    }
+
+    to {
+        opacity: .95;
     }
 }
 
@@ -50,9 +126,10 @@
     position: relative;
     z-index: 1;
 
-    background: var(--article-container-bg);
+    /* 使用调整后更透明的玻璃背景变量 */
+    background: var(--page-container-bg);
     backdrop-filter: blur(10px);
-    border: 1px solid var(--article-container-border);
+    border: 1px solid var(--page-container-border);
     border-radius: var(--border-radius);
     box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.08),
@@ -61,6 +138,8 @@
 
     // 增加微妙的悬浮动画
     animation: containerFloat 6s ease-in-out infinite;
+    backdrop-filter: blur(14px) saturate(var(--bg-sat)) brightness(var(--bg-bright));
+    -webkit-backdrop-filter: blur(14px) saturate(var(--bg-sat)) brightness(var(--bg-bright));
 
     // 增强边框效果
     &::before {
@@ -70,9 +149,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.8),
-                rgba(248, 250, 252, 0.6));
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.3));
         border-radius: var(--border-radius);
         z-index: -1;
     }
@@ -250,24 +327,19 @@
 
         //callout样式
         .callout {
-            padding: 1.25rem 1.5rem 1.25rem 3.5rem;
-            /* 左边留出图标空间 */
-            margin: 2rem 0;
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
+            --_bg: var(--c-info-bg);
+            --_border: var(--c-info-border);
+            --_accent: var(--c-info-accent);
+            padding: 1.1rem 1.25rem 1.1rem 3.25rem;
+            margin: 1.75rem 0;
+            border-radius: calc(var(--border-radius) - 2px);
+            border: 1px solid var(--_border);
+            background: linear-gradient(135deg, var(--_bg), rgba(255, 255, 255, 0.02));
             position: relative;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-
-            // The title is now a pseudo-element, ordered to the top
-            &::after {
-                order: -1;
-                display: block;
-                font-weight: bold;
-                margin-bottom: 0.75rem;
-                font-size: 1.1em;
-            }
+            box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            font-size: .95rem;
+            line-height: 1.55;
 
             &::before {
                 font-family: "Font Awesome 6 Free";
@@ -276,65 +348,112 @@
                 left: 0;
                 top: 0;
                 height: 100%;
-                width: 2.5rem;
+                width: 2.7rem;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 1.2rem;
+                font-size: 1.05rem;
+                background: var(--_border);
                 color: #fff;
             }
 
+            &::after {
+                content: attr(data-title);
+                display: block;
+                font-weight: 600;
+                margin-bottom: .55rem;
+                font-size: 1rem;
+                letter-spacing: .5px;
+                color: var(--_border);
+            }
+
             &.note {
-                background-color: #e7f3fe;
-                border-left: 5px solid #2563eb;
+                --_bg: var(--c-info-bg);
+                --_border: var(--c-info-border);
+                --_accent: var(--c-info-accent);
 
                 &::before {
-                    content: "\f249";
-                    /* Font Awesome info icon */
-                    background-color: #2563eb;
+                    content: "\f05a";
                 }
-                &::after {
-                    content: "Note";
-                    color: #2563eb;
-                }
-                &[title]:not([title=""])::after {
-                    content: attr(title);
+
+                &:not([data-title]) {
+                    &[data-title=""] {
+                        &::after {
+                            content: "Note";
+                        }
+                    }
                 }
             }
 
             &.tip {
-                background-color: #f0fdfa;
-                border-left: 5px solid #06b6d4;
+                --_bg: var(--c-tip-bg);
+                --_border: var(--c-tip-border);
+                --_accent: var(--c-tip-accent);
 
                 &::before {
-                    content: "\f05a";
-                    /* Font Awesome lightbulb icon */
-                    background-color: #06b6d4;
+                    content: "\f0eb";
                 }
-                &::after {
-                    content: "Tip";
-                    color: #06b6d4;
-                }
-                &[title]:not([title=""])::after {
-                    content: attr(title);
+
+                &:not([data-title]) {
+                    &[data-title=""] {
+                        &::after {
+                            content: "Tip";
+                        }
+                    }
                 }
             }
 
             &.warning {
-                background-color: #fffbeb;
-                border-left: 5px solid #f59e0b;
+                --_bg: var(--c-warn-bg);
+                --_border: var(--c-warn-border);
+                --_accent: var(--c-warn-accent);
 
                 &::before {
                     content: "\f071";
-                    /* Font Awesome exclamation-triangle icon */
-                    background-color: #f59e0b;
                 }
-                &::after {
-                    content: "Warning";
-                    color: #f59e0b;
+
+                &:not([data-title]) {
+                    &[data-title=""] {
+                        &::after {
+                            content: "Warning";
+                        }
+                    }
                 }
-                &[title]:not([title=""])::after {
-                    content: attr(title);
+            }
+
+            &.danger {
+                --_bg: var(--c-danger-bg);
+                --_border: var(--c-danger-border);
+                --_accent: var(--c-danger-accent);
+
+                &::before {
+                    content: "\f06a";
+                }
+
+                &:not([data-title]) {
+                    &[data-title=""] {
+                        &::after {
+                            content: "Danger";
+                        }
+                    }
+                }
+            }
+
+            &.quote {
+                --_bg: var(--c-quote-bg);
+                --_border: var(--c-quote-border);
+                --_accent: var(--c-quote-accent);
+
+                &::before {
+                    content: "\f10d";
+                }
+
+                &:not([data-title]) {
+                    &[data-title=""] {
+                        &::after {
+                            content: "Quote";
+                        }
+                    }
                 }
             }
         }
@@ -351,6 +470,7 @@
 
         .highlighter-rouge {
             margin: 2rem 0;
+
             .highlight {
                 background-color: #263238;
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
@@ -464,53 +584,124 @@
                 }
 
                 // 合并相同样式的类
-                .c, .cm, .c1, .cs{
+                .c,
+                .cm,
+                .c1,
+                .cs {
                     color: #718096;
                     font-style: italic;
                 }
+
                 .cs {
                     font-weight: bold;
                 }
+
                 .err {
                     color: #ff6b6b;
                 }
-                .k, .kc, .kd, .kr, .nt {
+
+                .k,
+                .kc,
+                .kd,
+                .kr,
+                .nt {
                     color: #63b3ed;
                     font-weight: bold;
                 }
-                .kn, .cp, .gh, .gp, .nt, .ow {
+
+                .kn,
+                .cp,
+                .gh,
+                .gp,
+                .nt,
+                .ow {
                     color: #9f7aea;
                     font-weight: bold;
                 }
-                .l, .m, .mf, .mh, .mi, .mo, .si, .ss, .il {
+
+                .l,
+                .m,
+                .mf,
+                .mh,
+                .mi,
+                .mo,
+                .si,
+                .ss,
+                .il {
                     color: #f687b3;
                 }
-                .n, .p, .py, .w {
+
+                .n,
+                .p,
+                .py,
+                .w {
                     color: #e2e8f0;
                 }
 
-                .gd, .gr, .gt, .no, .nv, .vc, .vg, .vi, .ne{
+                .gd,
+                .gr,
+                .gt,
+                .no,
+                .nv,
+                .vc,
+                .vg,
+                .vi,
+                .ne {
                     color: #fc8181;
                 }
-                .gi, .ld, .s, .sb, .sc, .sd, .sh, .sx, .sr, .s1, .s2, .o, .gu{
+
+                .gi,
+                .ld,
+                .s,
+                .sb,
+                .sc,
+                .sd,
+                .sh,
+                .sx,
+                .sr,
+                .s1,
+                .s2,
+                .o,
+                .gu {
                     color: #68d391;
                 }
-                .sd, .ge {
+
+                .sd,
+                .ge {
                     font-style: italic;
                 }
+
                 .go {
                     color: #a0aec0;
                 }
-                .gs, .nc, .ne, .gu, .kt, .nc{
+
+                .gs,
+                .nc,
+                .ne,
+                .gu,
+                .kt,
+                .nc {
                     font-weight: bold;
                 }
-                .nc, .f6ad55 .na, .nl, .nn, .se, .kt{
+
+                .nc,
+                .f6ad55 .na,
+                .nl,
+                .nn,
+                .se,
+                .kt {
                     color: #f6ad55;
                 }
-                .nb, .nf, .nx, .bp {
+
+                .nb,
+                .nf,
+                .nx,
+                .bp {
                     color: #90cdf4;
                 }
-                .nd, .ni {
+
+                .nd,
+                .ni {
                     color: #9f7aea;
                 }
 
@@ -642,7 +833,8 @@
             /* 外观样式 */
             position: absolute;
             left: 50%;
-            bottom: 1.8em; /* 显示在引用数字的上方 */
+            bottom: 1.8em;
+            /* 显示在引用数字的上方 */
             transform: translateX(-50%);
 
             background-color: var(--card-bg, #fff);
@@ -669,7 +861,8 @@
             content: '';
             position: absolute;
             left: 50%;
-            top: 100%; /* 将箭头放在 tooltip 底部 */
+            top: 100%;
+            /* 将箭头放在 tooltip 底部 */
             transform: translateX(-50%);
             border-width: 6px;
             border-style: solid;
@@ -695,10 +888,10 @@
             flex: 1;
             height: 1px;
             background: linear-gradient(90deg,
-                transparent 0%,
-                var(--primary-color) 20%,
-                var(--primary-color) 80%,
-                transparent 100%);
+                    transparent 0%,
+                    var(--primary-color) 20%,
+                    var(--primary-color) 80%,
+                    transparent 100%);
         }
 
         .divider-content {
@@ -780,9 +973,9 @@
         right: 0;
         bottom: 0;
         background: linear-gradient(135deg,
-            rgba(255, 255, 255, 0.8) 0%,
-            rgba(255, 255, 255, 0.2) 50%,
-            rgba(148, 163, 184, 0.1) 100%);
+                rgba(255, 255, 255, 0.8) 0%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(148, 163, 184, 0.1) 100%);
         border-radius: 50%;
         z-index: -1;
     }
@@ -846,9 +1039,9 @@
             right: 0;
             bottom: 0;
             background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.8) 0%,
-                rgba(255, 255, 255, 0.2) 50%,
-                rgba(148, 163, 184, 0.1) 100%);
+                    rgba(255, 255, 255, 0.8) 0%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    rgba(148, 163, 184, 0.1) 100%);
             border-radius: 50%;
             z-index: -1;
         }
@@ -873,9 +1066,9 @@
 
             &::before {
                 background: linear-gradient(135deg,
-                    rgba(254, 243, 199, 0.9) 0%,
-                    rgba(253, 230, 138, 0.5) 50%,
-                    rgba(245, 158, 11, 0.1) 100%);
+                        rgba(254, 243, 199, 0.9) 0%,
+                        rgba(253, 230, 138, 0.5) 50%,
+                        rgba(245, 158, 11, 0.1) 100%);
             }
 
             i {
@@ -923,15 +1116,19 @@
     0% {
         transform: rotate(0deg) scale(0.9);
     }
+
     25% {
         transform: rotate(90deg) scale(0.95);
     }
+
     50% {
         transform: rotate(180deg) scale(1);
     }
+
     75% {
         transform: rotate(270deg) scale(0.95);
     }
+
     100% {
         transform: rotate(360deg) scale(0.9);
     }
@@ -939,11 +1136,14 @@
 
 // 添加一个微妙的脉冲效果
 @keyframes musicPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         box-shadow:
             0 6px 16px rgba(245, 158, 11, 0.3),
             0 2px 8px rgba(245, 158, 11, 0.2);
     }
+
     50% {
         box-shadow:
             0 8px 20px rgba(245, 158, 11, 0.4),
@@ -958,26 +1158,11 @@
 
 // 响应式设计
 @media (max-width: 768px) {
-    .article-page {
-        &::before {
-            background: linear-gradient(135deg,
-                    rgba(248, 250, 252, 0.98) 0%,
-                    rgba(241, 245, 249, 0.95) 25%,
-                    rgba(230, 243, 254, 0.9) 50%,
-                    rgba(219, 234, 254, 0.95) 75%,
-                    rgba(239, 246, 255, 0.98) 100%);
-        }
-
-        &::after {
-            opacity: 0.5; // 在移动端减少装饰效果的强度
-        }
-    }
 
     .article-container {
-        margin: 4rem 0;
-        width:100%;
+        margin: 0;
+        width: 100%;
         padding: 1.5rem 1rem;
-        background: rgba(255, 255, 255, 0.9);
         animation: none; // 在移动端禁用动画以节省性能
 
         .article-header {

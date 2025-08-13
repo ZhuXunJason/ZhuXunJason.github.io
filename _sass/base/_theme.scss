@@ -1,0 +1,125 @@
+/* 主题与玻璃拟态变量 (Theme & Glass Variables)
+-------------------------------------------------- */
+/* 深色为默认，亮色通过 data-theme="light" 覆盖 */
+:root {
+    --bg-blur: 14px;
+    --bg-sat: 1.1;
+    --bg-bright: .8;
+    --glass: rgba(255, 255, 255, 0.06);
+    --glass-strong: rgba(255, 255, 255, 0.12);
+    /* Semantic text scale (dark mode default) */
+    --c-heading: #f8fafc;
+    --c-text-1: #e3e7eb;
+    /* primary body */
+    --c-text-2: #c3cad2;
+    /* secondary */
+    --c-text-3: #9aa4b0;
+    /* muted */
+    --c-text-4: #75808c;
+    /* faint */
+    --c-link: #5ab9ff;
+    --c-link-hover: #7dd5ff;
+    --c-code: #f5f2d5;
+    --c-accent: #34d399;
+    /* Legacy mappings */
+    --text: var(--c-text-1);
+    --muted: var(--c-text-3);
+    --brand: #9ecbff;
+    --brand-strong: #6db1ff;
+    /* Status / Callout semantic colors (dark base) */
+    --c-info-bg: rgba(56, 146, 255, 0.14);
+    --c-info-border: #3b82f6;
+    --c-info-accent: #60a5fa;
+    --c-tip-bg: rgba(16, 185, 129, 0.14);
+    --c-tip-border: #10b981;
+    --c-tip-accent: #34d399;
+    --c-warn-bg: rgba(245, 158, 11, 0.16);
+    --c-warn-border: #f59e0b;
+    --c-warn-accent: #fbbf24;
+    --c-danger-bg: rgba(239, 68, 68, 0.16);
+    --c-danger-border: #ef4444;
+    --c-danger-accent: #f87171;
+    --c-quote-bg: rgba(148, 163, 184, 0.10);
+    --c-quote-border: #64748b;
+    --c-quote-accent: #94a3b8;
+    --shadow-elevated: 0 10px 30px rgba(0, 0, 0, .25);
+    --header-height: 64px;
+    --radius: 14px;
+    --radius-sm: 10px;
+}
+
+html[data-theme="light"] {
+    --bg-sat: 1.0;
+    --bg-bright: 1.0;
+    --glass: rgba(255, 255, 255, .55);
+    --glass-strong: rgba(255, 255, 255, .75);
+    /* Light mode semantic text */
+    --c-heading: #101923;
+    --c-text-1: #1e262e;
+    --c-text-2: #35414d;
+    --c-text-3: #5a6572;
+    --c-text-4: #7c8793;
+    --c-link: #0d66d0;
+    --c-link-hover: #0a7df2;
+    --c-code: #4b5563;
+    --c-accent: #059669;
+    --text: var(--c-text-1);
+    --muted: var(--c-text-3);
+    /* Light status variants */
+    --c-info-bg: rgba(59, 130, 246, 0.12);
+    --c-info-border: #2563eb;
+    --c-info-accent: #1d4ed8;
+    --c-tip-bg: rgba(16, 185, 129, 0.12);
+    --c-tip-border: #059669;
+    --c-tip-accent: #047857;
+    --c-warn-bg: rgba(245, 158, 11, 0.15);
+    --c-warn-border: #d97706;
+    --c-warn-accent: #b45309;
+    --c-danger-bg: rgba(239, 68, 68, 0.14);
+    --c-danger-border: #dc2626;
+    --c-danger-accent: #b91c1c;
+    --c-quote-bg: rgba(148, 163, 184, 0.12);
+    --c-quote-border: #64748b;
+    --c-quote-accent: #475569;
+    --shadow-elevated: 0 8px 24px rgba(0, 0, 0, .12);
+}
+
+/* 便于旧样式逐步迁移：提供部分别名 */
+body {
+    color: var(--text);
+    line-height: 1.62;
+}
+
+/* Generic element overrides using new semantic colors */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--c-heading);
+}
+
+a {
+    color: var(--c-link);
+    transition: color .25s ease;
+}
+
+a:hover {
+    color: var(--c-link-hover);
+}
+
+small,
+.muted,
+.text-muted {
+    color: var(--c-text-3);
+}
+
+code,
+pre code {
+    color: var(--c-code);
+}
+
+hr {
+    border-color: rgba(255, 255, 255, 0.08);
+}

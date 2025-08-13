@@ -1,65 +1,60 @@
-/* 全局变量 (Global Variables)
--------------------------------------------------- */
+/* Trimmed core variables */
 :root {
-    // 主要颜色
-    --primary-color: #2563eb;
+    --primary-color: #22c7a7;
     --secondary-color: #2980b9;
     --accent-color: #e74c3c;
-
-    // 文本颜色
-    --text-color: #34495e;
-    --text-light: #7f8c8d;
-
-    // 背景颜色
+    --text-color: var(--c-text-1);
+    --text-light: var(--c-text-3);
     --bg-color: #fbfbfb;
     --card-bg: #ffffff;
     --border-color: #bdc3c7;
-
-    // 阴影
-    --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    --light-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-
-    // 圆角和动画
+    --shadow: 0 5px 15px rgba(0, 0, 0, .08);
+    --light-shadow: 0 2px 8px rgba(0, 0, 0, .05);
     --border-radius: 12px;
-    --transition-fast: all 0.2s ease-in-out;
-    --transition-normal: all 0.3s ease-in-out;
-
-    // 字体
-    --font-primary: 'Kumbh Sans', Roboto,-apple-system, BlinkMacSystemFont, "Segoe UI",  "Helvetica Neue", Arial, sans-serif;
+    --transition-fast: all .2s ease-in-out;
+    --transition-normal: all .3s ease-in-out;
+    --font-primary: 'Kumbh Sans', Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     --font-serif: 'Georgia', 'Times New Roman', serif;
+    --page-grad-1: #0f161c;
+    --page-grad-2: #14242a;
+    --page-grad-3: #1b3539;
+    --page-grad-1-light: #f6faff;
+    --page-grad-2-light: #eef5ff;
+    --page-grad-3-light: #e7f3ff;
+    --page-bg-gradient: linear-gradient(120deg, var(--page-grad-1), var(--page-grad-2) 55%, var(--page-grad-3));
+    --blob1-color: rgba(34, 197, 167, .30);
+    --blob2-color: rgba(245, 196, 67, .26);
+    --blob3-color: rgba(56, 189, 248, .25);
+    --swirl-colors: conic-gradient(from 0deg at 50% 50%, rgba(34, 197, 167, .12), rgba(56, 189, 248, .10), rgba(245, 196, 67, .10), rgba(34, 197, 167, .12));
+    --g1x: 20%;
+    --g1y: 78%;
+    --g2x: 76%;
+    --g2y: 26%;
+    --g3x: 50%;
+    --g3y: 42%;
+    --page-noise: none;
+    --page-container-bg: rgba(28, 38, 48, .42);
+    --page-container-border: rgba(255, 255, 255, .10);
+    --page-container-bg-light: rgba(255, 255, 255, .78);
+    --page-container-border-light: rgba(255, 255, 255, .28);
+}
 
-    // Material Design 变量
-    --md-primary: #1976d2;
-    --md-primary-variant: #1565c0;
-    --md-on-primary: #ffffff;
-    --md-secondary: #03dac6;
-    --md-secondary-variant: #018786;
-    --md-on-secondary: #000000;
-    --md-surface: #ffffff;
-    --md-on-surface: #000000;
-    --md-background: #fafafa;
-    --md-on-background: #000000;
-    --md-elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    --md-elevation-2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    --md-elevation-3: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    --md-elevation-4: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    --md-border-radius: 4px;
-    --md-border-radius-lg: 8px;
-
-    // SVG 签名动画变量
-    --path-length: 0;
-
-    // 文章页面渐变背景变量
-    --article-bg-gradient: linear-gradient(135deg,
-            rgba(248, 250, 252, 0.95) 0%,
-            rgba(241, 245, 249, 0.9) 25%,
-            rgba(230, 243, 254, 0.85) 50%,
-            rgba(219, 234, 254, 0.9) 75%,
-            rgba(239, 246, 255, 0.95) 100%);
-    --article-decoration-gradient:
-        radial-gradient(circle at 20% 80%, rgba(120, 213, 250, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.06) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(139, 92, 246, 0.04) 0%, transparent 50%);
-    --article-container-bg: rgba(255, 255, 255, 0.85);
-    --article-container-border: rgba(255, 255, 255, 0.2);
+/* Light theme overrides */
+html[data-theme="light"] {
+    --primary-color: #2563eb;
+    --page-grad-1: var(--page-grad-1-light);
+    --page-grad-2: var(--page-grad-2-light);
+    --page-grad-3: var(--page-grad-3-light);
+    --blob1-color: rgba(34, 197, 167, .40);
+    --blob2-color: rgba(245, 196, 67, .38);
+    --blob3-color: rgba(56, 189, 248, .36);
+    --swirl-colors: conic-gradient(from 0deg at 50% 50%, rgba(34, 197, 167, .22), rgba(56, 189, 248, .18), rgba(245, 196, 67, .16), rgba(34, 197, 167, .22));
+    --g1x: 18%;
+    --g1y: 84%;
+    --g2x: 82%;
+    --g2y: 20%;
+    --g3x: 52%;
+    --g3y: 45%;
+    --page-container-bg: var(--page-container-bg-light);
+    --page-container-border: var(--page-container-border-light);
 }

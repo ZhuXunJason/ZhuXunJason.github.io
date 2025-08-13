@@ -1,7 +1,6 @@
-<header>
-    <nav>
-        <!-- Logo/动态签名 - 左对齐 -->
-        <a href="/" class="logo">
+<header class="header" role="banner">
+    <nav class="header__inner" aria-label="站点头部">
+        <a href="/" class="logo" aria-label="返回首页">
             <svg class="dynamic-jason-signature-new" viewBox="-5 -5 244.58 129.3" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="jasonSignatureSkyBlueGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -18,24 +17,50 @@
             </svg>
         </a>
 
-        <!-- 导航菜单 - 居中 -->
-        <ul>
-            <li><a href="/">首页</a></li>
-            <li><a href="/academic.html">学术</a></li>
-            <li><a href="/life.html">生活</a></li>
-            <li><a href="/about.html">关于我</a></li>
-        </ul>
-
-        <!-- 搜索容器 -->
         <div class="search-container">
-            <input type="text" id="search-input" placeholder="搜索文章...">
-            <div class="search-icon"><i class="fas fa-search"></i></div>
-            <div id="search-results-container"></div>
+            <div class="search" role="search">
+                <div class="search__wrap" aria-expanded="false">
+                    <svg class="search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input id="search-input" class="search__input" type="search" placeholder="搜索文章…"
+                        autocomplete="off" />
+                </div>
+                <div id="search-results-container"></div>
+            </div>
         </div>
 
-        <!-- 移动端搜索按钮 - 右对齐 -->
-<!--        <div class="header-actions">-->
-<!--            <div class="search-icon-mobile"><i class="fas fa-search"></i></div>-->
-<!--        </div>-->
+        <a class="about-link" href="{{ '/about.html' | relative_url }}" title="关于我" aria-label="关于我">
+            <!-- 徽章式个人图标-->
+            <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="abt-g" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#cfe6ff" />
+                        <stop offset="100%" stop-color="#6db1ff" />
+                    </linearGradient>
+                </defs>
+                <circle cx="12" cy="12" r="9" fill="rgba(255,255,255,.06)" stroke="url(#abt-g)" stroke-width="1.6" />
+                <path d="M12 7.5a2.75 2.75 0 1 1 0 5.5a2.75 2.75 0 0 1 0-5.5Z" fill="none" stroke="url(#abt-g)"
+                    stroke-width="1.6" stroke-linecap="round" />
+                <path d="M7.8 17.2c.9-1.9 2.8-3.2 4.9-3.2s4 .9 4.9 3.2" fill="none" stroke="url(#abt-g)"
+                    stroke-width="1.6" stroke-linecap="round" />
+                <path d="M17.8 6.6h0" stroke="url(#abt-g)" stroke-linecap="round" stroke-width="2.2" />
+                <path d="M6.4 9.2h0" stroke="url(#abt-g)" stroke-linecap="round" stroke-width="2.2" />
+            </svg>
+        </a>
+        
+        <button class="mode-toggle" id="modeToggle" aria-label="切换主题" title="切换主题">
+            <!-- Moon icon (dark) -->
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+            <!-- Sun icon (light) -->
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path
+                    d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zm10.45 10.45l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM12 4V1h-0v3h0zm0 19v-3h0v3h0zM4 12H1v0h3v0zm19 0h-3v0h3v0zM6.76 19.16l-1.42 1.42-1.79-1.8 1.41-1.41 1.8 1.79zM19.16 6.76l1.42-1.42 1.79 1.8-1.41 1.41-1.8-1.79zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+            </svg>
+        </button>
     </nav>
 </header>

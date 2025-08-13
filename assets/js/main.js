@@ -1,4 +1,42 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // 主题初始化（保持与 test.html 一致）
+    (function initTheme() {
+        const root = document.documentElement;
+        try {
+            const saved = localStorage.getItem('theme');
+            root.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
+        } catch (e) { root.setAttribute('data-theme', 'light'); }
+        const toggle = document.getElementById('modeToggle');
+        if (toggle) {
+            toggle.addEventListener('click', () => {
+                const cur = root.getAttribute('data-theme') || 'light';
+                const next = cur === 'light' ? 'dark' : 'light';
+                root.setAttribute('data-theme', next);
+                try { localStorage.setItem('theme', next); } catch (e) { }
+            });
+        }
+    })();
+
+    // 移动端：单一按钮搜索形变
+    (function initMorphSearch() {
+        const header = document.querySelector('.header');
+        const wrap = document.querySelector('.search__wrap');
+        const input = document.getElementById('search-input');
+        if (!header || !wrap || !input) return;
+        wrap.addEventListener('click', (e) => {
+            const small = matchMedia('(max-width:780px)').matches;
+            if (!small) return;
+            if (header.classList.contains('is-searching') && e.target === input) return;
+            header.classList.toggle('is-searching');
+            if (header.classList.contains('is-searching')) setTimeout(() => input.focus(), 10); else input.value = '';
+        });
+        document.addEventListener('click', (e) => {
+            const small = matchMedia('(max-width:780px)').matches;
+            if (!small) return;
+            if (!header.contains(e.target)) header.classList.remove('is-searching');
+        });
+    })();
+
     // 增强的打字机效果
     function typeWriter() {
         const texts = [
@@ -57,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (scrolled > scrollThreshold) {
             header.classList.add('scrolled');
             header.style.backdropFilter = 'blur(10px)';
-            header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
         } else {
             header.classList.remove('scrolled');
             header.style.backdropFilter = '';
@@ -297,7 +334,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         musicBtn.innerHTML = '<i class="fas fa-music"></i>';
                         isPlaying = true;
                     }).catch((error) => {
-                        console.log("音乐���放失败:", error);
+                        console.log("音乐播放失败:", error);
                         // 显示提示信息
                         musicBtn.title = "请先与页面交互后再尝试播放";
                     });
@@ -398,7 +435,6 @@ document.addEventListener('DOMContentLoaded', function () {
     initCodeCopy();
 
     function createFootnoteTooltips() {
-        // 选��页面上所有的脚注引用链接
         // kramdown 会为脚注引用生成 class="footnote" 的 <a> 标签
         const footnoteLinks = document.querySelectorAll('a.footnote');
 

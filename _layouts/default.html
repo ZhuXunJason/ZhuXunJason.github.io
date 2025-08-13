@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} - {% endif %}Jason's Blog</title>
+  {% if page.is_home %}
+  <link rel="preload" as="image" href="{{ '/assets/images/banner.jpg' | relative_url }}" />
+  {% endif %}
   <link rel="icon" href="{{ '/assets/images/favicon.svg' | relative_url }}" type="image/svg+xml">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -27,7 +30,13 @@
   </script>
 </head>
 
-<body class="{% if page.is_home %}has-banner{% endif %}">
+<body>
+{% if page.is_home %}
+<div class="bg-blur" aria-hidden="true"></div>
+<div class="bg-overlay" aria-hidden="true"></div>
+<script src="{{ '/assets/js/switch.js' | relative_url }}"></script>
+{% endif %}
+
   {% include header.html %}
 
   <div class="content-wrapper">
@@ -38,14 +47,5 @@
 
   <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
-
-  <!-- 仅在桌面端加载 canvas-nest -->
-  <script>
-    if (window.innerWidth > 768) {
-      var script = document.createElement('script');
-      script.src = 'https://cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js';
-      document.head.appendChild(script);
-    }
-  </script>
 </body>
 </html>

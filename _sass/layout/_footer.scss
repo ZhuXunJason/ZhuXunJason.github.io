@@ -1,19 +1,24 @@
 /* 页脚样式 (Footer)
 -------------------------------------------------- */
 
-footer {
-    background-color: var(--card-bg);
-    color: var(--text-color);
+.footer {
+    backdrop-filter: blur(10px);
+    background: rgba(8, 12, 20, .35);
     text-align: center;
     padding: 1.5rem 1rem;
     margin-top: auto;
     z-index: 1000;
 }
 
+html[data-theme="light"] .footer {
+    background: rgba(255, 255, 255, .55);
+    border-bottom-color: rgba(0, 0, 0, .08);
+}
+
 .copyright {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0.3rem 1rem;
+    padding: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;

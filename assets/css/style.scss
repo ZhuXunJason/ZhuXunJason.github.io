@@ -4,6 +4,7 @@
 
 // Base Styles (基础样式)
 @import "base/variables";
+@import "base/theme"; // 新增主题变量（光/暗 + 玻璃）
 @import "base/reset";
 @import "base/typography";
 
@@ -21,4 +22,3 @@
 @import "pages/home";
 @import "pages/about";
 @import "pages/article";
-

@@ -1,7 +1,6 @@
-/* 搜索组件 (Search Component)
--------------------------------------------------- */
+/* 搜索组件 (Search Component) - 精简嵌套结构 */
 
-// 桌面端搜索
+// 容器（桌面端）
 .search-container {
     position: relative;
     margin-left: auto;
@@ -33,198 +32,128 @@
     }
 }
 
+/* 结果列表：实体背景 + 轻微模糊（仅柔化阴影边缘，不透明） */
 #search-results-container {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
+    background: #18242b; /* 不透明深色 */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    max-height: 400px;
+    box-shadow: 0 10px 34px -10px rgba(0, 0, 0, 0.55), 0 4px 14px -4px rgba(0, 0, 0, 0.4);
+    max-height: 420px;
     overflow-y: auto;
     z-index: 1000;
-    margin-top: 0.5rem;
+    margin-top: .55rem;
     display: none;
+    padding: 4px 0;
+    transition: background .35s ease, box-shadow .4s ease, border-color .4s ease;
 
-    &.show {
+    &.show { display: block; }
+
+    .search-result-item {
         display: block;
+        padding: .75rem 1.05rem .8rem 1.05rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        transition: background .3s ease, color .3s ease;
+        position: relative;
+
+        &:last-child { border-bottom: none; }
+        &:hover { background: rgba(255, 255, 255, 0.06); color: var(--primary-color); }
+        &.selected { background: linear-gradient(120deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05)); border-left: 4px solid var(--primary-color); }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .search-result-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-result-tag {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            color: var(--card-bg);
+            margin-right: 0.5rem;
+            text-transform: uppercase;
+            &.academic { background-color: #2563e8; }
+            &.life { background-color: #27ae60; }
+            &.default { background-color: #f39c12; }
+        }
+
+        .search-result-snippet {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            display: -webkit-box; /* 多行省略 */
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-clamp: 2;
+            overflow: hidden;
+        }
+
+        .search-result-date {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            background-color: var(--bg-color);
+            padding: 0.1rem 0.4rem;
+            border-radius: 10px;
+        }
     }
 }
 
-.search-result-item{
-    display: block;
-    padding: 0.8rem 1.2rem;
-    border-bottom: 1px solid var(--bg-color);
-    /* 分隔线 */
-    transition: var(--transition-fast);
+/* 亮色模式覆盖 */
+html[data-theme="light"] {
+    #search-results-container {
+        background: #ffffff;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border-color: rgba(0, 0, 0, 0.08);
+        box-shadow: 0 8px 28px -10px rgba(0, 0, 0, 0.18), 0 3px 10px -3px rgba(0, 0, 0, 0.1);
 
-    &:last-child{
-        border-bottom: none;
-    }
-
-    &:hover{
-        background-color: var(--bg-color);
-        color:var(--primary-color);
-    }
-
-    &.selected {
-        background-color: rgba(var(--primary-color), 0.1);
-        border-left: 5px solid var(--primary-color);
+        .search-result-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            &:hover { background: rgba(0, 0, 0, 0.05); }
+            &.selected { background: linear-gradient(120deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.03)); }
+        }
     }
 }
 
-.search-result-title {
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: 0.25rem;
-    font-size: 0.95rem;
-}
+/* Glass Header 区域专属样式 */
+.header {
+    .search-container {
+        background: transparent;
+        border: none;
+        box-shadow: none;
 
-.search-result-tag {
-    /* 搜索结果中的分类标签 */
-    font-size: 0.7rem;
-    padding: 0.15rem 0.5rem;
-    border-radius: 10px;
-    color: var(--card-bg);
-    margin-right: 0.5rem;
-    text-transform: uppercase;
-
-    &.academic{
-        background-color: #2563e8;
-    }
-    &.life{
-        background-color: #27ae60;
-    }
-    &.default{
-        background-color: #f39c12;
+        #search-input {
+            all: unset;
+            width: 320px;
+            max-width: 42vw;
+            padding: 10px 36px 10px 34px;
+            border-radius: 999px;
+            color: var(--text);
+            font-size: 0.9rem;
+            &::placeholder { color: #9aa3b2; }
+        }
     }
 }
 
-.search-result-snippet {
-    font-size: 0.8rem;
-    color: var(--text-light);
-    display: -webkit-box;
-    /* 多行省略 */
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    line-clamp: 2;
-    /* 标准属性 */
-    overflow: hidden;
+@media (max-width:780px) {
+    .header {
+        .search-container {
+            #search-input { width: 0; padding: 0; opacity: 0; }
+        }
+        &.is-searching .search-container #search-input { width: 100%; opacity: 1; }
+    }
 }
-
-.search-result-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.search-result-date {
-    font-size: 0.7rem;
-    color: var(--text-light);
-    background-color: var(--bg-color);
-    padding: 0.1rem 0.4rem;
-    border-radius: 10px;
-}
-
-//// 移动端搜索
-//#search-bar-mobile-container {
-//    position: fixed;
-//    top: 0;
-//    left: 0;
-//    right: 0;
-//    z-index: 1001;
-//    background-color: var(--md-surface);
-//    box-shadow: var(--md-elevation-3);
-//    padding: 50px 16px 16px;
-//    transform: translateY(-100%);
-//    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-//    opacity: 0;
-//    visibility: hidden;
-//
-//    &.active {
-//        transform: translateY(0);
-//        opacity: 1;
-//        visibility: visible;
-//    }
-//}
-//
-//#search-input-mobile {
-//    width: 100%;
-//    padding: 16px 16px 16px 48px;
-//    border-radius: var(--md-border-radius-lg);
-//    border: 2px solid transparent;
-//    background-color: #f5f5f5;
-//    font-size: 16px;
-//    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-//    box-shadow: var(--md-elevation-1);
-//    color: var(--md-on-surface);
-//}
-//
-//#search-results-container-mobile {
-//    width: 100%;
-//    background-color: var(--md-surface);
-//    border: none;
-//    border-radius: var(--md-border-radius-lg);
-//    box-shadow: var(--md-elevation-3);
-//    max-height: 60vh;
-//    overflow-y: auto;
-//    margin-top: 8px;
-//    display: none;
-//
-//    &.show {
-//        display: block;
-//    }
-//}
-//
-//// 搜索结果项
-//.search-result-item {
-//    padding: 1rem;
-//    border-bottom: 1px solid #eee;
-//    transition: var(--transition-fast);
-//
-//    &:hover {
-//        background-color: #f8f9fa;
-//    }
-//
-//    &:last-child {
-//        border-bottom: none;
-//    }
-//
-//    .result-title {
-//        font-weight: 600;
-//        margin-bottom: 0.3rem;
-//        color: var(--text-color);
-//    }
-//
-//    .result-excerpt {
-//        font-size: 0.9rem;
-//        color: var(--text-light);
-//        line-height: 1.4;
-//    }
-//
-//    .result-category {
-//        font-size: 0.8rem;
-//        color: var(--primary-color);
-//        font-weight: 500;
-//        margin-top: 0.3rem;
-//    }
-//}
-//
-//// 搜索按钮（移动端）
-//.search-btn {
-//    background: none;
-//    border: none;
-//    color: var(--text-color);
-//    cursor: pointer;
-//    padding: 0.5rem;
-//    border-radius: var(--border-radius);
-//    transition: var(--transition-fast);
-//
-//    &:hover {
-//        background-color: #f0f0f0;
-//    }
-//}
