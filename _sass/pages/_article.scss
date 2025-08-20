@@ -340,6 +340,16 @@
             box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             font-size: .95rem;
             line-height: 1.55;
+            display: flex;
+            flex-direction: column;
+
+            &::after {
+                order: -1;
+                display: block;
+                font-weight: bold;
+                margin-bottom: 0.75rem;
+                font-size: 1.1em;
+            }
 
             &::before {
                 font-family: "Font Awesome 6 Free";
@@ -357,16 +367,6 @@
                 color: #fff;
             }
 
-            &::after {
-                content: attr(data-title);
-                display: block;
-                font-weight: 600;
-                margin-bottom: .55rem;
-                font-size: 1rem;
-                letter-spacing: .5px;
-                color: var(--_border);
-            }
-
             &.note {
                 --_bg: var(--c-info-bg);
                 --_border: var(--c-info-border);
@@ -376,12 +376,12 @@
                     content: "\f05a";
                 }
 
-                &:not([data-title]) {
-                    &[data-title=""] {
-                        &::after {
-                            content: "Note";
-                        }
-                    }
+                &::after {
+                    content: "Note";
+                    color: #2563eb;
+                }
+                &[title]:not([title=""])::after {
+                    content: attr(title);
                 }
             }
 
@@ -394,12 +394,12 @@
                     content: "\f0eb";
                 }
 
-                &:not([data-title]) {
-                    &[data-title=""] {
-                        &::after {
-                            content: "Tip";
-                        }
-                    }
+                &::after {
+                    content: "Tip";
+                    color: #06b6d4;
+                }
+                &[title]:not([title=""])::after {
+                    content: attr(title);
                 }
             }
 
@@ -412,48 +412,12 @@
                     content: "\f071";
                 }
 
-                &:not([data-title]) {
-                    &[data-title=""] {
-                        &::after {
-                            content: "Warning";
-                        }
-                    }
+                &::after {
+                    content: "Warning";
+                    color: #f59e0b;
                 }
-            }
-
-            &.danger {
-                --_bg: var(--c-danger-bg);
-                --_border: var(--c-danger-border);
-                --_accent: var(--c-danger-accent);
-
-                &::before {
-                    content: "\f06a";
-                }
-
-                &:not([data-title]) {
-                    &[data-title=""] {
-                        &::after {
-                            content: "Danger";
-                        }
-                    }
-                }
-            }
-
-            &.quote {
-                --_bg: var(--c-quote-bg);
-                --_border: var(--c-quote-border);
-                --_accent: var(--c-quote-accent);
-
-                &::before {
-                    content: "\f10d";
-                }
-
-                &:not([data-title]) {
-                    &[data-title=""] {
-                        &::after {
-                            content: "Quote";
-                        }
-                    }
+                &[title]:not([title=""])::after {
+                    content: attr(title);
                 }
             }
         }
@@ -1163,7 +1127,7 @@
         margin: 0;
         width: 100%;
         padding: 1.5rem 1rem;
-        animation: none; // 在移动端禁用动画以节省性能
+        animation: none; // 在移动端禁用动画以节省���能
 
         .article-header {
             h1 {

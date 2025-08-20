@@ -176,14 +176,17 @@ html[data-theme="light"] .icon-moon {
 
     .search__wrap {
         height: 40px;
-    width: 40px; /* 目标图标宽度 */
-    min-width: 40px; /* 防止动画过程中回落到 0 造成闪烁 */
+        width: 40px;
+        /* 目标图标宽度 */
+        min-width: 40px;
+        /* 防止动画过程中回落到 0 造成闪烁 */
         cursor: text;
         border-radius: 50%;
         padding: 0;
         box-shadow: var(--shadow-elevated);
-    overflow: hidden; /* 避免内部 input 收缩时影响外部 width 计算 */
-    transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease, width .28s ease, padding .28s ease;
+        overflow: hidden;
+        /* 避免内部 input 收缩时影响外部 width 计算 */
+        transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease, width .28s ease, padding .28s ease;
     }
 
     .search__input {
@@ -246,7 +249,8 @@ html[data-theme="light"] .icon-moon {
         max-width: none;
     }
 
-    .search__wrap { /* 与上方保持一致，确保在极小屏也有平滑 padding 过渡 */
+    .search__wrap {
+        /* 与上方保持一致，确保在极小屏也有平滑 padding 过渡 */
         transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease, width .35s ease, padding .35s ease;
     }
 }
