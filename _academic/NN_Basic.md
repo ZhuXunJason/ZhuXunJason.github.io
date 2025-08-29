@@ -41,11 +41,13 @@ $$\frac{\partial J}{\partial \boldsymbol{w}^i} = \delta^i \cdot (\boldsymbol{a}^
 其中，对于一个 $n$ 层神经网络，误差项 $\delta^i$ 的计算方式如下：
 
 1.  **对于输出层 ($i=n$):**
+
     $$
     \delta^n = \dfrac{\partial J}{\partial \boldsymbol{a}^n} \cdot\ (g^n)'
     $$
 
 2.  **对于隐藏层 ($i < n$):**
+
     $$
     \delta^i = \left( \sum_j w_{j}^{i+1} \delta_j^{i+1} \right) \cdot(g^i)'
     $$
@@ -137,7 +139,9 @@ $$
 对于隐藏层（激活函数为Relu）
 
 $$
-\dfrac{\partial J}{\partial \boldsymbol{w^1}}=\dfrac{\partial \boldsymbol{a^1}}{\partial \boldsymbol{w^1}}\cdot\dfrac{\partial J}{\partial \boldsymbol{z^2}}\cdot\dfrac{\partial \boldsymbol{z^2}}{\partial \boldsymbol{a^1}}=\boldsymbol{X^T}\cdot(\boldsymbol{a^2-Y})\cdot\boldsymbol{(w^2)^T}\cdot(\boldsymbol{a^1}>0)
+\begin{aligned}
+\dfrac{\partial J}{\partial \boldsymbol{w^1}}&=\dfrac{\partial \boldsymbol{a^1}}{\partial \boldsymbol{w^1}}\cdot\dfrac{\partial J}{\partial \boldsymbol{z^2}}\cdot\dfrac{\partial \boldsymbol{z^2}}{\partial \boldsymbol{a^1}}\\\\&=\boldsymbol{X^T}\cdot(\boldsymbol{a^2-Y})\cdot\boldsymbol{(w^2)^T}\cdot(\boldsymbol{a^1}>0)
+\end{aligned}
 $$
 
 ```python

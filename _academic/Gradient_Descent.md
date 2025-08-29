@@ -12,7 +12,7 @@ excerpt: 梯度下降是机器学习的一种常用方法，目标是找到使�
 梯度下降法用于更新线性回归模型中的参数($\boldsymbol{w},b$), 公式为
 
 $$
-w'_i=w_i-\alpha\dfrac{\partial J(\boldsymbol{w},b)}{\partial w_i},\qquad b'=b-\alpha\dfrac{\partial J(\boldsymbol{w},b)}{\partial b}
+w'_i=w_i-\alpha\dfrac{\partial J(\boldsymbol{w},b)}{\partial w_i},\quad b'=b-\alpha\dfrac{\partial J(\boldsymbol{w},b)}{\partial b}
 $$
 
 其中$J(\boldsymbol{w},b)$是成本函数，偏导数主要控制梯度下降的方向，$\alpha$ 为参数（学习率），控制参数的变化幅度。
