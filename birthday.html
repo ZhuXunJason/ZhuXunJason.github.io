@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>生日快乐 · A Little Birthday Letter</title>
+    <meta name="color-scheme" content="light only" />
+    <style>
+        :root {
+            --bg-1: #ffecd2;
+            --bg-2: #fcb69f;
+            --bg-3: #ffd1ff;
+            --paper: #fffdf8;
+            --ink: #3e2e2e;
+            --ink-sub: #6a5555;
+            --primary: #ff5fa2;
+            --accent: #ffd166;
+            --accent-2: #86e7fd;
+            --accent-3: #b388ff;
+            --shadow: 0 20px 45px rgba(0, 0, 0, .16), 0 4px 10px rgba(0, 0, 0, .08);
+            --radius: 18px;
+            --radius-sm: 12px;
+        }
+
+        @font-face {
+            font-family: 'Semi-cursive';
+            src: url('/assets/fonts/Semi-cursive.woff2') format('woff2');
+            /* 字体文件的路径 */
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: ui-rounded, system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(1200px 1200px at 80% -10%, #fff6, #fff0 60%),
+                linear-gradient(130deg, var(--bg-1), var(--bg-2) 50%, var(--bg-3));
+
+            background-attachment: fixed;
+        }
+
+        /* Subtle animated background shimmer */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: -10% -20%;
+            background:
+                radial-gradient(120px 120px at 15% 25%, #fff8, transparent 60%),
+                radial-gradient(160px 160px at 85% 10%, #fff6, transparent 60%),
+                radial-gradient(200px 200px at 70% 70%, #fff5, transparent 60%);
+            filter: blur(20px);
+            animation: glow 12s ease-in-out infinite alternate;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes glow {
+            from {
+                transform: translateY(-10px)
+            }
+
+            to {
+                transform: translateY(10px)
+            }
+        }
+
+        .stage {
+            position: relative;
+            min-height: 100dvh;
+            display: grid;
+            place-items: center;
+            padding: 56px 22px 100px;
+            z-index: 1;
+        }
+
+        /* Envelope + Letter Wrapper */
+        .letter-wrap {
+            position: relative;
+            width: min(860px, 92vw);
+            perspective: 1600px;
+        }
+
+        /* 信封：固定定位 + 精确居中，独立于布局居中显示 */
+        .envelope {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(720px, 92vw);
+            /* 不再占满容器 */
+            pointer-events: none;
+            z-index: 2;
+            opacity: 1;
+            transition: opacity .45s ease;
+        }
+
+        .letter-wrap.open .envelope {
+            opacity: 0;
+            transition-delay: .9s;
+        }
+
+        .envelope .body {
+            /* 子元素宽度与信封一致，避免对齐偏差 */
+            width: 100%;
+            height: 300px;
+            margin: 0 auto;
+            background: linear-gradient(#fff8, #fff6), repeating-linear-gradient(-45deg, #ffd6e5 0 12px, #fff1f6 12px 24px);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 1;
+        }
+
+        .envelope .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* 直接从左侧开始 */
+            width: 100%;
+            /* 与 body 完全一致 */
+            height: 200px;
+            transform-origin: 50% 0%;
+            background: linear-gradient(180deg, #fff, #ffe9f3);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            border-radius: 14px 14px 0 0;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .15);
+            transition: transform .9s cubic-bezier(.21, 1, .29, 1);
+            z-index: 2;
+        }
+
+        .letter-wrap.open .envelope .flap {
+            transform: rotateX(-180deg);
+            box-shadow: 0 -10px 24px rgba(0, 0, 0, .15);
+        }
+
+        /* Open Button */
+        .open-btn {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translate(-50%, -100%);
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 0;
+            background: linear-gradient(90deg, var(--primary), #ff7ac0);
+            color: white;
+            font-weight: 700;
+            letter-spacing: .4px;
+            box-shadow: 0 12px 24px rgba(255, 95, 162, .35), 0 2px 6px rgba(0, 0, 0, .08);
+            cursor: pointer;
+            transition: transform .2s ease, box-shadow .2s ease, opacity .3s ease;
+            z-index: 3;
+        }
+
+        .open-btn:hover {
+            transform: translate(-50%, -100%) scale(1.03)
+        }
+
+        .open-btn:active {
+            transform: translate(-50%, -100%) scale(.98)
+        }
+
+        .letter-wrap.open .open-btn {
+            opacity: 0;
+            pointer-events: none
+        }
+
+        /* The Letter (paper) */
+        .letter {
+            position: relative;
+            margin: 0 auto;
+            width: min(720px, 92vw);
+            background:
+                radial-gradient(100% 100% at 0% 0%, #fff 0 70%, #fffaf0) padding-box,
+                conic-gradient(from 180deg at 50% 50%, #ffd2e8, #d1ecff, #ffe9a7, #ffd2e8) border-box;
+            border: 2px solid transparent;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 28px 28px 26px;
+            transform-origin: 50% 100%;
+            transition: transform .9s cubic-bezier(.2, .8, .2, 1), opacity .6s ease;
+            opacity: 0;
+            /* 改为默认隐藏 */
+            max-width: 95vw;
+            /* 防止溢出 */
+        }
+
+        .letter-wrap.closed .letter {
+            transform: translateY(0px) rotateX(8deg);
+            opacity: 0;
+            filter: blur(.6px);
+        }
+
+        .letter-wrap.open .letter {
+            opacity: 1;
+            transform: none;
+            transition-delay: 1.35s;
+            /* flap 翻转 0.9s + 信封淡出 0.45s */
+            filter: none;
+        }
+
+        .letter .top-decor {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .spark {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff 0 20%, #ffd166 40%, #ff7ab6 70%, #0000);
+            filter: blur(.2px);
+            animation: twinkle 1.8s ease-in-out infinite;
+        }
+
+        .spark:nth-child(odd) {
+            animation-delay: .5s
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                transform: scale(.8) translateY(0);
+                opacity: .6
+            }
+
+            50% {
+                transform: scale(1.2) translateY(-2px);
+                opacity: 1
+            }
+        }
+
+        .title {
+            font-size: clamp(30px, 4vw, 48px);
+            line-height: 1.1;
+            text-align: center;
+            margin: 6px 0 8px;
+            font-weight: 900;
+            letter-spacing: .6px;
+            background: conic-gradient(from 0turn, #ff5fa2, #ffd166, #86e7fd, #b388ff, #ff5fa2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 0 #fff8;
+            animation: hue 8s linear infinite;
+        }
+
+        @keyframes hue {
+            to {
+                filter: hue-rotate(1turn)
+            }
+        }
+
+        .divider {
+            width: 100%;
+            height: 14px;
+            margin: 10px 0 14px;
+            --c1: #ffd166;
+            --c2: #86e7fd;
+            --c3: #ff7ab6;
+            --c4: #b388ff;
+            background:
+                repeating-linear-gradient(90deg, var(--c1) 0 22px, var(--c2) 22px 44px, var(--c3) 44px 66px, var(--c4) 66px 88px);
+            -webkit-mask: radial-gradient(8px 8px at 4px 50%, #000 95%, #0000) repeat-x 0 50% / 16px 100%;
+            mask: radial-gradient(8px 8px at 4px 50%, #000 95%, #0000) repeat-x 0 50% / 16px 100%;
+            border-radius: 999px;
+            filter: saturate(1.1);
+            opacity: .9;
+        }
+
+        .content {
+            font-family: 'Semi-cursive';
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 1.9;
+            padding: 8px 4px 2px;
+        }
+
+        .content p {
+            margin: 10px 0
+        }
+
+        .salute {
+            font-weight: 700
+        }
+
+        .signature {
+            margin-top: 14px;
+            text-align: right;
+            font-style: italic;
+            color: var(--ink-sub);
+        }
+
+        /* Typewriter caret */
+        .type {
+            display: inline-block;
+            white-space: pre-wrap;
+            background: linear-gradient(transparent 70%, #fff3 0);
+        }
+
+        .type[data-typing="true"]::after {
+            content: " ";
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            margin-left: 2px;
+            background: linear-gradient(#222, #222);
+            animation: caret 0.9s steps(1) infinite;
+            vertical-align: bottom;
+            transform: translateY(-2px);
+        }
+
+        @keyframes caret {
+            50% {
+                opacity: 0
+            }
+        }
+
+        /* Cake (SVG container) */
+        .cake {
+            display: grid;
+            place-items: center;
+            margin: 18px auto 10px;
+            transform: translateZ(0);
+        }
+
+        .cake svg {
+            width: 160px;
+            height: auto;
+            overflow: visible;
+        }
+
+        .flame {
+            transform-origin: 50% 100%;
+            animation: flicker .14s infinite alternate
+        }
+
+        .flame:nth-child(2) {
+            animation-duration: .16s
+        }
+
+        .flame:nth-child(3) {
+            animation-duration: .18s
+        }
+
+        @keyframes flicker {
+            from {
+                transform: translateX(-.6px) scaleY(.98);
+                filter: drop-shadow(0 0 6px #ffd166)
+            }
+
+            to {
+                transform: translateX(.6px) scaleY(1.02);
+                filter: drop-shadow(0 0 10px #ffb703)
+            }
+        }
+
+        /* Photo placeholders around */
+        .frame-grid {
+            position: absolute;
+            inset: -40px -40px -60px;
+            pointer-events: none;
+        }
+
+        .photo-slot {
+            position: absolute;
+            width: clamp(80px, 15vw, 160px);
+            /* 调整最小尺寸 */
+            aspect-ratio: 3/4;
+            background:
+                linear-gradient(#fff8, #fff8) padding-box,
+                conic-gradient(from .25turn, #ffc8e6, #dff7ff, #fff5c0, #ffc8e6) border-box;
+            border: 2px dashed #ff8bbd;
+            border-radius: 14px;
+            box-shadow: 0 12px 26px rgba(0, 0, 0, .16);
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            transform: rotate(var(--rot, -5deg)) translateZ(0);
+            transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+            pointer-events: none;
+            user-select: none;
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+        }
+
+        .photo-slot:hover {
+            transform: rotate(var(--rot, -5deg)) scale(1.03);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .2);
+            z-index: 4;
+        }
+
+        .photo-slot figcaption {
+            color: #ff4f95;
+            font-weight: 700;
+            font-size: 13px;
+            text-shadow: 0 1px 0 #fff;
+            background: #fff7;
+            padding: 6px 10px;
+            border-radius: 999px;
+            backdrop-filter: blur(6px);
+        }
+
+        .photo-slot.has-image {
+            border-style: solid;
+        }
+
+        .photo-slot img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Place the slots - 只保留两个 */
+        .slot-1 {
+            top: -40px;
+            left: -26px;
+            --rot: -8deg
+        }
+
+        .slot-2 {
+            bottom: -80px;
+            right: 15px;
+            --rot: -7deg
+        }
+
+        /* Balloons */
+        .balloons {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .balloon {
+            --h: 320;
+            position: absolute;
+            bottom: -20vh;
+            width: 52px;
+            height: 64px;
+            background: radial-gradient(60% 70% at 50% 35%, #fff7, #0000 60%), hsl(var(--h) 95% 64%);
+            border-radius: 50% 50% 45% 45% / 55% 55% 45% 45%;
+            box-shadow: inset -12px -16px 28px #0002, 0 10px 26px #0003;
+            animation: floatUp var(--dur, 18s) linear infinite;
+            filter: saturate(1.1);
+        }
+
+        .balloon::before {
+            /* knot */
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -6px;
+            width: 10px;
+            height: 10px;
+            transform: translateX(-50%) rotate(45deg);
+            background: hsl(var(--h) 95% 46%);
+            border-radius: 2px;
+            box-shadow: 0 2px 4px #0002;
+        }
+
+        .balloon::after {
+            /* string */
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -52px;
+            width: 2px;
+            height: 50px;
+            transform: translateX(-50%);
+            background: linear-gradient(#0002, #0001);
+            border-radius: 2px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) rotate(-2deg);
+                opacity: 0
+            }
+
+            8% {
+                opacity: 1
+            }
+
+            50% {
+                transform: translateY(-60vh) translateX(40px) rotate(2deg)
+            }
+
+            100% {
+                transform: translateY(-120vh) translateX(-20px) rotate(-2deg);
+                opacity: .7
+            }
+        }
+
+        .balloons:not(.start) .balloon {
+            animation-play-state: paused;
+            opacity: 0
+        }
+
+        /* Confetti canvas overlay */
+        #confettiCanvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Footer note */
+        .note {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6a5555;
+            text-align: center;
+            opacity: .9;
+        }
+
+        .password-prompt-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 3;
+            pointer-events: all;
+        }
+
+        #password-input {
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 1px solid #ffc8e6;
+            background: #fffb;
+            backdrop-filter: blur(4px);
+            font-size: 16px;
+            /* color: var(--ink); */
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+            z-index: 3;
+        }
+
+        #password-input::placeholder {
+            color: #ff9bb4;
+        }
+
+        #password-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 95, 162, .3);
+        }
+
+        #password-submit-button {
+            position: relative;
+            transform: none;
+            top: auto;
+            left: auto;
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 0;
+            background: linear-gradient(90deg, var(--primary), #ff7ac0);
+            color: white;
+            font-weight: 700;
+            letter-spacing: .4px;
+            box-shadow: 0 12px 24px rgba(255, 95, 162, .35), 0 2px 6px rgba(0, 0, 0, .08);
+            cursor: pointer;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        #password-submit-button:hover {
+            transform: scale(1.03);
+        }
+
+        #password-submit-button:active {
+            transform: scale(.98);
+        }
+
+
+        #error-message {
+            position: absolute;
+            bottom: -40px;
+            /* 调整位置避免遮挡 */
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff4f95;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            display: none;
+            /* 默认隐藏 */
+        }
+
+        /* Responsive */
+        @media (max-width: 820px) {
+            .stage {
+                padding: 40px 16px 80px;
+            }
+
+            .letter-wrap {
+                width: min(720px, 98vw);
+            }
+
+            .letter {
+                max-width: 98vw;
+                padding: 24px 20px;
+            }
+
+            .photo-slot {
+                width: clamp(70px, 12vw, 120px);
+            }
+
+            .slot-1 {
+                top: -5px;
+                left: -20px;
+            }
+
+            .slot-2 {
+                bottom: -45px;
+                right: -10px;
+            }
+
+            .envelope .body {
+                height: 250px;
+            }
+
+            .envelope .flap {
+                height: 160px;
+            }
+
+            .letter-wrap.closed .letter {
+                transform: translateY(0px) rotateX(6deg);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stage {
+                padding: 30px 12px 60px;
+            }
+
+            .letter-wrap {
+                width: min(580px, 99vw);
+            }
+
+            .letter {
+                max-width: 99vw;
+                padding: 20px 16px;
+            }
+
+            .title {
+                font-size: clamp(24px, 6vw, 36px);
+            }
+
+            .content {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+
+            .divider {
+                margin: 6px 0 10px;
+            }
+
+            .cake svg {
+                width: 120px;
+            }
+
+            /* 调大移动端图片位 */
+            .slot-1,
+            .slot-2 {
+                display: grid;
+                width: clamp(90px, 20vw, 150px);
+            }
+
+            .slot-1 {
+                top: 0px;
+                left: -15px;
+                --rot: -5deg;
+            }
+
+            .slot-2 {
+                bottom: -35px;
+                right: -5px;
+                --rot: -5deg;
+            }
+
+            .photo-slot figcaption {
+                font-size: 11px;
+                padding: 4px 6px;
+            }
+
+            .envelope .body {
+                height: 220px;
+            }
+
+            .envelope .flap {
+                height: 140px;
+            }
+
+            .letter-wrap.closed .letter {
+                transform: translateY(0px) rotateX(4deg);
+            }
+
+            .open-btn {
+                padding: 8px 14px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stage {
+                padding: 20px 8px 40px;
+            }
+
+            .letter-wrap {
+                width: 99vw;
+            }
+
+            .letter {
+                max-width: 99vw;
+                padding: 16px 12px;
+            }
+
+            .title {
+                font-size: clamp(20px, 7vw, 28px);
+                margin: 4px 0 6px;
+            }
+
+            .content {
+                font-size: 14px;
+                line-height: 1.7;
+                padding: 6px 2px;
+            }
+
+            .cake svg {
+                width: 100px;
+            }
+
+            /* 再调大一档，便于小屏观看 */
+            .slot-1,
+            .slot-2 {
+                width: clamp(80px, 26vw, 130px);
+            }
+
+            .slot-1 {
+                top: 5px;
+                left: -10px;
+            }
+
+            .slot-2 {
+                bottom: -25px;
+                right: 0px;
+            }
+
+            .photo-slot figcaption {
+                font-size: 10px;
+                padding: 3px 5px;
+            }
+
+            .envelope .body {
+                height: 180px;
+            }
+
+            .envelope .flap {
+                height: 120px;
+            }
+
+            .letter-wrap.closed .letter {
+                transform: translateY(0px) rotateX(3deg);
+            }
+
+            .open-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+                top: -15px;
+            }
+        }
+
+        /* 超小屏幕适配 */
+        @media (max-width: 360px) {
+            .letter {
+                padding: 14px 10px;
+            }
+
+            .content {
+                font-size: 13px;
+            }
+
+            /* 超小屏也适度放大 */
+            .slot-1,
+            .slot-2 {
+                width: clamp(70px, 32vw, 110px);
+            }
+
+            .photo-slot figcaption {
+                font-size: 9px;
+                padding: 2px 4px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!--
+    使用说明（不显示在页面）：
+    1) 点击“打开信件”开始动画与祝福。
+    2) 周围的相框（图片位）可以双击更换图片，支持本地图片。
+    3) 也可在 photo-slot 上设置 data-src="图片URL" 来预加载网络图片。
+    4) 可直接修改下面信件正文文字（HTML）以自定义内容。
+  -->
+
+    <!-- Floating balloons -->
+    <div class="balloons" id="balloons" aria-hidden="true"></div>
+
+    <!-- Confetti overlay -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <main class="stage">
+        <div class="letter-wrap closed" id="letterWrap">
+
+            <div id="password-prompt-overlay">
+                <div class="envelope" aria-hidden="true">
+                    <div class="flap"></div>
+                    <div class="body">
+                    </div>
+                    <div class="password-prompt-box">
+                        <input type="password" id="password-input" placeholder="请输入密码" autocomplete="off">
+                        <button id="password-submit-button">解锁</button>
+                    </div>
+                    <p id="error-message"></p>
+                    <p id="content-hint" style="display:none;"></p>
+                </div>
+            </div>
+
+            <div id="main-article-content" style="display: none;">
+                <!-- 解密后的内容将注入这里 -->
+            </div>
+
+        </div>
+    </main>
+
+    <script type="application/json" id="encryptedDataContainer">
+    {
+        "contents": {
+            "default": {
+  "salt": "5683d40e0e42e7583950b0dc4173a25a",
+  "iv": "bf3875fb1e7275dcab313e74",
+  "ciphertext": "1af96f6706b1c795a4e2fe695e40d46f99e9add388b50bb881e9a8c7c1a8987dbba11ea9f82886140443be69af397fdb2a8b17d1f410a848ae669e4192540627f2b4120feb863e5fc4fb9bf3e8d715228613bd6208a022295c6b8d7e6ffb6f14fe0102c3fae546bbed4a9892dbc164aee805b5615bb776a412f9dfe6b1f8a0b7e27179327c8110c1c07554b414c0f310448721b4ffe1569698eb4957f311727b67a03b8b81518c4728c9322717de32bc7c435ca65a76534a55fcd0c95c494662b15d2fc4f9311464ede3a78c07f13832fda70c4c05188898a2db32332a14d85c696b52437d9f321f6f94a013ffce36ae5c0157313865ab86b60dc8d5391ee759b2dc9f8d732ae5075c41ceac8f5fdf9e67d6bcbf7be64eff79fbe8e960719d7f9727f6e7420e046a82df731a0b480799eb667384a8f33c4cb421d1037d90971fbc66b21cc26d964d03961d008293969d2756cc8e7660ee5784ec1c20b965a7f0a175d7e43fee32ff75a1f683ddffd0cca1259d389ae482330a2f8375afaa32eef3851822df424863e6f44ea0e56ca6e6692286f81c78ae3d9757bb6805630f796cd8d26c1f258320995d831a81dbb8ecb141ccd243993add482c87f0cf09185a19330e889ecd2986acee82bd21444c75060fdb5cb0d9aa5315c6fd856f6657464508a47b983628ae978e3a488e2de6a992d80de60a1d9f8bbe48c8c4b884b34b136f53ad300d755b8376cdb4cc8515a7f3265a4b51ab212a149d34115c0fc4eec85c8b278e0710283f9f5c7c2824941c1b3cb01c92be2b1da526731dccac18e8f299f2b53b3ca21a9c96d7f1876821281671a041a921f68a15650acc2a4bb02f73be8d8b29843da85ccffe31c84cb5a124a55b44cdab43b1a2f226cea1a4a2998f0b41d3bd04862c5ce44b791ba0d0c104bbad959399574806512dd26684e3b760a6bf41d383b93318ce6be41797ff73ca3a14284316de0aa4450310670ea368d66a6dda8ba58fdcd91f82aeb4131922cfe9532cd722c764293e574beb58eb97f46e59573bfaeae1dc4e47f161c2c430460aead7243fbd974b53111120f162377ae0d8216566237275b763e663e9ab1f8ece34c48d95b69ab7b812b6d3a3764cf6569c772767389f9caa0651da77a16435010c628124cc7f87616768d8ad96cfa2b43cb0ae6dcdc1bed01da9ed44eccf736afcf479dbda2cddaca84d9b0cffea1c1a6286a43bab61e4a2915c16f6600c4b29f1cf74b050ed04bdc72810ab6efe4c240c075b180483f8f9f6d45dc8f790c660840ebb9c8d597066d96a7f5e79fa6e0e862fde5f4d666571a8572649a2bc514ec739d549ff78eaf72ee4b90ead1fd0be3213b4eb7027d4b4377575975889c02858376e88c39fad2be849a9122be5893ea8cb262d107a23651229d564d57553a29522177395f60bce6085c11fbf9767b23ef87a9e200f8d5bb52e4194eb698390ef30c7cafcb8e8067ffe959850a6f56085b8cbd95f4f26df21aafe16d447ad82ad270c593f9e6ac6a54ebc99fda8e0ff58aed62c1a813fd9d717c0a6c021a0f5dafbea5e6971441bf761e2cde128450dd46da916edba294cfa7cba9a044cbfdbc551349e8167fa27dc5b4503b81a1e888abaca93515a45f786486339ca9beb4d56777fd7a251677096761e4db49065453c4a8ac4993c3dd2060044e85c4b65a0468072671ac34e89b68c6cf0aad4a65899493d9a14efc886e419267fd0479876b76d77152c64456a3244d1c740b7a26cc897bbcbed052c83376d3700bd2231e169aadaf14e67b0af1f6b488c1cab8f201e3cfe599532dbcf129e54c9ecf54b2b55bd75638c8c06b3c3eba25a86fb395a8e3b509b9386bf908687962ee2b06ef14fbfa0f32805294e62bdf6525d237a030f3226078c42f06a96dcb5e2126ad83f8a44cf4dfe481ef67a9b004d681e24f47ab9eca60c1fb1b4a8c53ad3791e17196b7787241d76d677c18cd5e62e7ae93063b9b115e7a9265bec08e631bfb2f4bab68163438ac6ac5c23f51c08e5baa8ecccbc1009041008d3b404baa54d78342ca04488df46c213f4cae1d3a892f7abc700b00d50a3e2eaf0a7283b08c2f1bd1255fcfe54171b8a1212a32347f3acd6ef5a616fdec863e93a4cb463e210adc9fd20fbe1108d194a30e0935da58ae0fd7fd570ac8083ad3026666a63acedc3ba13cfbfedf51b01b300c72ae10d83a84a243db67d84bd114c7070aa0c6a83c5907a388362991ca51309eaa484fb6f1446c8dc44774d10f7de8d7ee7144361e9167604098640958c7986c563be59988f0ea38d373a094399228d0320ba8fd7eab7315cbc4451288356b439fe9f76251578f47103527408513948cef0f496697f75a73c6862c134ab30a6ac5d88764971df92b56ba72d595068cd1fc4b5096e84e7074994476e957bf0201bcc1add99c980b7c16f7f0cac522aa469ad7ac4fa86dcad711e5f813394899cb8e95700c9f3c5a7f3330ab680485e3cae8340b28406d33ab70dd2fb3a5a233aed90e51aa3ddb38435570465916583c51dc2843b8df3ef1b89dbc8985dfdade7eaf2a84f3c11d587827f5d9dd63ad9897f1a2ed3aa0dc24521acf0b76a6318cacb7dc0b060fd88f64e8ef9c0d3ebe9ef4d3807240bfa857d945e80af0e4ee98c4f0158d526a1624d1d343bfd594929d3cdcb7074798d611004d28a289aee4e3557941ad40ee6d032b0e4f077ad018f9023fd8e375de11327752ea7445fa02629da5c8896a0360e734de044a5aec61e790490dfb08c6e1dbe95834662f8b89c6729b67bb8431b240a28aaf9fb55b5e8a4dcc7194c4d73f53203b00457984855de54906d36e179f30dc069c7fd5aff4dea1c255868bc0f80051386cf79dfc441f1a2e65beeec999ece7e13f7be245f55e0076e6d3cc28d7981f0da8a35780606388bedad1d06e62297ac4b8bf892bee718854c96e6079cbe2f0965b28719e99b7d4c1e6ec4834c08515f4410ebfd132e59ab8fb2ae96ce5f2f12960d1e6fe183b00cf1cb97137a98282a8a82dac89ab0f8646eab5d6a949fd2aaa63d031c0018c3d9defbcfa5f28ad6b8299459d24b7efa8a394bd63e19743e82c942dd30234145767c6e4d6b64b9c69500b724b78c2df4c4337510b77b3fc91a488a2771f3f58a0aa736202845627e68eea57e5679a91d251373e647bdfa07b2e6dbef07be968ac8c6131b32851f33ff7133470b8953a3dac4e288cf935a8fa5713089a234f85cc570f1b16e9b7b180e7613843009b04301d8d0e0b3a3774e4f463ed98ff4b1bdb2fc5771b8d7dc0da2a2f99778afd788057433b423183770880c28b213ee87c7d87a6a165329b2411aca4262f54d54ef763a879e7840f0dbd0ab5afdef49593e625e5fc0284a22ce6a4d80146f3478372ab366f475e33bdbd489ab6a49449910058401a185e5d2e112ac357edaf85431292449449db90d686fd343df4132ad97e9624fa782392ba8e742d910eb184aaf7ea6a06878c27a579a0f99d8b37fb146be9a2d53fc4872f51e88439756b6a9c08d47f09820f6d064a26d8eb5d9b9d695714e6911c97ee724265e0e4bb3f0dd560ca9858607e3f2eb1b3ca97233ff246d7a7af9ac9571369b9c7755c6406ffe683ec8bb832a7bba5d26a4947f9a1d150df2813bebd824e7958e4ed1fe482e0a54d2cf4dee36f94384b7d82617827d6ce898e9cc07c973cabe18427ae5f89a05f649ccd466c5cb80cb2f92e4999034adedbeb32ed69e989bd23598ef4222062e0bf4ea7396afc71a88b9e280cc0a1f900b809118842fc0fd384835bfc380d0aea9c0653292ef0253e95cd836a8ac5596a491c559e85a649e351350666218d2b6603ca3c372d7b547658b813ddcd2667530be1a5e39233db63715f83b99959b9310749e1c831daa9693746444f53b7044278e658d32970c1a10f36ec9e502cb989c2ee5438499b5dd7abfe870fec3f2ba27f6b052d5fe192c89f3eb5e7290d3a8e3b8396f1de583b72720bdee5ae591a572976fb52d2cee0bb120ad5377acc9c5d9fea83acaf8e05807dc3c465c8c1f31c90831592b41408abe4bf0e4f63f8b64ee9bee5b92cbf1911567d082eb7ac71cd32193be25931f494694589415e4ef1ea5a41416153ef4569bfc2c13842254ddfd39c74d958f6c98e94570c8d9822526fdac86e422607e563e28ff7d593d1df9a4b44eaa6b5fed2cbec114614da20af626dc694b414ad6eb2fbd3ea592ee1e61b03e535052519ebeb4df5986a3cd4ad3dffdebe6bf06165f51f2fb5d6a3bcb86a1288296cd7e8989a38c39a62374845f35c0ff2948dafa664cdd2ed4e2c746da8c7f643bfc2aa93e848972872d1d6a24ad5b25fe8851243197f0554ed52f0ed887b8e6b2b1135fd9fd98e8eb2066ec594493fcb15e237603406521939d2bd04ebf38ec3ed957d4e2db9885baf9b9acd755721bd5b0e37c73505053ff7628c5916ca86dc47d2df078207be6cbb70b61bcf7748e82db083137051282a76bca188208506de195b371777004e40dfd74799a511c5a885c2cc86c88052900fd179e228a50e8b189b386207dfe19fa090d4cc03bf00d761fd18963c57625a50ec488d677dd3a9e3ac9da139e8dbd9e57f277fb02ce2b830156273c5128730986107bb49683dbb7f8a3b149081579db31c635f0b4cb9e46ef7d5401468b02db6f9367e82442cf60204a69b72d0004fe90b31657eee47733611d6a57b2bde16b437c08f2126acd9cd8617c5b4760d7299c0b80a8a2574f8101e45621a3c8aa320d52dda317f907f301e207380327cbbc189459bbc8f109f2e0f18c25f8715abd97b9d80275302d07cde74d2b0a0c2087a31ba547686539f73ba7f44fb09c99c209bbaa5f77ee98bb84c963b75cff2226bcc680a95220bedc53dfa920b2e1ec7eeb7a54b8b21e1545418c6ceb2fd56ef82607fb3986d25f6044664d2085bcd99f19c6009f81a1eb1511a2bc52154e5fa6452199ff5fedde6e3817a8ce60da6b7d94e121713d9abf22ea05c2fdbbee605ed00977fdac4af911a15c7b97274466200d34d84e2c2ee0bd294d1af885ed15d2c7876c70bf6c39d6df698fbd2ec36100a16a37269937848d20bceb89df700fde22c7c75a4f9cc8cd71ec44a7021867b3fca0e36e55a7f3e821d850315fc6daae60fab60957305fc68cc1a83b443414fc56d3de0a0d483d90bd01ec5d20de94fb7d1058ef4e0bc786aaf23e81ad7947c3fd36346807b50df1527d4438a3e3ba6a556d80edbfd00c750dcb8e6806c8d31eb292a925660bd01b270b42fe2260cc62e410b73dd0a5d742832dd7f504e4709e58aebc609ec8087cb36ded599f00742372a566fe9f4098749cd4361ff2f764a8547136ab1d6706b2f69cffb4ddeb9389613792de190fe42534d75fd32e30b759f5626588d7a08efaf02c7491ce5f9ade5d7058c577d6c84930bbc8420de9f82523755027d9576251f4074f50e89e9b371f3777432132c0656d514514b93a695ed10a098927afe86e038d62bb9f520ae2cb1714df123a9301733f4d44bfed344d26c920db768fe5e0769f07224b367d3fb4d2bc4f6275a14d08635afded754b9faf58f5051f3bd5820e366798596c55fefb3b2e748b7754ba4f4e905e910972e8eb5057331ce1c12e3d54a1680892b63fd4937388b6bd365eafb8c88f7e5e23a4993ed495c4675ed06bde2c96adf0f9a73bbad818d119f846bc9f8ee3aa36b6abc43550f17405ef452f88516f07fa525cc05e978a39586619bd3dafbaaf007f98ee8d84c4e8469ccb5c2a578594075a5d8c149971f5bda97c17c27c2c341df59e5e355555091f90173af78a779aafebd99e707a8ba8e65ac17c87199041ca97fc10e36504e768866a086e4187ff00f66035836740786fb9819b916bde88857f359581830df4f28228aa9be7a115648f8063bfda22e588e36a1ea56de3dc08eda1d12e7b93bfbb3cf4541e31adf6747a7685c7db6c32a4e8885b5aaf292ce5624403764a3c97c7f3d44aca6c00fda82cea47e12ab62fba44a5a1517b1c1e81c6dc59810fbab940aa593729159ceb90024163add7826272631cdd58ad6c10cf9cc2065f6ff47fa9475ae9fffdef137909c24a11ec09cb7190e862ec7577ea98d69dfaee08dbeed548cdc24b30a4bec5b99068e5e3589f2793183537c8811b46e9207494bca73b2f7144385d7a0c4ff53cab355d6b610152b402338a74ac17ea4618fb1514516ebc65b6bc3f40c57292b8304cacaf173c4b7591c113e1b748"
+}
+        },
+        "hints": {
+            "default": "请输入密码"
+        }
+    }
+    </script>
+
+    <script src="assets/js/encrypt.js" defer></script>
+    <script>
+        // Utility: format today
+        (function () {
+            const el = document.getElementById('today');
+            const d = new Date();
+            const s = d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+            if (el) el.textContent = s;
+        })();
+
+        // --- 解密成功后的动画逻辑 ---
+        const wrap = document.getElementById('letterWrap');
+        const balloons = document.getElementById('balloons');
+        let celebrationStarted = false;
+
+        async function startCelebration() {
+            if (celebrationStarted) return;
+            celebrationStarted = true;
+
+            // 隐藏密码提示
+            const promptOverlay = document.getElementById('password-prompt-overlay');
+            if (promptOverlay) {
+                promptOverlay.style.transition = 'opacity 0.5s ease';
+                promptOverlay.style.opacity = '0';
+                setTimeout(() => { promptOverlay.style.display = 'none'; }, 500);
+            }
+
+            // 显示解密内容并开始动画
+            const mainContent = document.getElementById('main-article-content');
+            mainContent.style.display = 'block';
+
+            wrap.classList.remove('closed');
+            wrap.classList.add('open');
+
+            // Start balloons
+            balloons.classList.add('start');
+            ensureBalloons();
+            // Confetti burst
+            runConfetti(700);
+            // Typewriter
+            await playTypewriter();
+            // Init photos
+            initPhotoSlots();
+        }
+
+        // --- 使用 MutationObserver 监听解密成功 ---
+        const targetNode = document.getElementById('main-article-content');
+        const observer = new MutationObserver((mutationsList, observer) => {
+            for (const mutation of mutationsList) {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    // 内容已注入，开始庆祝动画
+                    startCelebration();
+                    observer.disconnect(); // 动画开始后停止监听
+                    break;
+                }
+            }
+        });
+        observer.observe(targetNode, { childList: true });
+
+
+        // --- 动画辅助函数 ---
+
+        // Typewriter effect
+        const TY_SPEED = 80;
+        async function typeOne(el, text, speed = TY_SPEED) {
+            return new Promise(resolve => {
+                el.dataset.typing = "true";
+                el.textContent = '';
+                let i = 0;
+                const timer = setInterval(() => {
+                    el.textContent += text.charAt(i++);
+                    if (i >= text.length) {
+                        clearInterval(timer);
+                        el.dataset.typing = "false";
+                        resolve();
+                    }
+                }, speed);
+            });
+        }
+        async function playTypewriter() {
+            const nodes = Array.from(document.querySelectorAll('.type'));
+            for (const node of nodes) {
+                await typeOne(node, node.dataset.text || node.textContent || '');
+            }
+        }
+
+        // Photo slots
+        function initPhotoSlots() {
+            document.querySelectorAll('.photo-slot').forEach(slot => {
+                const src = slot.getAttribute('data-src');
+                if (src) {
+                    const img = new Image();
+                    img.onload = () => { slot.classList.add('has-image'); slot.appendChild(img); };
+                    img.src = src;
+                }
+            });
+        }
+
+        // Balloons: create several with random properties
+        function ensureBalloons() {
+            if (balloons.dataset.init) return;
+            balloons.dataset.init = "1";
+            const COUNT = 14;
+            const hues = [340, 10, 35, 55, 180, 200, 250, 290]; // varied hues
+            for (let i = 0; i < COUNT; i++) {
+                const b = document.createElement('div');
+                b.className = 'balloon';
+                const hue = hues[Math.floor(Math.random() * hues.length)];
+                b.style.setProperty('--h', hue);
+                b.style.left = (Math.random() * 100) + 'vw';
+                const dur = 16 + Math.random() * 12;
+                b.style.setProperty('--dur', dur + 's');
+                b.style.animationDelay = (Math.random() * -dur) + 's';
+                balloons.appendChild(b);
+            }
+        }
+
+        // Confetti on canvas
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function rand(min, max) { return Math.random() * (max - min) + min }
+        function randInt(min, max) { return Math.floor(rand(min, max)) }
+
+        function runConfetti(duration = 1200) {
+            const W = canvas.width, H = canvas.height;
+            const colors = ['#ff5fa2', '#ffd166', '#86e7fd', '#b388ff', '#ff9bb4', '#7cf29a'];
+            const shapes = ['rect', 'circle', 'triangle'];
+            const pieces = [];
+            const N = Math.min(280, Math.floor((W * H) / 18000));
+            for (let i = 0; i < N; i++) {
+                pieces.push({
+                    x: rand(0, W),
+                    y: rand(-40, -H * 0.2),
+                    r: rand(4, 9),
+                    a: rand(0, Math.PI * 2),
+                    v: rand(60, 160),
+                    w: rand(-2, 2),
+                    s: shapes[randInt(0, shapes.length)],
+                    c: colors[randInt(0, colors.length)],
+                    tilt: rand(-1, 1),
+                    rot: rand(0, Math.PI * 2),
+                    rotV: rand(-.2, .2),
+                    g: rand(180, 360)
+                });
+            }
+            const start = performance.now();
+            let last = start;
+            function drawPiece(p) {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot);
+                ctx.fillStyle = p.c;
+                ctx.globalAlpha = .9;
+                switch (p.s) {
+                    case 'rect':
+                        ctx.fillRect(-p.r, -p.r, p.r * 2, p.r * 2 * 0.6);
+                        break;
+                    case 'circle':
+                        ctx.beginPath();
+                        ctx.arc(0, 0, p.r * 0.65, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                    default: // triangle
+                        ctx.beginPath();
+                        ctx.moveTo(-p.r, p.r * 0.7);
+                        ctx.lineTo(p.r, p.r * 0.7);
+                        ctx.lineTo(0, -p.r);
+                        ctx.closePath();
+                        ctx.fill();
+                }
+                ctx.restore();
+            }
+            function frame(now) {
+                const t = now - start;
+                const dt = (now - last) / 1000;
+                last = now;
+                ctx.clearRect(0, 0, W, H);
+                pieces.forEach(p => {
+                    p.y += p.v * dt;
+                    p.x += Math.sin((now + p.g) / 400) * 30 * dt + p.tilt;
+                    p.rot += p.rotV * dt;
+                    // slight gravity
+                    p.v += 30 * dt;
+                    drawPiece(p);
+                    if (p.y > H + 40) {
+                        p.y = rand(-H * 0.15, -40);
+                        p.x = rand(0, W);
+                        p.v = rand(60, 160);
+                    }
+                });
+                if (t < duration) {
+                    requestAnimationFrame(frame);
+                } else {
+                    // fade out
+                    const fadeStart = performance.now();
+                    function fadeStep(n) {
+                        const ft = (n - fadeStart) / 500;
+                        ctx.clearRect(0, 0, W, H);
+                        ctx.globalAlpha = Math.max(0, 1 - ft);
+                        pieces.forEach(p => drawPiece(p));
+                        ctx.globalAlpha = 1;
+                        if (ft < 1) requestAnimationFrame(fadeStep);
+                        else ctx.clearRect(0, 0, W, H);
+                    }
+                    requestAnimationFrame(fadeStep);
+                }
+            }
+            requestAnimationFrame(frame);
+        }
+    </script>
+</body>
+
+</html>

@@ -210,7 +210,7 @@
         h4,
         h5,
         h6 {
-            margin: 2.5rem 0 1rem 0;
+            margin: 3rem 0 1.5rem 0;
             position: relative;
 
             &:first-child {
@@ -219,6 +219,7 @@
         }
 
         h2 {
+            margin: 4rem 0 1rem 0;
             text-align: center;
             font-size: 1.8rem;
             color: var(--primary-color);

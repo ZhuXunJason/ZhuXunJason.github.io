@@ -65,7 +65,27 @@ $$
 \hat{y}=\dfrac{1}{1+e^{-(\boldsymbol{w}^T\boldsymbol{x}+b)}}
 $$
 
-- 对于多元分类任务，主要采用Sigmoid函数的推广形式：Softmax函数（详见 神经网络基础）。
+- 对于[多元分类任务](nn-basic#heading-2)，通常采用神经网络架构，映射函数主要采用Sigmoid函数的推广形式：Softmax函数。
+
+---
+
+#### Softmax
+
+在多元分类任务中，原始预测输出为一个分数列表，我们需要变换为概率分布列表，代表每个类别的概率，然后选取最大值作为最终预测。
+
+**为了防止原始分数列表 $\boldsymbol{z}$ 中有极端数字，造成后续计算溢出，通常会将 $\boldsymbol{z}$ 中的数据减去 $\boldsymbol{z}$ 中的最大值**，即
+
+$$
+\boldsymbol{z}_{\text{stable}}=\boldsymbol{z}-max(\boldsymbol{z})
+$$
+
+然后应用Softmax函数
+
+$$
+\text{Softmax}(\boldsymbol{z}_{\text{stable}})=\dfrac{e^{\boldsymbol{z}_{\text{stable}}}}{sum(e^{\boldsymbol{z}_{\text{stable}}})}
+$$
+
+---
 
 ### 成本函数
 
@@ -76,11 +96,16 @@ loss=-y\log \hat{y}-(1-y)\log(1-\hat{y})=
 \begin{cases}
 -y\log \hat{y} &y=1\\
 -(1-y)\log(1-\hat{y}) &y=0
-\end{cases}
+\end{cases}\tag{二元分类}
 $$
 
 $$
-cost=\sum loss=-\sum [-y\log \hat{y}-(1-y)\log(1-\hat{y})]
+loss=-\sum y_i\log p_i \tag{多元分类}
+$$
+
+
+$$
+cost=\dfrac{1}{m}\sum loss
 $$
 
 <div class="callout tip" title="对数损失函数从何而来（最大似然估计）">
