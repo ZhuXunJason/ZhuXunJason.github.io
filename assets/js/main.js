@@ -1,18 +1,30 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // 主题初始化（保持与 test.html 一致）
+    // 主题初始化（根据时间自动切换：19:00-06:00 为暗色模式）
     (function initTheme() {
         const root = document.documentElement;
-        try {
-            const saved = localStorage.getItem('theme');
-            root.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
-        } catch (e) { root.setAttribute('data-theme', 'light'); }
+
+        function setThemeByTime() {
+            const hour = new Date().getHours();
+            // 19:00 (晚7点) 到 06:00 (早6点) 为暗色模式
+            const isDarkTime = hour >= 19 || hour < 6;
+            const theme = isDarkTime ? 'dark' : 'light';
+            root.setAttribute('data-theme', theme);
+        }
+
+        // 初始设置
+        setThemeByTime();
+
+        // 每分钟检查一次时间，确保准时切换
+        setInterval(setThemeByTime, 60000);
+
+        // 如果有手动切换按钮，保留其功能（可选）
         const toggle = document.getElementById('modeToggle');
         if (toggle) {
             toggle.addEventListener('click', () => {
                 const cur = root.getAttribute('data-theme') || 'light';
                 const next = cur === 'light' ? 'dark' : 'light';
                 root.setAttribute('data-theme', next);
-                try { localStorage.setItem('theme', next); } catch (e) { }
+                // 注意：手动切换后，下一分钟会根据时间重新设置
             });
         }
     })();

@@ -12,12 +12,44 @@ is_home: true
     <!-- 切换器 -->
     <div class="switch" role="tablist" aria-label="文章类型切换">
         <div class="switch__thumb" aria-hidden="true"></div>
-        <button role="tab" aria-selected="true" class="active" data-target="life">生活</button>
-        <button role="tab" aria-selected="false" data-target="academic">学术</button>
+        <button role="tab" aria-selected="true" class="active" data-target="academic">学术</button>
+        <button role="tab" aria-selected="false" data-target="life">生活</button>
     </div>
 
     {% assign academic_posts = site.academic | sort: 'date' | reverse %}
     {% assign life_posts = site.life | sort: 'date' | reverse %}
+
+    <!-- 学术列表 -->
+    <section id="list-academic" class="post-grid hidden" aria-label="学术文章列表">
+        {% for post in academic_posts %}
+        <a class="post-card" href="{{ post.url | relative_url }}" data-title="{{ post.title | downcase }}"
+           data-tags="{% if post.tags %}{{ post.tags | join: ' ' | downcase }}{% endif %}">
+            <div class="post-img">
+                <img src="{{ post.featured_image | default: '/assets/images/default.webp' | relative_url }}"
+                     alt="{{ post.title }}" loading="lazy" />
+            </div>
+            <div class="post-content">
+                <div class="post-tags">
+                    {% if post.tags %}
+                    {% assign tag_list = post.tags | join: ',' | split: ',' %}
+                    {% for tag in tag_list %}
+                    {% assign trimmed = tag | strip %}
+                    {% assign cls = 'default' %}
+                    {% if trimmed contains '学术' or trimmed contains 'academic' %}{% assign cls = 'academic' %}
+                    {% elsif trimmed contains '生活' or trimmed contains 'life' %}{% assign cls = 'life' %}{% endif %}
+                    <span class="post-tag {{ cls }}">{{ trimmed }}</span>
+                    {% endfor %}
+                    {% else %}
+                    <span class="post-tag academic">学术</span>
+                    {% endif %}
+                </div>
+                <h3>{{ post.title }}</h3>
+                <time class="post-date">{{ post.date | date: '%Y年%m月' }}</time>
+                <p class="excerpt">{{ post.excerpt }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </section>
 
     <!-- 生活列表 -->
     <section id="list-life" class="post-grid" aria-label="生活文章列表">
@@ -41,38 +73,6 @@ is_home: true
                     {% endfor %}
                     {% else %}
                     <span class="post-tag life">生活</span>
-                    {% endif %}
-                </div>
-                <h3>{{ post.title }}</h3>
-                <time class="post-date">{{ post.date | date: '%Y年%m月' }}</time>
-                <p class="excerpt">{{ post.excerpt }}</p>
-            </div>
-        </a>
-        {% endfor %}
-    </section>
-
-    <!-- 学术列表 -->
-    <section id="list-academic" class="post-grid hidden" aria-label="学术文章列表">
-        {% for post in academic_posts %}
-        <a class="post-card" href="{{ post.url | relative_url }}" data-title="{{ post.title | downcase }}"
-            data-tags="{% if post.tags %}{{ post.tags | join: ' ' | downcase }}{% endif %}">
-            <div class="post-img">
-                <img src="{{ post.featured_image | default: '/assets/images/default.webp' | relative_url }}"
-                    alt="{{ post.title }}" loading="lazy" />
-            </div>
-            <div class="post-content">
-                <div class="post-tags">
-                    {% if post.tags %}
-                    {% assign tag_list = post.tags | join: ',' | split: ',' %}
-                    {% for tag in tag_list %}
-                    {% assign trimmed = tag | strip %}
-                    {% assign cls = 'default' %}
-                    {% if trimmed contains '学术' or trimmed contains 'academic' %}{% assign cls = 'academic' %}
-                    {% elsif trimmed contains '生活' or trimmed contains 'life' %}{% assign cls = 'life' %}{% endif %}
-                    <span class="post-tag {{ cls }}">{{ trimmed }}</span>
-                    {% endfor %}
-                    {% else %}
-                    <span class="post-tag academic">学术</span>
                     {% endif %}
                 </div>
                 <h3>{{ post.title }}</h3>
