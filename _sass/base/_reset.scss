@@ -10,6 +10,8 @@
 html {
     font-size: 16px;
     scroll-behavior: smooth;
+    /* 修复移动端地址栏隐藏时的高度问题 */
+    height: 100%;
 }
 
 body {
@@ -19,10 +21,19 @@ body {
     line-height: 1.7;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    /* 使用 dvh (dynamic viewport height) 代替 vh，适应移动端地址栏变化 */
+    min-height: 100dvh; /* 支持的浏览器会使用动态视口高度 */
     /* 防止 iOS/安卓底部回弹时出现白色背景闪烁 */
     overscroll-behavior: contain;
-    background-attachment: fixed;
+    position: relative;
+
+    /* 移动端性能优化 */
+    @media (max-width: 768px) {
+        /* 优化触摸滚动 */
+        -webkit-overflow-scrolling: touch;
+        /* 防止地址栏变化时的抖动 */
+        will-change: auto;
+    }
 }
 
 .content-wrapper {
