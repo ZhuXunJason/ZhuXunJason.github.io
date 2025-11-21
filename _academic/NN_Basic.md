@@ -38,7 +38,7 @@ $\boldsymbol{w},b$ 即是需要进行学习的参数。
 
 $$\frac{\partial J}{\partial \boldsymbol{w}^i} = \delta^i \cdot (\boldsymbol{a}^{i-1})^T$$
 
-其中，对于一个 $n$ 层神经网络，误差项 $\delta^i$ 的计算方式如下：
+其中，对于一个 $n$ 层神经网络，误差项 $\delta^i$ 的计算方式如下(其中 $g$ 为当前层的激活函数)：
 
 1.  **对于输出层 ($i=n$):**
 
@@ -54,7 +54,7 @@ $$\frac{\partial J}{\partial \boldsymbol{w}^i} = \delta^i \cdot (\boldsymbol{a}^
 
 ## Example:多类别
 
-下面以两层神经网络实现的多类别分类为例，介绍人工神经网络的代码实现。
+下面以多类别分类为例，介绍人工神经网络的代码实现。
 
 训练数据：
 - `X_train`: Tensor of shape(N, C) # 共有N组数据，C个特征
@@ -63,132 +63,95 @@ $$\frac{\partial J}{\partial \boldsymbol{w}^i} = \delta^i \cdot (\boldsymbol{a}^
 ---
 ### 手搓版
 
+我们只依赖矩阵乘法、逐元素激活与交叉熵损失。设网络层维度数组为 `dims=[d_0, d_1, ..., d_L]`，其中 `d_0` 是输入特征数，`d_L` 是类别数，其余为隐藏层宽度。
+
 ```python
-class Multi_Classifier:
-	def __init__(self, weight_1 = None, bias_1 = None, weight_2 = None, bias_2 = None):
-		self.weight_1 = weight_1 # Tensor of shape(k_1, C)
-		self.bias_1 = bias_1 # Tensor of shape(N, k_1)
-		self.weight_2 = weight_2 # Tensor of shape(k_2, k_1)
-		self.bias_2 = bias_2 # Tensor of shape(N, k_2)
+class ScratchNN:
+    def __init__(self, dims, lr=0.1):
+        self.W = [randn(dims[i-1], dims[i]) * eps for i in range(1, len(dims))]
+        self.b = [zeros(dims[i]) for i in range(1, len(dims))]
+        self.lr = lr
+
+    def _relu(self, x):
+        return max(x, 0)
+
+    def _relu_grad(self, x):
+        return (x > 0).astype(float)
 ```
 
-- 前向传播
+#### Softmax
+
+$$
+\text{Softmax}(\boldsymbol{z}) = \dfrac{e^{\boldsymbol{z}-\max (\boldsymbol{z})}}{\sum e^{z_i}}
+$$
 
 ```python
-def forward_pass(
-	classifier: Multi_Classfier,
-	X_train_batch: torch.Tensor
-) -> torch.Tensor:
-
-	z_1 = torch.mm(classifier.weight_1, X_train_batch) + classifier.bias_1
-	a_1 = torch.clamp(z_1, min=0) # 将张量中所有小于0的位置值设为0
-	
-	z_2 = torch.mm(classifier.weight_2, X_train_batch) + classifier.bias_2 # scores
-	
-	return a_1, z_2
+    def _softmax(self, z):
+        z -= max(z, axis=1, keepdims=True)
+        exp_z = exp(z)
+        return exp_z / sum(exp_z, axis=1, keepdims=True)
 ```
 
-- [Softmax函数](supervised-learning#heading-8)
+#### 前向传播
 
 ```python
-def softmax(
-	classifier: Multi_Classfier,
-	scores: torch.Tensor, # 最后一层隐藏层的输出
-) -> torch.Tensor:
-
-	scores_stable = scores - torch.max(scores, dim=1, keepdim=True).values
-	exp_scores = torch.exp(scores_stable)
-	
-	return exp_scores / torch.sum(exp_scores, dim=1, keepdim=True)
+    def forward(self, x_batch):
+        acts = [x_batch]
+        preacts = [None]
+        for W, b in zip(self.W, self.b):
+            z = acts[-1] @ W + b
+            preacts.append(z)
+            a = z if W is self.W[-1] else self._relu(z) # 最后一层直接输出
+            acts.append(a)
+        return acts, preacts
 ```
 
-- Cost/Loss函数(采用交叉熵损失)
-
-多元分类任务中
+#### loss
 
 $$
-loss = -\dfrac{1}{N}\sum\log\hat{y_i}
+\text{loss}= -\dfrac{1}{N} \sum_{i=1}^{N} \log(\hat{y}_{i})
 $$
-
-其中 $\hat{y_i}$ 为真实标签对应的概率
 
 ```python
-def compute_loss(
-	classifier: Multi_Classfier,
-	probs: torch.Tensor,
-	num_train: int
-	Y_train_batch: torch.Tensor,
-	reg: float # reg为正则化率
-) -> float: 
-	
-	loss = -torch.sum(torch.log(probs[torch.arange(num_train), Y_train_batch])) / num_train
-		+ reg * classifier.weight_1 * classifier.weight_1 
-		+ reg * classifier.weight_2 * classifier.weight_2
-	
-	return loss
+    def loss(self, logits, labels): 
+        probs = self._softmax(logits) # logits为最后一层输出的激活值
+        ce = -mean(log(probs[range(len(labels)), labels]))
+        return ce, probs
 ```
 
-- 梯度下降
+#### 反向传播
 
-对于**输出层**（激活函数为Softmax），根据 `Y_train_batch` 构建独热编码(One-hot Encoding)的标签矩阵 $\boldsymbol{Y}$ .
-
-$$
-\dfrac{\partial J}{\partial \boldsymbol{w^2}}=\dfrac{\partial \boldsymbol{z^2}}{\partial \boldsymbol{w^2}}\cdot\dfrac{\partial J}{\partial \boldsymbol{z^2}}=\boldsymbol{(a^1)^T}\cdot(\boldsymbol{a^2-Y})
-$$
-
-对于隐藏层（激活函数为Relu）
-
-$$
-\begin{aligned}
-\dfrac{\partial J}{\partial \boldsymbol{w^1}}&=\dfrac{\partial \boldsymbol{a^1}}{\partial \boldsymbol{w^1}}\cdot\dfrac{\partial J}{\partial \boldsymbol{z^2}}\cdot\dfrac{\partial \boldsymbol{z^2}}{\partial \boldsymbol{a^1}}\\\\&=\boldsymbol{X^T}\cdot(\boldsymbol{a^2-Y})\cdot\boldsymbol{(w^2)^T}\cdot(\boldsymbol{a^1}>0)
-\end{aligned}
-$$
+在反向传播过程中，从后往前对W和b计算梯度。
 
 ```python
-def grad(
-	classifier: Multi_Classfier,
-	X_train_batch: torch.Tensor,
-	Y_train_batch: torch.Tensor,
-	reg: float # reg为正则化率
-) -> torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor:
-
-	num_train = X.shape[0]
-	a_1, scores = forward_pass(classifier, X_train_batch)
-	probs = softmax(classifier, scores)
-	loss = compute_loss(classifier, probs, num_train, Y_train_batch)
-	
-	Y_onehot = torch.zeros_like(probs)
-	Y_onehot[torch.arange(num_train), Y_train_batch] = 1 # 标签转为独热编码
-	probs -= Y_onehot # a_2 - Y
-	
-	db_1 = probs
-	dW_1 = a_1.T().mm(probs) + 2 * reg
-
-	db_2 = probs.mm(classifier.weight_2.T())(a_1 > 0) # 布尔索引 
-	dW_2 = X_train_batch.T().mm(db_2) + 2 * reg
-	
-	
-	return loss, dW_1, db_1, dW_2, db_2
+    def backward(self, acts, preacts, labels, probs):
+        grads_W, grads_b = [], []
+        grad = probs
+        grad[range(len(labels)), labels] -= 1
+        grad /= len(labels)
+        for i in reversed(range(len(self.W))):
+            grads_W.insert(0, acts[i].T @ grad)
+            grads_b.insert(0, grad.sum(axis=0))
+            if i > 0:
+                grad = (grad @ self.W[i].T) * self._relu_grad(preacts[i])
+        return grads_W, grads_b
 ```
 
-```python
-def train(
-	classifier: Multi_Classfier,
-	X_train_batch: torch.Tensor,
-	Y_train_batch: torch.Tensor,
-	reg: float # reg为正则化率
-	learning_rate: float # 学习率
-	num_iters: int # 训练次数
-)
+#### 参数更新 & 训练
 
-	for i in range(num_iters):
-		loss, dW_1, db_1, dW_2, db_2 = 
-			grad(classifier, X_train_batch, Y_train_batch, reg)
-		
-		self.weight_1 -= learning_rate * dW_1
-		self.bias_1 -= learning_rate * db_1
-		self.weight_2 -= learning_rate * dW_2
-		self.bias_2 -= learning_rate * db_2
+```python
+    def step(self, grads_W, grads_b):
+        for i in range(len(self.W)):
+            self.W[i] -= self.lr * grads_W[i]
+            self.b[i] -= self.lr * grads_b[i]
+
+    def train(self, dataloader):
+        for x_batch, y_batch in dataloader: 
+            acts, preacts = self.forward(x_batch)
+            loss, probs = self.loss(acts[-1], y_batch)
+            grads_W, grads_b = self.backward(acts, preacts, y_batch, probs)
+            self.step(grads_W, grads_b)
+            log(loss)
 ```
 
 ---
@@ -214,18 +177,14 @@ from sklearn.model_selection import KFold
      一个使用 torch.nn.Module 构建的两层神经网络。
      结构: Input -> Linear -> ReLU -> Linear -> (Logits)
      """
-     def __init__(self, input_dim, hidden_dim, output_dim):
          super(TorchNN, self).__init__()
          # 定义第一层：线性变换
          self.layer1 = nn.Linear(input_dim, hidden_dim)
          # 定义第二层（输出层）：线性变换
          self.layer2 = nn.Linear(hidden_dim, output_dim)
-
-     def forward(self, x):
-         """定义前向传播的流程"""
-        
          a_1 = nn.ReLu(self.layer1(x))
          # -> (batch_size, hidden_dim)
+         scores = self.layer2(out)
          scores = self.layer2(out)
          # -> (batch_size, output_dim)
          return scores
