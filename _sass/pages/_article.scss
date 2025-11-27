@@ -4,7 +4,7 @@
 // 文章页面背景装饰
 .article-page {
     position: relative;
-    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
 
     /* 主动态渐变层 */
     /* Layer 1: base gradient + blobs movement (transform) */
@@ -381,6 +381,7 @@
                     content: "Note";
                     color: #2563eb;
                 }
+
                 &[title]:not([title=""])::after {
                     content: attr(title);
                 }
@@ -399,6 +400,7 @@
                     content: "Tip";
                     color: #06b6d4;
                 }
+
                 &[title]:not([title=""])::after {
                     content: attr(title);
                 }
@@ -417,6 +419,7 @@
                     content: "Warning";
                     color: #f59e0b;
                 }
+
                 &[title]:not([title=""])::after {
                     content: attr(title);
                 }

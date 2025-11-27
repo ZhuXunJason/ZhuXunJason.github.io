@@ -91,18 +91,21 @@ $$
 
 逻辑回归一般采用<mark>对数损失函数</mark>(交叉熵损失函数)，形式为：
 
+- 二元分类 
+
 $$
 loss=-y\log \hat{y}-(1-y)\log(1-\hat{y})=
 \begin{cases}
 -y\log \hat{y} &y=1\\
 -(1-y)\log(1-\hat{y}) &y=0
-\end{cases}\tag{二元分类}
+\end{cases}
 $$
 
-$$
-loss=-\sum y_i\log p_i \tag{多元分类}
-$$
+- 多元分类
 
+$$
+loss=-\sum y_i\log p_i
+$$
 
 $$
 cost=\dfrac{1}{m}\sum loss

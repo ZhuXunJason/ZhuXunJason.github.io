@@ -4,7 +4,7 @@
     left: 20px;
     top: 100px;
     width: 200px;
-    max-height: calc(100vh - 120px);
+    max-height: calc(var(--vh, 1vh) * 100 - 120px);
     background: rgba(28, 38, 48, .42);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);

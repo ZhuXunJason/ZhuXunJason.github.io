@@ -29,6 +29,37 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })();
 
+    // 修复移动端地址栏导致的视口高度抖动：设置 CSS 变量 --vh 为 window.innerHeight 的 1%
+    (function initVhVariable() {
+        function setVh() {
+            try {
+                document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+            } catch (e) {
+                // 忽略在某些旧浏览器上可能抛出的异常
+            }
+        }
+
+        // 初始设置
+        setVh();
+
+        // 防抖更新（resize 频繁触发）
+        let resizeTimer = null;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(setVh, 120);
+        });
+
+        // 方向切换可能不会触发 resize 或会延迟，额外调用保障
+        window.addEventListener('orientationchange', function () {
+            setTimeout(setVh, 200);
+        });
+
+        // pageshow 用于处理 bfcache 恢复（例如后退）
+        window.addEventListener('pageshow', function (e) {
+            if (e.persisted) setVh();
+        });
+    })();
+
     // 移动端：单一按钮搜索形变
     (function initMorphSearch() {
         const header = document.querySelector('.header');

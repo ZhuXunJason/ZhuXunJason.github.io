@@ -14,6 +14,11 @@ html {
     height: 100%;
 }
 
+:root {
+    /* 默认回退为 1vh；JS 会在运行时将其覆盖为精确的像素值 */
+    --vh: 1vh;
+}
+
 body {
     font-family: var(--font-primary);
     color: var(--text-color);
@@ -22,7 +27,10 @@ body {
     display: flex;
     flex-direction: column;
     /* 使用 dvh (dynamic viewport height) 代替 vh，适应移动端地址栏变化 */
-    min-height: 100dvh; /* 支持的浏览器会使用动态视口高度 */
+    min-height: calc(var(--vh, 1vh) * 100);
+    /* 兼容支持的浏览器仍保留 dvh 作为备用 */
+    min-height: 100dvh;
+    /* 支持的浏览器会使用动态视口高度 */
     /* 防止 iOS/安卓底部回弹时出现白色背景闪烁 */
     overscroll-behavior: contain;
     position: relative;
@@ -38,7 +46,7 @@ body {
 
 .content-wrapper {
     flex: 1 0 auto;
-    min-height: calc(100vh - 160px);
+    min-height: calc(var(--vh, 1vh) * 100 - 160px);
 }
 
 img {
@@ -46,4 +54,29 @@ img {
     height: auto;
     display: block;
     border-radius: var(--border-radius);
+}
+
+/* KaTeX / display math overflow handling: 在窄屏上仅允许水平滚动 */
+.katex-display,
+.katex {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    /* 禁止纵向滚动条 */
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.02);
+    margin: 0.6rem 0;
+}
+
+.katex-display .katex-html,
+.katex-display .katex-mathml {
+    display: block;
+}
+
+/* 如果需要专门针对渲染为 <span> 的 inline math，确保不会破坏行高 */
+.katex .katex-html {
+    display: inline-block;
 }
