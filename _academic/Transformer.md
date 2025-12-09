@@ -205,7 +205,9 @@ $$ h_{norm} = \text{RMSNorm}(h_{final}) $$
 -  **Linear Projection (线性投影)**
 
 模型维护一个巨大的矩阵 $W_U \in \mathbb{R}^{d \times V}$，其中 $V$ 是词表大小。
+
 $$ z = h_{norm} \cdot W_U $$
+
 这里 $z \in \mathbb{R}^V$ 被称为 **Logits**（未归一化的对数概率）。
 
 <div class="callout note">
@@ -217,9 +219,11 @@ $$ z = h_{norm} \cdot W_U $$
 - **Softmax (概率生成)**
 
 将 Logits 转化为概率分布（和为 1，且非负）。
+
 $$ P(w_i | \text{context}) = \text{Softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^V e^{z_j}} $$
 
-<div class="callout tip" title="推理超参数和随机解码(Stochastic Sampling)">
+
+<div class="callout tip" title="推理超参数">
 <p>在推理阶段，Logits 会先经过一系列后处理 (Logits Processing)，再 Softmax。</p>
 <ul>
 <li><strong>Temperature (温度)</strong>：$z_i = \dfrac{z_i}{T}, T<1$  放大高分值的差异（更确定），$T>1$ 缩小差异（更随机）</li>
@@ -228,5 +232,6 @@ $$ P(w_i | \text{context}) = \text{Softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^V e
 </ul>
 
 <p>注：在工程实现中，Top-k/Top-p 实现为将低概率的 Logits 设为 $-\infty$</p>
-<p>Softmax后，模型根据概率分布抽取一个Token进行输出。</p>
 </div>
+
+- **随机解码(Stochastic Sampling)**：Softmax后，模型根据概率分布抽取一个Token进行输出。
