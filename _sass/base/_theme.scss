@@ -8,22 +8,22 @@
     --glass: rgba(255, 255, 255, 0.06);
     --glass-strong: rgba(255, 255, 255, 0.12);
     /* 基础背景色（暗色默认），用于避免移动端底部回弹时出现白色闪烁 */
-    --bg-color: #0f161c;
+    --bg-color: #0f172a;
     /* 与 page-grad-1 接近 */
     /* Semantic text scale (dark mode default) */
-    --c-heading: #f8fafc;
-    --c-text-1: #e3e7eb;
+    --c-heading: #f1f5f9;
+    --c-text-1: #e2e8f0;
     /* primary body */
-    --c-text-2: #c3cad2;
+    --c-text-2: #cbd5e1;
     /* secondary */
-    --c-text-3: #9aa4b0;
+    --c-text-3: #94a3b8;
     /* muted */
-    --c-text-4: #75808c;
+    --c-text-4: #64748b;
     /* faint */
-    --c-link: #5ab9ff;
-    --c-link-hover: #7dd5ff;
-    --c-code: #f5f2d5;
-    --c-accent: #34d399;
+    --c-link: #38bdf8;
+    --c-link-hover: #7dd3fc;
+    --c-code: #fcd34d;
+    --c-accent: #2dd4bf;
     /* Legacy mappings */
     --text: var(--c-text-1);
     --muted: var(--c-text-3);
