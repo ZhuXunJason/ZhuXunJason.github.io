@@ -23,7 +23,7 @@ kramdown:
 collections:
   academic:
     output: true
-    permalink: /academic/:name
+    permalink: /academic/:path
   life:
     output: true
     permalink: /life/:name
