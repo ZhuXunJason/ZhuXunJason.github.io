@@ -4,6 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} - {% endif %}Jason's Blog</title>
+  <script>
+    (function () {
+      const storageKey = 'themePreference';
+      const validPreferences = ['light', 'reading'];
+
+      try {
+        const root = document.documentElement;
+        const stored = localStorage.getItem(storageKey);
+        const preference = validPreferences.includes(stored) ? stored : 'light';
+
+        root.setAttribute('data-theme-preference', preference);
+        root.setAttribute('data-theme', preference);
+      } catch (error) {
+        document.documentElement.setAttribute('data-theme-preference', 'light');
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
   {% if page.is_home %}
   <link rel="preload" as="image" href="{{ '/assets/images/banner.jpg' | relative_url }}" />
   {% endif %}

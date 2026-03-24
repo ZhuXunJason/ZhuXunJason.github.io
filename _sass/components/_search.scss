@@ -1,6 +1,5 @@
-/* 搜索组件 (Search Component) - 精简嵌套结构 */
+/* 搜索组件 (Search Component) */
 
-// 容器（桌面端）
 .search-container {
     position: relative;
     margin-left: auto;
@@ -18,7 +17,7 @@
         &:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(var(--focus-ring-rgb), 0.12);
         }
     }
 
@@ -32,18 +31,17 @@
     }
 }
 
-/* 结果列表：实体背景 + 轻微模糊（仅柔化阴影边缘，不透明） */
 #search-results-container {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background: #18242b; /* 不透明深色 */
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: linear-gradient(180deg, rgba(var(--surface-glass-rgb), .94), rgba(var(--surface-glass-rgb), .88));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--surface-border);
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 34px -10px rgba(0, 0, 0, 0.55), 0 4px 14px -4px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-soft);
     max-height: 420px;
     overflow-y: auto;
     z-index: 1000;
@@ -52,22 +50,34 @@
     padding: 4px 0;
     transition: background .35s ease, box-shadow .4s ease, border-color .4s ease;
 
-    &.show { display: block; }
+    &.show {
+        display: block;
+    }
 
     .search-result-item {
         display: block;
         padding: .75rem 1.05rem .8rem 1.05rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid var(--surface-border);
         transition: background .3s ease, color .3s ease;
         position: relative;
 
-        &:last-child { border-bottom: none; }
-        &:hover { background: rgba(255, 255, 255, 0.06); color: var(--primary-color); }
-        &.selected { background: linear-gradient(120deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05)); border-left: 4px solid var(--primary-color); }
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover {
+            background: var(--surface-highlight);
+            color: var(--primary-color);
+        }
+
+        &.selected {
+            background: linear-gradient(90deg, rgba(var(--focus-ring-rgb), .18), rgba(var(--focus-ring-rgb), .06));
+            border-left: 4px solid var(--primary-color);
+        }
 
         .search-result-title {
             font-weight: 600;
-            color: var(--text-color);
+            color: var(--c-heading);
             margin-bottom: 0.25rem;
             font-size: 0.95rem;
         }
@@ -84,18 +94,27 @@
             font-size: 0.7rem;
             padding: 0.15rem 0.5rem;
             border-radius: 10px;
-            color: var(--card-bg);
+            color: var(--surface-ink);
             margin-right: 0.5rem;
             text-transform: uppercase;
-            &.academic { background-color: #2563e8; }
-            &.life { background-color: #27ae60; }
-            &.default { background-color: #f39c12; }
+
+            &.academic {
+                background-color: var(--c-info-border);
+            }
+
+            &.life {
+                background-color: var(--c-tip-border);
+            }
+
+            &.default {
+                background-color: var(--c-warn-border);
+            }
         }
 
         .search-result-snippet {
             font-size: 0.8rem;
             color: var(--text-light);
-            display: -webkit-box; /* 多行省略 */
+            display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             line-clamp: 2;
@@ -105,31 +124,14 @@
         .search-result-date {
             font-size: 0.7rem;
             color: var(--text-light);
-            background-color: var(--bg-color);
+            background-color: var(--surface-1);
             padding: 0.1rem 0.4rem;
             border-radius: 10px;
+            border: 1px solid var(--surface-border);
         }
     }
 }
 
-/* 亮色模式覆盖 */
-html[data-theme="light"] {
-    #search-results-container {
-        background: #ffffff;
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        border-color: rgba(0, 0, 0, 0.08);
-        box-shadow: 0 8px 28px -10px rgba(0, 0, 0, 0.18), 0 3px 10px -3px rgba(0, 0, 0, 0.1);
-
-        .search-result-item {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-            &:hover { background: rgba(0, 0, 0, 0.05); }
-            &.selected { background: linear-gradient(120deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.03)); }
-        }
-    }
-}
-
-/* Glass Header 区域专属样式 */
 .header {
     .search-container {
         background: transparent;
@@ -144,7 +146,10 @@ html[data-theme="light"] {
             border-radius: 999px;
             color: var(--text);
             font-size: 0.9rem;
-            &::placeholder { color: #9aa3b2; }
+
+            &::placeholder {
+                color: var(--c-text-4);
+            }
         }
     }
 }
@@ -152,8 +157,16 @@ html[data-theme="light"] {
 @media (max-width:780px) {
     .header {
         .search-container {
-            #search-input { width: 0; padding: 0; opacity: 0; }
+            #search-input {
+                width: 0;
+                padding: 0;
+                opacity: 0;
+            }
         }
-        &.is-searching .search-container #search-input { width: 100%; opacity: 1; }
+
+        &.is-searching .search-container #search-input {
+            width: 100%;
+            opacity: 1;
+        }
     }
 }

@@ -1,30 +1,72 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // 主题初始化（根据时间自动切换：19:00-06:00 为暗色模式）
+    // 主题初始化（light + read）
     (function initTheme() {
         const root = document.documentElement;
+        const toggle = document.getElementById('modeToggle');
+        const label = toggle ? toggle.querySelector('.mode-toggle__label') : null;
+        const storageKey = 'themePreference';
+        const themeSequence = ['light', 'reading'];
+        const themeMeta = {
+            light: { label: 'light', description: '绿色主题' },
+            reading: { label: 'read', description: '暖纸read' }
+        };
 
-        function setThemeByTime() {
-            const hour = new Date().getHours();
-            // 19:00 (晚7点) 到 06:00 (早6点) 为暗色模式
-            const isDarkTime = hour >= 19 || hour < 6;
-            const theme = isDarkTime ? 'dark' : 'light';
-            root.setAttribute('data-theme', theme);
+        function sanitizePreference(value) {
+            return themeSequence.includes(value) ? value : 'light';
         }
 
-        // 初始设置
-        setThemeByTime();
+        function readPreference() {
+            try {
+                return sanitizePreference(localStorage.getItem(storageKey));
+            } catch (error) {
+                return sanitizePreference(root.getAttribute('data-theme-preference'));
+            }
+        }
 
-        // 每分钟检查一次时间，确保准时切换
-        setInterval(setThemeByTime, 60000);
+        function writePreference(preference) {
+            try {
+                localStorage.setItem(storageKey, preference);
+            } catch (error) {
+                // 忽略无痕模式等存储异常
+            }
+        }
 
-        // 如果有手动切换按钮，保留其功能（可选）
-        const toggle = document.getElementById('modeToggle');
+        function describeTheme(preference) {
+            return `主题：${themeMeta[preference].description}`;
+        }
+
+        function applyTheme(preference, persist) {
+            const safePreference = sanitizePreference(preference);
+            const description = describeTheme(safePreference);
+
+            root.setAttribute('data-theme-preference', safePreference);
+            root.setAttribute('data-theme', safePreference);
+
+            if (toggle) {
+                toggle.setAttribute('aria-label', `${description}，点击切换`);
+                toggle.setAttribute('title', `${description}，点击切换`);
+                toggle.setAttribute('data-theme-preference', safePreference);
+            }
+
+            if (label) {
+                label.textContent = themeMeta[safePreference].label;
+            }
+
+            if (persist) {
+                writePreference(safePreference);
+            }
+
+            return safePreference;
+        }
+
+        let currentPreference = applyTheme(readPreference(), false);
+
         if (toggle) {
             toggle.addEventListener('click', () => {
-                const cur = root.getAttribute('data-theme') || 'light';
-                const next = cur === 'light' ? 'dark' : 'light';
-                root.setAttribute('data-theme', next);
-                // 注意：手动切换后，下一分钟会根据时间重新设置
+                const currentIndex = themeSequence.indexOf(currentPreference);
+                const nextPreference = themeSequence[(currentIndex + 1) % themeSequence.length];
+
+                currentPreference = applyTheme(nextPreference, true);
             });
         }
     })();

@@ -1,60 +1,66 @@
-/* Trimmed core variables */
-:root {
-    --primary-color: #22c7a7;
-    --secondary-color: #2980b9;
-    --accent-color: #e74c3c;
+/* Shared aliases and page atmosphere */
+:root,
+html[data-theme="light"] {
     --text-color: var(--c-text-1);
     --text-light: var(--c-text-3);
-    --bg-color: #fbfbfb;
-    --card-bg: #ffffff;
-    --border-color: #bdc3c7;
-    --shadow: 0 5px 15px rgba(0, 0, 0, .08);
+    --card-bg: var(--surface-2);
+    --border-color: var(--surface-border);
+    --shadow: var(--shadow-soft);
     --light-shadow: 0 2px 8px rgba(0, 0, 0, .05);
     --border-radius: 12px;
     --transition-fast: all .2s ease-in-out;
     --transition-normal: all .3s ease-in-out;
     --font-primary: 'Kumbh Sans', Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     --font-serif: 'Georgia', 'Times New Roman', serif;
-    --page-grad-1: #0f172a;
-    --page-grad-2: #1e293b;
-    --page-grad-3: #334155;
-    --page-grad-1-light: #f6faff;
-    --page-grad-2-light: #eef5ff;
-    --page-grad-3-light: #e7f3ff;
-    --page-bg-gradient: linear-gradient(120deg, var(--page-grad-1), var(--page-grad-2) 55%, var(--page-grad-3));
-    --blob1-color: rgba(34, 197, 167, .30);
-    --blob2-color: rgba(245, 196, 67, .26);
-    --blob3-color: rgba(56, 189, 248, .25);
-    --swirl-colors: conic-gradient(from 0deg at 50% 50%, rgba(34, 197, 167, .12), rgba(56, 189, 248, .10), rgba(245, 196, 67, .10), rgba(34, 197, 167, .12));
-    --g1x: 20%;
-    --g1y: 78%;
-    --g2x: 76%;
-    --g2y: 26%;
-    --g3x: 50%;
-    --g3y: 42%;
-    --page-noise: none;
-    --page-container-bg: rgba(30, 41, 59, .7);
-    --page-container-border: rgba(148, 163, 184, .1);
-    --page-container-bg-light: rgba(255, 255, 255, .78);
-    --page-container-border-light: rgba(255, 255, 255, .28);
-}
 
-/* Light theme overrides */
-html[data-theme="light"] {
-    --primary-color: #2563eb;
-    --page-grad-1: var(--page-grad-1-light);
-    --page-grad-2: var(--page-grad-2-light);
-    --page-grad-3: var(--page-grad-3-light);
-    --blob1-color: rgba(34, 197, 167, .40);
+    --page-grad-1: #f6faff;
+    --page-grad-2: #eef5ff;
+    --page-grad-3: #e7f3ff;
+    --page-bg-gradient: linear-gradient(120deg, var(--page-grad-1), var(--page-grad-2) 55%, var(--page-grad-3));
+    --blob1-color: rgba(34, 197, 167, .4);
     --blob2-color: rgba(245, 196, 67, .38);
     --blob3-color: rgba(56, 189, 248, .36);
     --swirl-colors: conic-gradient(from 0deg at 50% 50%, rgba(34, 197, 167, .22), rgba(56, 189, 248, .18), rgba(245, 196, 67, .16), rgba(34, 197, 167, .22));
+    --page-swirl-opacity: .16;
+    --page-drift-duration: 66s;
+    --page-swirl-duration: 220s;
     --g1x: 18%;
     --g1y: 84%;
     --g2x: 82%;
     --g2y: 20%;
     --g3x: 52%;
     --g3y: 45%;
-    --page-container-bg: var(--page-container-bg-light);
-    --page-container-border: var(--page-container-border-light);
+    --page-noise: none;
+    --page-container-bg: rgba(255, 255, 255, .78);
+    --page-container-border: rgba(255, 255, 255, .28);
+    --home-overlay-start: rgba(246, 250, 255, .2);
+    --home-overlay-end: rgba(246, 250, 255, .52);
+}
+
+html[data-theme="reading"] {
+    --card-bg: var(--surface-3);
+    --shadow: var(--shadow-soft);
+    --light-shadow: 0 10px 24px -18px rgba(82, 58, 40, .18);
+    --page-grad-1: #f6efe6;
+    --page-grad-2: #efe4d8;
+    --page-grad-3: #e7d8c7;
+    --page-bg-gradient: linear-gradient(135deg, var(--page-grad-1), var(--page-grad-2) 58%, var(--page-grad-3));
+    --blob1-color: rgba(185, 124, 82, .12);
+    --blob2-color: rgba(130, 145, 112, .1);
+    --blob3-color: rgba(199, 140, 99, .1);
+    --swirl-colors: conic-gradient(from 0deg at 50% 50%, rgba(199, 140, 99, .08), rgba(130, 145, 112, .06), rgba(255, 255, 255, .12), rgba(199, 140, 99, .08));
+    --page-swirl-opacity: .08;
+    --page-drift-duration: 92s;
+    --page-swirl-duration: 270s;
+    --g1x: 12%;
+    --g1y: 8%;
+    --g2x: 84%;
+    --g2y: 22%;
+    --g3x: 34%;
+    --g3y: 86%;
+    --page-noise: none;
+    --page-container-bg: rgba(255, 248, 240, .82);
+    --page-container-border: rgba(163, 106, 67, .14);
+    --home-overlay-start: rgba(246, 239, 230, .12);
+    --home-overlay-end: rgba(246, 239, 230, .42);
 }

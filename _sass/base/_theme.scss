@@ -1,101 +1,254 @@
-/* 主题与玻璃拟态变量 (Theme & Glass Variables)
+/* Theme tokens
 -------------------------------------------------- */
-/* 深色为默认，亮色通过 data-theme="light" 覆盖 */
-:root {
-    --bg-blur: 14px;
-    --bg-sat: 1.1;
-    --bg-bright: .8;
-    --glass: rgba(255, 255, 255, 0.06);
-    --glass-strong: rgba(255, 255, 255, 0.12);
-    /* 基础背景色（暗色默认），用于避免移动端底部回弹时出现白色闪烁 */
-    --bg-color: #0f172a;
-    /* 与 page-grad-1 接近 */
-    /* Semantic text scale (dark mode default) */
-    --c-heading: #f1f5f9;
-    --c-text-1: #e2e8f0;
-    /* primary body */
-    --c-text-2: #cbd5e1;
-    /* secondary */
-    --c-text-3: #94a3b8;
-    /* muted */
-    --c-text-4: #64748b;
-    /* faint */
-    --c-link: #38bdf8;
-    --c-link-hover: #7dd3fc;
-    --c-code: #fcd34d;
-    --c-accent: #2dd4bf;
-    /* Legacy mappings */
-    --text: var(--c-text-1);
-    --muted: var(--c-text-3);
-    --brand: #9ecbff;
-    --brand-strong: #6db1ff;
-    /* Status / Callout semantic colors (dark base) */
-    --c-info-bg: rgba(56, 146, 255, 0.14);
-    --c-info-border: #3b82f6;
-    --c-info-accent: #60a5fa;
-    --c-tip-bg: rgba(16, 185, 129, 0.14);
-    --c-tip-border: #10b981;
-    --c-tip-accent: #34d399;
-    --c-warn-bg: rgba(245, 158, 11, 0.16);
-    --c-warn-border: #f59e0b;
-    --c-warn-accent: #fbbf24;
-    --c-danger-bg: rgba(239, 68, 68, 0.16);
-    --c-danger-border: #ef4444;
-    --c-danger-accent: #f87171;
-    --c-quote-bg: rgba(148, 163, 184, 0.10);
-    --c-quote-border: #64748b;
-    --c-quote-accent: #94a3b8;
-    --shadow-elevated: 0 10px 30px rgba(0, 0, 0, .25);
-    --header-height: 64px;
-    --radius: 14px;
-    --radius-sm: 10px;
-}
-
+:root,
 html[data-theme="light"] {
-    --bg-sat: 1.0;
-    --bg-bright: 1.0;
-    --glass: rgba(255, 255, 255, .55);
-    --glass-strong: rgba(255, 255, 255, .75);
+    color-scheme: light;
+    --bg-blur: 12px;
+    --bg-sat: 1;
+    --bg-bright: 1;
     --bg-color: #f6f8fb;
-    /* 亮色模式背景 */
-    /* Light mode semantic text */
+
+    --surface-1: rgba(255, 255, 255, .66);
+    --surface-2: rgba(255, 255, 255, .82);
+    --surface-3: #ffffff;
+    --surface-glass-rgb: 255, 255, 255;
+    --glass-rgb: var(--surface-glass-rgb);
+    --glass: rgba(var(--surface-glass-rgb), .55);
+    --glass-strong: rgba(var(--surface-glass-rgb), .75);
+    --surface-border: rgba(148, 163, 184, .16);
+    --surface-border-strong: rgba(34, 199, 167, .28);
+    --surface-highlight: rgba(255, 255, 255, .64);
+    --surface-overlay: rgba(34, 197, 167, .08);
+    --surface-ink: #ffffff;
+
     --c-heading: #101923;
     --c-text-1: #1e262e;
     --c-text-2: #35414d;
     --c-text-3: #5a6572;
     --c-text-4: #7c8793;
-    --c-link: #0d66d0;
-    --c-link-hover: #0a7df2;
+    --c-link: #059669;
+    --c-link-hover: #047857;
     --c-code: #4b5563;
     --c-accent: #059669;
+
     --text: var(--c-text-1);
     --muted: var(--c-text-3);
-    /* Light status variants */
-    --c-info-bg: rgba(59, 130, 246, 0.12);
+    --brand: #22c7a7;
+    --brand-strong: #54d7bf;
+    --primary-color: #22c7a7;
+    --secondary-color: #2980b9;
+    --accent-color: #e74c3c;
+    --focus-ring: #22c7a7;
+    --focus-ring-rgb: 34, 199, 167;
+    --md-secondary: #2980b9;
+
+    --c-info-bg: rgba(59, 130, 246, .12);
     --c-info-border: #2563eb;
     --c-info-accent: #1d4ed8;
-    --c-tip-bg: rgba(16, 185, 129, 0.12);
+    --c-tip-bg: rgba(16, 185, 129, .12);
     --c-tip-border: #059669;
     --c-tip-accent: #047857;
-    --c-warn-bg: rgba(245, 158, 11, 0.15);
+    --c-warn-bg: rgba(245, 158, 11, .15);
     --c-warn-border: #d97706;
     --c-warn-accent: #b45309;
-    --c-danger-bg: rgba(239, 68, 68, 0.14);
+    --c-danger-bg: rgba(239, 68, 68, .14);
     --c-danger-border: #dc2626;
     --c-danger-accent: #b91c1c;
-    --c-quote-bg: rgba(148, 163, 184, 0.12);
+    --c-quote-bg: rgba(148, 163, 184, .12);
     --c-quote-border: #64748b;
     --c-quote-accent: #475569;
-    --shadow-elevated: 0 8px 24px rgba(0, 0, 0, .12);
+
+    --shadow-soft: 0 8px 24px rgba(0, 0, 0, .12);
+    --shadow-strong: 0 12px 30px -20px rgba(0, 0, 0, .16), 0 6px 18px -14px rgba(0, 0, 0, .1);
+    --shadow-elevated: var(--shadow-soft);
+
+    --code-bg: #1f2937;
+    --code-panel-top: linear-gradient(135deg, #263648 0%, #1f2b3b 100%);
+    --code-panel-border: #314457;
+    --code-window-red: #e07a5f;
+    --code-window-amber: #f2cc8f;
+    --code-window-green: #81b29a;
+    --code-label: #bfd1e6;
+    --code-control-bg: rgba(255, 255, 255, .08);
+    --code-control-border: rgba(255, 255, 255, .14);
+    --code-control-text: #bfd1e6;
+    --code-control-hover-bg: rgba(255, 255, 255, .14);
+    --code-control-hover-text: #f8fafc;
+    --code-control-success-bg: rgba(129, 178, 154, .22);
+    --code-control-success-border: #81b29a;
+    --code-control-success-text: #e5f1ec;
+    --code-text: #e2e8f0;
+    --syntax-comment: #94a3b8;
+    --syntax-error: #fca5a5;
+    --syntax-keyword: #93c5fd;
+    --syntax-keyword-2: #7dd3fc;
+    --syntax-number: #f5c58a;
+    --syntax-variable: #f5a97f;
+    --syntax-string: #86efac;
+    --syntax-subtle: #a5b4c8;
+    --syntax-class: #f8d68a;
+    --syntax-function: #c4b5fd;
+
+    --mark-bg: linear-gradient(135deg, rgba(250, 204, 21, .44), rgba(34, 199, 167, .16));
+    --mark-shadow: rgba(34, 199, 167, .12);
+    --strike-bg: rgba(239, 68, 68, .1);
+    --table-head-bg: linear-gradient(135deg, #22c7a7, #2980b9);
+    --table-head-surface: rgba(34, 199, 167, .08);
+    --table-head-text: var(--c-heading);
+    --table-row-alt: rgba(34, 199, 167, .03);
+    --table-row-hover: rgba(34, 199, 167, .05);
+    --table-outline: rgba(148, 163, 184, .1);
+    --table-shadow: 0 10px 18px -18px rgba(0, 0, 0, .12);
+
+    --floating-button-bg: linear-gradient(135deg, rgba(255, 255, 255, .96) 0%, rgba(var(--focus-ring-rgb), .16) 100%);
+    --floating-button-border: rgba(var(--focus-ring-rgb), .18);
+    --floating-button-highlight: linear-gradient(135deg, rgba(255, 255, 255, .62) 0%, rgba(255, 255, 255, .1) 48%, rgba(var(--focus-ring-rgb), .08) 100%);
+    --floating-button-hover-bg: linear-gradient(135deg, rgba(255, 255, 255, .98) 0%, rgba(var(--focus-ring-rgb), .22) 100%);
+    --floating-button-hover-border: rgba(var(--focus-ring-rgb), .28);
+    --floating-button-icon: var(--c-text-3);
+    --floating-button-hover-icon: var(--c-heading);
+    --floating-button-active-bg: linear-gradient(135deg, rgba(191, 248, 236, .98) 0%, rgba(34, 199, 167, .9) 100%);
+    --floating-button-active-border: #22c7a7;
+    --floating-button-active-text: #f0fdfa;
+    --floating-button-active-shadow-rgb: 34, 199, 167;
+
+    --signature-start: #9fe6d8;
+    --signature-mid: #22c7a7;
+    --signature-end: #77b7d7;
+    --about-icon-start: #b7efe4;
+    --about-icon-end: #22c7a7;
+    --about-icon-fill: rgba(255, 255, 255, .08);
+
+    --header-height: 64px;
+    --radius: 14px;
+    --radius-sm: 10px;
 }
 
-/* 便于旧样式逐步迁移：提供部分别名 */
+html[data-theme="reading"] {
+    color-scheme: light;
+    --bg-blur: 8px;
+    --bg-sat: 0.98;
+    --bg-bright: 1;
+    --bg-color: #f6efe6;
+
+    --surface-1: rgba(255, 248, 240, .82);
+    --surface-2: rgba(252, 244, 235, .94);
+    --surface-3: #fffaf5;
+    --surface-glass-rgb: 252, 244, 235;
+    --glass-rgb: var(--surface-glass-rgb);
+    --glass: rgba(var(--surface-glass-rgb), .74);
+    --glass-strong: rgba(var(--surface-glass-rgb), .9);
+    --surface-border: rgba(125, 97, 74, .14);
+    --surface-border-strong: rgba(154, 92, 54, .24);
+    --surface-highlight: rgba(255, 255, 255, .52);
+    --surface-overlay: rgba(255, 250, 245, .56);
+    --surface-ink: #fffaf5;
+
+    --c-heading: #2a211b;
+    --c-text-1: #43352b;
+    --c-text-2: #5b4a3f;
+    --c-text-3: #7a685b;
+    --c-text-4: #9b897c;
+    --c-link: #9a5c36;
+    --c-link-hover: #7f4727;
+    --c-code: #6e4d2f;
+    --c-accent: #a36a43;
+
+    --text: var(--c-text-1);
+    --muted: var(--c-text-3);
+    --brand: #b97c52;
+    --brand-strong: #c78c63;
+    --primary-color: var(--brand);
+    --secondary-color: #82906f;
+    --accent-color: #b57455;
+    --focus-ring: #a36a43;
+    --focus-ring-rgb: 163, 106, 67;
+    --md-secondary: #a97752;
+
+    --c-info-bg: rgba(120, 138, 154, .14);
+    --c-info-border: #7a8c9c;
+    --c-info-accent: #607386;
+    --c-tip-bg: rgba(126, 143, 112, .14);
+    --c-tip-border: #7b8d67;
+    --c-tip-accent: #657651;
+    --c-warn-bg: rgba(191, 145, 83, .16);
+    --c-warn-border: #a9743b;
+    --c-warn-accent: #875829;
+    --c-danger-bg: rgba(176, 105, 84, .14);
+    --c-danger-border: #b06a54;
+    --c-danger-accent: #914a3a;
+    --c-quote-bg: rgba(150, 126, 108, .14);
+    --c-quote-border: #9a7f6c;
+    --c-quote-accent: #715948;
+
+    --shadow-soft: 0 14px 34px -24px rgba(78, 56, 40, .24), 0 6px 14px -12px rgba(78, 56, 40, .14);
+    --shadow-strong: 0 18px 38px -24px rgba(78, 56, 40, .28), 0 8px 20px -16px rgba(78, 56, 40, .18);
+    --shadow-elevated: var(--shadow-soft);
+
+    --code-bg: #191513;
+    --code-panel-top: linear-gradient(135deg, #2b231d 0%, #211a16 100%);
+    --code-panel-border: #3a2f27;
+    --code-window-red: #c26d57;
+    --code-window-amber: #c79c5a;
+    --code-window-green: #7d906e;
+    --code-label: #baa38e;
+    --code-control-bg: rgba(250, 244, 237, .07);
+    --code-control-border: rgba(250, 244, 237, .14);
+    --code-control-text: #baa38e;
+    --code-control-hover-bg: rgba(250, 244, 237, .12);
+    --code-control-hover-text: #f3ede5;
+    --code-control-success-bg: rgba(125, 146, 110, .22);
+    --code-control-success-border: #7d906e;
+    --code-control-success-text: #cfe0c0;
+    --code-text: #e8ddd2;
+    --syntax-comment: #7f6f63;
+    --syntax-error: #d07a67;
+    --syntax-keyword: #d3ab73;
+    --syntax-keyword-2: #b88f6b;
+    --syntax-number: #cf8d78;
+    --syntax-variable: #d58a73;
+    --syntax-string: #9fb08c;
+    --syntax-subtle: #a89583;
+    --syntax-class: #ddb887;
+    --syntax-function: #cfa978;
+
+    --mark-bg: linear-gradient(135deg, rgba(226, 178, 102, .65), rgba(191, 136, 89, .42));
+    --mark-shadow: rgba(191, 136, 89, .18);
+    --strike-bg: rgba(178, 107, 88, .12);
+    --table-head-bg: linear-gradient(135deg, var(--brand-strong), var(--brand));
+    --table-head-surface: rgba(163, 106, 67, .08);
+    --table-head-text: var(--c-heading);
+    --table-row-alt: rgba(163, 106, 67, .03);
+    --table-row-hover: rgba(163, 106, 67, .05);
+    --table-outline: rgba(125, 97, 74, .1);
+    --table-shadow: 0 10px 18px -18px rgba(78, 56, 40, .12);
+
+    --floating-button-bg: linear-gradient(135deg, rgba(250, 244, 237, .96) 0%, rgba(var(--focus-ring-rgb), .18) 100%);
+    --floating-button-border: rgba(var(--focus-ring-rgb), .22);
+    --floating-button-highlight: linear-gradient(135deg, rgba(255, 255, 255, .52) 0%, rgba(255, 255, 255, .08) 45%, rgba(var(--focus-ring-rgb), .08) 100%);
+    --floating-button-hover-bg: linear-gradient(135deg, rgba(250, 244, 237, .98) 0%, rgba(var(--focus-ring-rgb), .24) 100%);
+    --floating-button-hover-border: rgba(var(--focus-ring-rgb), .34);
+    --floating-button-icon: var(--c-text-3);
+    --floating-button-hover-icon: var(--c-heading);
+    --floating-button-active-bg: linear-gradient(135deg, rgba(246, 229, 191, .98) 0%, rgba(210, 173, 120, .9) 100%);
+    --floating-button-active-border: var(--c-warn-border);
+    --floating-button-active-text: #8b5828;
+    --floating-button-active-shadow-rgb: 177, 132, 80;
+
+    --signature-start: #f1d3b0;
+    --signature-mid: #d9a67a;
+    --signature-end: #b97c52;
+    --about-icon-start: #e8c39d;
+    --about-icon-end: #b97c52;
+    --about-icon-fill: rgba(250, 244, 237, .08);
+}
+
 body {
     color: var(--text);
     line-height: 1.62;
+    background: var(--bg-color);
 }
 
-/* Generic element overrides using new semantic colors */
 h1,
 h2,
 h3,
@@ -126,5 +279,5 @@ pre code {
 }
 
 hr {
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--surface-border);
 }
