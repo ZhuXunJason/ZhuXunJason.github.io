@@ -133,7 +133,7 @@ $$
 \ell(w) = \sum_{i=1}^m \log P(y_i \mid \boldsymbol{x}_i; w)
 $$
 
-<p>逻辑回归假设：给定输入 $\boldsymbol{x}$，输出标签 $y \in \{0,1\}$ 服从伯努利分布</p>
+<p>逻辑回归假设：给定输入 $\boldsymbol{x}$，输出标签 $y \in \lbrace 0,1 \rbrace$ 服从伯努利分布</p>
 
 $$
 \hat{y}=P(y=1 \mid \boldsymbol{x})

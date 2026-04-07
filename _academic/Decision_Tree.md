@@ -66,9 +66,8 @@ $$Gini(D) = 1 - \sum_{k=1}^{K} p_k^2$$
 
 $$SE(s) = \min_{j, s} \left[ \min_{c_1} \sum_{x_i \in R_1(j, s)} (y_i - c_1)^2 + \min_{c_2} \sum_{x_i \in R_2(j, s)} (y_i - c_2)^2 \right]$$
 
-其中 $R_{1},R_{2}$ 是以 第 $j$ 个特征 分出的 $\{x \mid x^{(j)} \le s\}$ 和 $\{x \mid x^{(j)} > s\}$ 两个区域。 $c_{1},c_{2}$ 是这两个区域 $y$ 值平均值。
+其中 $R_{1},R_{2}$ 是以 第 $j$ 个特征 分出的 $\lbrace x \mid x^{(j)} \le s \rbrace$ 和 $\lbrace x \mid x^{(j)} > s \rbrace$ 两个区域。 $c_{1},c_{2}$ 是这两个区域 $y$ 值平均值。
 
 ## 剪枝
 
 为了防止决策树过拟合，可以划分验证集对决策树进行剪枝（包括预剪枝和后剪枝）。
-
