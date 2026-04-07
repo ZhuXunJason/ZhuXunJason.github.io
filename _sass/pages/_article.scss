@@ -175,6 +175,16 @@
 
     .article-featured-img {
         margin-bottom: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+        }
     }
 
     .article-content {
