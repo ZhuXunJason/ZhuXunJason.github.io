@@ -325,6 +325,98 @@
             }
         }
 
+        // 书信便笺样式
+        .letter-note {
+            position: relative;
+            margin: 2.4rem auto;
+            max-width: 36rem;
+            padding: 0.95rem;
+            border-radius: calc(var(--border-radius) + 6px);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.46), transparent 30%),
+                radial-gradient(circle at top right, rgba(var(--focus-ring-rgb), 0.16), transparent 42%),
+                linear-gradient(135deg, rgba(255, 250, 245, 0.98), rgba(247, 238, 227, 0.94));
+            border: 1px solid rgba(var(--focus-ring-rgb), 0.18);
+            box-shadow:
+                0 20px 34px -26px rgba(var(--focus-ring-rgb), 0.4),
+                0 14px 22px -22px rgba(91, 62, 39, 0.26);
+            overflow: hidden;
+            transform: rotate(-1deg);
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0.7rem;
+                left: 50%;
+                width: 7.5rem;
+                height: 1.1rem;
+                transform: translateX(-50%) rotate(-2deg);
+                border-radius: 999px;
+                background: linear-gradient(135deg, rgba(255, 240, 214, 0.72), rgba(241, 212, 170, 0.36));
+                box-shadow: 0 6px 12px -12px rgba(120, 84, 56, 0.42);
+                opacity: 0.9;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 2.8rem;
+                height: 2.8rem;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(226, 197, 158, 0.22));
+                clip-path: polygon(100% 0, 0 0, 100% 100%);
+                opacity: 0.72;
+            }
+
+            .letter-note__paper {
+                position: relative;
+                padding: 1.75rem 1.5rem 1.2rem 1.85rem;
+                border-radius: calc(var(--border-radius) + 1px);
+                border: 1px solid rgba(166, 123, 85, 0.1);
+                background:
+                    linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.08)),
+                    repeating-linear-gradient(to bottom,
+                        transparent 0,
+                        transparent 2.1rem,
+                        rgba(var(--focus-ring-rgb), 0.08) 2.1rem,
+                        rgba(var(--focus-ring-rgb), 0.08) calc(2.1rem + 1px));
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 1rem;
+                    bottom: 1rem;
+                    left: 1.05rem;
+                    width: 1px;
+                    background: linear-gradient(180deg, rgba(195, 118, 102, 0.34), rgba(195, 118, 102, 0.12));
+                }
+            }
+
+            .letter-note__body,
+            .letter-note__signature {
+                font-family: 'cheese', 'Semi-cursive', cursive;
+                color: var(--text-color);
+                text-shadow: 0 1px 0 rgba(255, 255, 255, 0.16);
+            }
+
+            .letter-note__body {
+                margin-bottom: 0.85rem;
+                font-size: 1.18rem;
+                line-height: 1.85;
+                text-align: left;
+                letter-spacing: 0.02em;
+            }
+
+            .letter-note__signature {
+                margin-bottom: 0;
+                text-align: right;
+                font-size: 1.1rem;
+                letter-spacing: 0.08em;
+            }
+        }
+
         //callout样式
         .callout {
             --_bg: var(--c-info-bg);
@@ -913,6 +1005,38 @@
     }
 }
 
+html[data-theme="reading"] {
+    .article-container {
+        .article-content {
+            .letter-note {
+                background:
+                    linear-gradient(180deg, rgba(255, 248, 239, 0.52), transparent 34%),
+                    radial-gradient(circle at top right, rgba(214, 168, 118, 0.2), transparent 44%),
+                    linear-gradient(135deg, rgba(253, 245, 234, 0.99), rgba(244, 229, 211, 0.97));
+                border-color: rgba(163, 106, 67, 0.2);
+                box-shadow:
+                    0 22px 38px -28px rgba(128, 88, 52, 0.36),
+                    0 12px 20px -20px rgba(128, 88, 52, 0.28);
+
+                &::before {
+                    background: linear-gradient(135deg, rgba(245, 221, 190, 0.78), rgba(220, 185, 140, 0.34));
+                }
+
+                .letter-note__paper {
+                    border-color: rgba(163, 106, 67, 0.12);
+                    background:
+                        linear-gradient(180deg, rgba(255, 250, 243, 0.26), rgba(255, 250, 243, 0.08)),
+                        repeating-linear-gradient(to bottom,
+                            transparent 0,
+                            transparent 2.1rem,
+                            rgba(163, 106, 67, 0.08) 2.1rem,
+                            rgba(163, 106, 67, 0.08) calc(2.1rem + 1px));
+                }
+            }
+        }
+    }
+}
+
 @keyframes containerFloat {
 
     0%,
@@ -1160,6 +1284,34 @@
 
             h3 {
                 font-size: 1.3rem;
+            }
+
+            .letter-note {
+                margin: 2rem 0.1rem;
+                padding: 0.8rem;
+                transform: rotate(-0.35deg);
+
+                &::before {
+                    width: 6rem;
+                    height: 0.95rem;
+                }
+
+                .letter-note__paper {
+                    padding: 1.45rem 1.1rem 1rem 1.45rem;
+
+                    &::before {
+                        left: 0.85rem;
+                    }
+                }
+
+                .letter-note__body {
+                    font-size: 1.06rem;
+                    line-height: 1.8;
+                }
+
+                .letter-note__signature {
+                    font-size: 1rem;
+                }
             }
         }
     }
