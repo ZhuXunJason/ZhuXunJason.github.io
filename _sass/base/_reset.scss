@@ -12,6 +12,8 @@ html {
     scroll-behavior: smooth;
     /* 修复移动端地址栏隐藏时的高度问题 */
     height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 :root {
@@ -44,6 +46,42 @@ body {
     }
 }
 
+html,
+body {
+    &::-webkit-scrollbar {
+        width: var(--scrollbar-size);
+        height: var(--scrollbar-size);
+    }
+
+    &::-webkit-scrollbar-track {
+        background: linear-gradient(180deg, transparent 0%, var(--scrollbar-track) 24%, transparent 100%);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: var(--scrollbar-radius);
+        border: 2px solid transparent;
+        background-clip: padding-box;
+        background: linear-gradient(180deg, var(--scrollbar-thumb), rgba(var(--focus-ring-rgb), .18));
+        min-height: 3rem;
+    }
+
+    &:hover::-webkit-scrollbar-track {
+        background: linear-gradient(180deg, transparent 0%, var(--scrollbar-track-hover) 24%, transparent 100%);
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, var(--scrollbar-thumb-hover), rgba(var(--focus-ring-rgb), .22));
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+        background: linear-gradient(180deg, var(--scrollbar-thumb-active), rgba(var(--focus-ring-rgb), .28));
+    }
+
+    &::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+}
+
 .content-wrapper {
     flex: 1 0 auto;
     min-height: calc(var(--vh, 1vh) * 100 - 160px);
@@ -69,6 +107,37 @@ img {
     border-radius: 8px;
     background: rgba(0, 0, 0, 0.02);
     margin: 0.6rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-math-thumb) var(--scrollbar-math-track);
+
+    &::-webkit-scrollbar {
+        width: var(--scrollbar-size-thin);
+        height: var(--scrollbar-size-thin);
+    }
+
+    &::-webkit-scrollbar-track {
+        background: linear-gradient(180deg, transparent 0%, var(--scrollbar-math-track) 30%, transparent 100%);
+        border-radius: var(--scrollbar-radius);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: var(--scrollbar-radius);
+        border: 2px solid transparent;
+        background-clip: padding-box;
+        background: linear-gradient(180deg, var(--scrollbar-math-thumb), rgba(var(--focus-ring-rgb), .12));
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, var(--scrollbar-math-thumb-hover), rgba(var(--focus-ring-rgb), .14));
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+        background: linear-gradient(180deg, var(--scrollbar-math-thumb-active), rgba(var(--focus-ring-rgb), .18));
+    }
+
+    &::-webkit-scrollbar-corner {
+        background: transparent;
+    }
 }
 
 .katex-display .katex-html,

@@ -538,6 +538,37 @@
                 border-radius: var(--border-radius);
                 overflow-x: auto;
                 position: relative;
+                scrollbar-width: thin;
+                scrollbar-color: var(--scrollbar-code-thumb) var(--scrollbar-code-track);
+
+                &::-webkit-scrollbar {
+                    width: var(--scrollbar-size-thin);
+                    height: var(--scrollbar-size-thin);
+                }
+
+                &::-webkit-scrollbar-track {
+                    background: linear-gradient(180deg, transparent 0%, var(--scrollbar-code-track) 32%, transparent 100%);
+                    border-radius: var(--scrollbar-radius);
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    border-radius: var(--scrollbar-radius);
+                    border: 2px solid transparent;
+                    background-clip: padding-box;
+                    background: linear-gradient(180deg, var(--scrollbar-code-thumb), rgba(255, 255, 255, 0.08));
+                }
+
+                &:hover::-webkit-scrollbar-thumb {
+                    background: linear-gradient(180deg, var(--scrollbar-code-thumb-hover), rgba(255, 255, 255, 0.12));
+                }
+
+                &::-webkit-scrollbar-thumb:active {
+                    background: linear-gradient(180deg, var(--scrollbar-code-thumb-active), rgba(255, 255, 255, 0.18));
+                }
+
+                &::-webkit-scrollbar-corner {
+                    background: transparent;
+                }
 
                 // 代码块标题栏
                 &::before {
@@ -629,6 +660,37 @@
                     border-radius: 0 0 var(--border-radius) var(--border-radius);
                     overflow-x: auto;
                     position: relative;
+                    scrollbar-width: thin;
+                    scrollbar-color: var(--scrollbar-code-thumb) var(--scrollbar-code-track);
+
+                    &::-webkit-scrollbar {
+                        width: var(--scrollbar-size-thin);
+                        height: var(--scrollbar-size-thin);
+                    }
+
+                    &::-webkit-scrollbar-track {
+                        background: linear-gradient(180deg, transparent 0%, var(--scrollbar-code-track) 32%, transparent 100%);
+                        border-radius: var(--scrollbar-radius);
+                    }
+
+                    &::-webkit-scrollbar-thumb {
+                        border-radius: var(--scrollbar-radius);
+                        border: 2px solid transparent;
+                        background-clip: padding-box;
+                        background: linear-gradient(180deg, var(--scrollbar-code-thumb), rgba(255, 255, 255, 0.08));
+                    }
+
+                    &:hover::-webkit-scrollbar-thumb {
+                        background: linear-gradient(180deg, var(--scrollbar-code-thumb-hover), rgba(255, 255, 255, 0.12));
+                    }
+
+                    &::-webkit-scrollbar-thumb:active {
+                        background: linear-gradient(180deg, var(--scrollbar-code-thumb-active), rgba(255, 255, 255, 0.18));
+                    }
+
+                    &::-webkit-scrollbar-corner {
+                        background: transparent;
+                    }
 
                     &::before {
                         display: none;

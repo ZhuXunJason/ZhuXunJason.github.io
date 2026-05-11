@@ -100,6 +100,26 @@ html[data-theme="light"] {
     --table-outline: rgba(148, 163, 184, .1);
     --table-shadow: 0 10px 18px -18px rgba(0, 0, 0, .12);
 
+    --scrollbar-size: 8px;
+    --scrollbar-size-thin: 7px;
+    --scrollbar-radius: 999px;
+    --scrollbar-track: rgba(var(--surface-glass-rgb), .22);
+    --scrollbar-track-hover: rgba(var(--surface-glass-rgb), .3);
+    --scrollbar-thumb: rgba(var(--focus-ring-rgb), .28);
+    --scrollbar-thumb-hover: rgba(var(--focus-ring-rgb), .42);
+    --scrollbar-thumb-active: rgba(var(--focus-ring-rgb), .54);
+    --scrollbar-thumb-border: rgba(255, 255, 255, .48);
+    --scrollbar-code-track: rgba(255, 255, 255, .06);
+    --scrollbar-code-thumb: rgba(191, 209, 230, .24);
+    --scrollbar-code-thumb-hover: rgba(191, 209, 230, .36);
+    --scrollbar-code-thumb-active: rgba(191, 209, 230, .48);
+    --scrollbar-code-thumb-border: rgba(31, 41, 55, .44);
+    --scrollbar-math-track: rgba(var(--focus-ring-rgb), .06);
+    --scrollbar-math-thumb: rgba(var(--focus-ring-rgb), .22);
+    --scrollbar-math-thumb-hover: rgba(var(--focus-ring-rgb), .34);
+    --scrollbar-math-thumb-active: rgba(var(--focus-ring-rgb), .44);
+    --scrollbar-math-thumb-border: rgba(255, 255, 255, .42);
+
     --floating-button-bg: linear-gradient(135deg, rgba(255, 255, 255, .96) 0%, rgba(var(--focus-ring-rgb), .16) 100%);
     --floating-button-border: rgba(var(--focus-ring-rgb), .18);
     --floating-button-highlight: linear-gradient(135deg, rgba(255, 255, 255, .62) 0%, rgba(255, 255, 255, .1) 48%, rgba(var(--focus-ring-rgb), .08) 100%);
@@ -222,6 +242,26 @@ html[data-theme="reading"] {
     --table-row-hover: rgba(163, 106, 67, .05);
     --table-outline: rgba(125, 97, 74, .1);
     --table-shadow: 0 10px 18px -18px rgba(78, 56, 40, .12);
+
+    --scrollbar-size: 8px;
+    --scrollbar-size-thin: 7px;
+    --scrollbar-radius: 999px;
+    --scrollbar-track: rgba(var(--surface-glass-rgb), .28);
+    --scrollbar-track-hover: rgba(var(--surface-glass-rgb), .36);
+    --scrollbar-thumb: rgba(var(--focus-ring-rgb), .24);
+    --scrollbar-thumb-hover: rgba(var(--focus-ring-rgb), .38);
+    --scrollbar-thumb-active: rgba(var(--focus-ring-rgb), .48);
+    --scrollbar-thumb-border: rgba(255, 248, 240, .52);
+    --scrollbar-code-track: rgba(250, 244, 237, .07);
+    --scrollbar-code-thumb: rgba(186, 163, 142, .28);
+    --scrollbar-code-thumb-hover: rgba(186, 163, 142, .4);
+    --scrollbar-code-thumb-active: rgba(186, 163, 142, .5);
+    --scrollbar-code-thumb-border: rgba(25, 21, 19, .4);
+    --scrollbar-math-track: rgba(var(--focus-ring-rgb), .08);
+    --scrollbar-math-thumb: rgba(var(--focus-ring-rgb), .2);
+    --scrollbar-math-thumb-hover: rgba(var(--focus-ring-rgb), .32);
+    --scrollbar-math-thumb-active: rgba(var(--focus-ring-rgb), .42);
+    --scrollbar-math-thumb-border: rgba(255, 248, 240, .46);
 
     --floating-button-bg: linear-gradient(135deg, rgba(250, 244, 237, .96) 0%, rgba(var(--focus-ring-rgb), .18) 100%);
     --floating-button-border: rgba(var(--focus-ring-rgb), .22);

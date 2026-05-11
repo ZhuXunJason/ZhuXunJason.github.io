@@ -14,7 +14,38 @@
     z-index: 999;
     padding: 12px;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
     transition: box-shadow .4s ease, border-color .4s ease, background .4s ease;
+
+    &::-webkit-scrollbar {
+        width: var(--scrollbar-size-thin);
+        height: var(--scrollbar-size-thin);
+    }
+
+    &::-webkit-scrollbar-track {
+        background: linear-gradient(180deg, transparent 0%, var(--scrollbar-track) 28%, transparent 100%);
+        border-radius: var(--scrollbar-radius);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: var(--scrollbar-radius);
+        border: 2px solid transparent;
+        background-clip: padding-box;
+        background: linear-gradient(180deg, var(--scrollbar-thumb), rgba(var(--focus-ring-rgb), .16));
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, var(--scrollbar-thumb-hover), rgba(var(--focus-ring-rgb), .2));
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+        background: linear-gradient(180deg, var(--scrollbar-thumb-active), rgba(var(--focus-ring-rgb), .24));
+    }
+
+    &::-webkit-scrollbar-corner {
+        background: transparent;
+    }
 
     @media (max-width:1200px) {
         display: none;
