@@ -77,7 +77,7 @@ $$
 
 $X$ 并行通过三个线性层：
 $$ Q = X W_Q, \quad K = X W_K, \quad V = X W_V $$
-其中 $W \in \mathbb{R}^{d \times d_k,Q,K,V \in \mathbb{R}^{l \times d_k}}$  
+其中 $W \in \mathbb{R}^{d \times d_k},Q,K,V \in \mathbb{R}^{l \times d_k}$  
 
 <div class="callout note" title="Q-K-V矩阵代表什么">
 
@@ -212,7 +212,7 @@ $$ z = h_{norm} \cdot W_U $$
 
 <div class="callout note">
 <p>$W_U$ 的每一列可以看作是词表中某个词的“原型向量”（Prototype Vector）</p>
-<p>假设$W_U$有一列为$w_{apple}$，点积操作 $h \cdot w_{apple}$ 本质上是在计算：**当前的向量 $h$ 与“苹果”这个词的特征向量有多相似？</p>
+<p>假设$W_U$有一列为$w_{apple}$，点积操作 $h \cdot w_{apple}$ 本质上是在计算：当前的向量 $h$ 与“苹果”这个词的特征向量有多相似？</p>
 </div>
 
 

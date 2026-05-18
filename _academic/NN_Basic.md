@@ -253,7 +253,7 @@ for i, (train_ids, val_ids) in enumerate(kfold.split(X_train)):
 ## 分类
 
 按网络结构，神经网络有以下几个主流类别。
-- CNN (Convolutional Neural Network, 卷积神经网络)
+- [CNN (Convolutional Neural Network, 卷积神经网络)](CNN.html)
 - RNN (Recurrent Neural Network, 循环神经网络)
 - GAN (Generative Adversarial Network, 生成对抗网络)
-- Transformer
+- [Transformer](Transformer.html)
