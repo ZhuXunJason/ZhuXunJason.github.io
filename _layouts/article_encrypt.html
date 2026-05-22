@@ -89,6 +89,13 @@ layout: default
 
         <div class="article-content" id="main-article-content" style="display:none;">
         </div>
+        {% if page.source %}
+        <template id="sourceNoticeTemplate">
+            <blockquote>
+                <p>本文转载自{{ page.source }}</p>
+            </blockquote>
+        </template>
+        {% endif %}
 
         <!-- 分隔线 -->
         <div class="article-divider">

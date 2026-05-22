@@ -36,6 +36,11 @@ layout: default
         {% endif %}
 
         <div class="article-content">
+            {% if page.source %}
+            <blockquote>
+                <p>本文转载自{{ page.source }}</p>
+            </blockquote>
+            {% endif %}
             {{ content }}
         </div>
 
@@ -65,7 +70,7 @@ layout: default
 <!-- 音乐控件 - 仅在生活类文章中显示 -->
 {% assign is_life_article = false %}
 {% if page.collection and page.collection == 'life' %}
-            {% assign is_life_article = true %}
+{% assign is_life_article = true %}
 {% endif %}
 
 {% if is_life_article %}
@@ -75,9 +80,9 @@ layout: default
     </button>
     <audio id="background-music" preload="auto" loop>
         {% if page.music and page.music != "" %}
-            <source src="{{ page.music | relative_url }}" type="audio/mpeg">
+        <source src="{{ page.music | relative_url }}" type="audio/mpeg">
         {% else %}
-            <source src="{{ '/assets/music/Summer (菊次郎的夏天)  - 久石让.mp3' | relative_url }}" type="audio/mpeg">
+        <source src="{{ '/assets/music/Summer (菊次郎的夏天)  - 久石让.mp3' | relative_url }}" type="audio/mpeg">
         {% endif %}
         您的浏览器不支持音频播放。
     </audio>

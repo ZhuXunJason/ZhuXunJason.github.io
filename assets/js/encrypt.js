@@ -157,7 +157,9 @@
             }
 
             if (decryptedContent) {
-                mainArticleContent.innerHTML = decryptedContent;
+                const sourceNoticeTemplate = document.getElementById('sourceNoticeTemplate');
+                const sourceNotice = sourceNoticeTemplate ? sourceNoticeTemplate.innerHTML : '';
+                mainArticleContent.innerHTML = sourceNotice + decryptedContent;
                 mainArticleContent.style.display = 'block';
                 passwordPromptOverlay.style.display = 'none';
 
