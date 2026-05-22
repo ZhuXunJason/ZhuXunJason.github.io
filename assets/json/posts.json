@@ -10,6 +10,11 @@ layout: null
       "date": {{ post.date | date: '%Y-%m-%d' | jsonify }},
       "tags": {{ post.tags | jsonify }},
       "excerpt": {{ post.excerpt | strip_html | truncatewords: 20 | jsonify }},
+      {% if post.layout == 'article_encrypt' %}
+      "content": {{ post.excerpt | strip_html | jsonify }},
+      {% else %}
+      "content": {{ post.content | strip_html | replace: '\n', ' ' | replace: '\r', ' ' | strip | jsonify }},
+      {% endif %}
       "image": {{ post.featured_image | relative_url | jsonify }}
     }
     {% unless forloop.last %},{% endunless %}

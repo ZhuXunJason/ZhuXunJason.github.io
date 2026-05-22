@@ -57,6 +57,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function escapeRegExp(text) {
+        return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function countOccurrences(text, query) {
+        if (!text || !query) return 0;
+
+        const matches = text.match(new RegExp(escapeRegExp(query), 'g'));
+        return matches ? matches.length : 0;
+    }
+
+    function getSearchSnippet(article, query) {
+        const fallback = article.excerpt || '';
+        if (!query || !article.content) return fallback;
+
+        const lowerQuery = query.toLowerCase();
+        const lowerExcerpt = fallback.toLowerCase();
+        if (lowerExcerpt.includes(lowerQuery)) return fallback;
+
+        const content = article.content.replace(/\s+/g, ' ').trim();
+        const matchIndex = content.toLowerCase().indexOf(lowerQuery);
+        if (matchIndex === -1) return fallback;
+
+        const contextLength = 48;
+        const start = Math.max(0, matchIndex - contextLength);
+        const end = Math.min(content.length, matchIndex + query.length + contextLength);
+        const prefix = start > 0 ? '…' : '';
+        const suffix = end < content.length ? '…' : '';
+        return `${prefix}${content.slice(start, end)}${suffix}`;
+    }
+
     // 增强的文本相似度匹配
     function calculateRelevance(article, query) {
         const lowerQuery = query.toLowerCase();
@@ -91,8 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (excerpt.includes(lowerQuery)) score += 10;
 
             // 检查查询词在摘要中的密度
-            const queryOccurrences = (excerpt.match(new RegExp(lowerQuery, 'g')) || []).length;
-            score += queryOccurrences * 5;
+            score += countOccurrences(excerpt, lowerQuery) * 5;
+        }
+
+        if (article.content) {
+            const content = article.content.toLowerCase();
+            if (content.includes(lowerQuery)) score += 5;
+            score += countOccurrences(content, lowerQuery) * 2;
         }
 
         return score;
@@ -165,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 生成摘要并高亮关键词
-            const snippet = article.excerpt;
+            const snippet = getSearchSnippet(article, query);
             const highlightedTitle = highlightText(article.title, query);
             const highlightedSnippet = highlightText(snippet, query);
 

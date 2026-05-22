@@ -2,7 +2,6 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    overflow: hidden;
     backdrop-filter: blur(8px) saturate(104%);
     -webkit-backdrop-filter: blur(8px) saturate(104%);
     background: linear-gradient(180deg, rgba(var(--surface-glass-rgb), .92), rgba(var(--surface-glass-rgb), .76));
