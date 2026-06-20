@@ -26,7 +26,7 @@ collections:
     permalink: /academic/:path
   life:
     output: true
-    permalink: /life/:name
+    permalink: /life/:name.html
 
 exclude:
   - .sass-cache/
