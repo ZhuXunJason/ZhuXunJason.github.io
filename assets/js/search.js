@@ -7,15 +7,22 @@ document.addEventListener('DOMContentLoaded', () => {
     let isIndexBuilt = false;
     let searchTimeout = null;
 
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
     // 从 /assets/json/posts.json 异步加载文章数据
     function loadArticlesAsync() {
-        fetch('/assets/json/posts.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
+        const loader = typeof window.loadBlogPostsData === 'function'
+            ? window.loadBlogPostsData()
+            : fetch('/assets/json/posts.json').then(response => response.json());
+
+        loader
             .then(data => {
                 if (!Array.isArray(data)) {
                     console.error('Search data is not an array:', typeof data);
@@ -33,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 isIndexBuilt = true;
-                console.log(`Successfully loaded ${articles.length} valid articles for search`);
             })
             .catch(error => {
                 console.error('Error fetching or parsing articles data:', error);
@@ -136,15 +142,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 高亮搜索关键词 - 增强版
     function highlightText(text, query) {
-        if (!query || !text) return text;
+        const escapedText = escapeHtml(text);
+        if (!query || !text) return escapedText;
 
         // 支持多个关键词
         const keywords = query.trim().split(/\s+/);
-        let highlightedText = text;
+        let highlightedText = escapedText;
 
         keywords.forEach(keyword => {
             if (keyword.length > 1) { // 忽略单字符搜索
-                const regex = new RegExp(`(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                const regex = new RegExp(`(${escapeHtml(keyword).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
                 highlightedText = highlightedText.replace(regex, '<span class="search-highlight">$1</span>');
             }
         });
@@ -158,8 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (searchTimeout) {
             clearTimeout(searchTimeout);
         }
-
-        const container = isMobile ? resultsContainerMobile : resultsContainer;
+        const container = resultsContainer;
 
         if (!results || results.length === 0) {
             container.innerHTML = `
@@ -167,11 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="search-result-title">没有找到相关文章</div>
                     <span class="search-result-snippet">尝试使用其他关键词进行搜索</span>
                 </div>`;
-            if (isMobile) {
-                showResultsMobile();
-            } else {
-                showResults();
-            }
+            showResults();
             return;
         }
 
@@ -196,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     // 其他所有标签使用 general (橙色)
 
-                    return `<span class="search-result-tag ${tagClass}">${tag}</span>`;
+                    return `<span class="search-result-tag ${tagClass}">${escapeHtml(tag)}</span>`;
                 }).join('');
             }
 
@@ -206,11 +208,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const highlightedSnippet = highlightText(snippet, query);
 
             return `
-                <a href="${article.url}" class="search-result-item" data-index="${index}">
+                <a href="${escapeHtml(article.url)}" class="search-result-item" data-index="${index}">
                     <div class="search-result-title">${highlightedTitle}</div>
                     <div class="search-result-meta">
                         ${tagsHtml}
-                        ${article.date ? `<span class="search-result-date">${formatDateForSearch(article.date)}</span>` : ''}
+                        ${article.date ? `<span class="search-result-date">${escapeHtml(formatDateForSearch(article.date))}</span>` : ''}
                     </div>
                     <div class="search-result-snippet">${highlightedSnippet}</div>
                 </a>`;
@@ -369,6 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // 模拟点击
                     items[selectedIndex].click();
                 }
+                break;
             case 'Escape':
                 hideResults();
                 searchInput.blur();

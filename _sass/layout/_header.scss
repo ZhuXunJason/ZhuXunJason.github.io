@@ -2,8 +2,6 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    backdrop-filter: blur(8px) saturate(104%);
-    -webkit-backdrop-filter: blur(8px) saturate(104%);
     background: linear-gradient(180deg, rgba(var(--surface-glass-rgb), .92), rgba(var(--surface-glass-rgb), .76));
     border-bottom: 1px solid var(--surface-border);
     box-shadow: 0 14px 28px -26px rgba(0, 0, 0, .3);
@@ -21,8 +19,6 @@
 }
 
 .header.scrolled {
-    backdrop-filter: blur(9px) saturate(106%);
-    -webkit-backdrop-filter: blur(9px) saturate(106%);
     background: linear-gradient(180deg, rgba(var(--surface-glass-rgb), .96), rgba(var(--surface-glass-rgb), .82));
 }
 

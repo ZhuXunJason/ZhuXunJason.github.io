@@ -233,61 +233,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 移动端导航菜单
-    const navToggle = document.querySelector('.nav-toggle');
-    if (navToggle) {
-        navToggle.addEventListener('click', function () {
-            const navMenu = document.querySelector('nav ul');
-            this.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-    }
-
-    // 点击导航菜单项后立即关闭菜单
-    document.querySelectorAll('nav ul li a').forEach(link => {
-        link.addEventListener('click', function () {
-            const navMenu = document.querySelector('nav ul');
-            const toggle = document.querySelector('.nav-toggle');
-            if (navMenu && toggle && window.innerWidth <= 768) {
-                // 添加关闭动画
-                navMenu.classList.add('closing');
-                toggle.classList.remove('active');
-
-                setTimeout(() => {
-                    navMenu.classList.remove('active', 'closing');
-                }, 300);
-            }
-        });
-    });
-
-    // 点击页面其他区域关闭导航菜单（仅在移动端执行）
-    document.addEventListener('click', function (e) {
-        // 只在移动端（窗口宽度 <= 768px）执行导航菜单关闭逻辑
-        if (window.innerWidth > 768) {
-            return;
-        }
-
-        const nav = document.querySelector('nav');
-        const navMenu = document.querySelector('nav ul');
-        const toggle = document.querySelector('.nav-toggle');
-        const searchContainer = document.querySelector('.search-container');
-
-        // 如果点击的是搜索容器内的元素，不关闭菜单
-        if (searchContainer && searchContainer.contains(e.target)) {
-            return;
-        }
-
-        if (nav && !nav.contains(e.target) && navMenu && toggle) {
-            // 平滑关闭菜单，避免闪烁
-            navMenu.classList.add('closing');
-            toggle.classList.remove('active');
-
-            setTimeout(() => {
-                navMenu.classList.remove('active', 'closing');
-            }, 300);
-        }
-    });
-
     // 修复搜索框失焦闪烁问题
     const searchInput = document.getElementById('search-input');
     const searchContainer = document.querySelector('.search-container');
@@ -316,66 +261,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 窗口大小调整时重置导航菜单状态
-    window.addEventListener('resize', function () {
-        if (window.innerWidth > 768) {
-            const navMenu = document.querySelector('nav ul');
-            const toggle = document.querySelector('.nav-toggle');
-            if (navMenu && toggle) {
-                // 在桌面端时，确保导航菜单状态正常
-                navMenu.style.display = '';
-                navMenu.classList.remove('active');
-                toggle.classList.remove('active');
-            }
-            // 移除移动端类
-            document.body.classList.remove('mobile-body');
-            const header = document.querySelector('header');
-            if (header) {
-                header.classList.remove('mobile-header');
-            }
-        } else {
-            // 添加移动端类
-            document.body.classList.add('mobile-body');
-            const header = document.querySelector('header');
-            if (header) {
-                header.classList.add('mobile-header');
-            }
-        }
-    });
-
-    // 初始化移动端样式类
-    function initMobileClasses() {
-        if (window.innerWidth <= 768) {
-            document.body.classList.add('mobile-body');
-            const header = document.querySelector('header');
-            if (header) {
-                header.classList.add('mobile-header');
-            }
-        }
-    }
-
-    // 页面加载完成后初始化
-    initMobileClasses();
-
-    // 图片懒加载
-    if ('IntersectionObserver' in window) {
-        const imgObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    const src = img.getAttribute('data-src');
-                    if (src) {
-                        img.src = src;
-                        img.removeAttribute('data-src');
-                    }
-                    observer.unobserve(img);
-                }
-            });
-        }); document.querySelectorAll('img[data-src]').forEach(img => {
-            imgObserver.observe(img);
-        });
-    }
-
     // 动态签名SVG初始化
     const newSignaturePath = document.querySelector('.dynamic-jason-signature-new path#jason-new-path');
     if (newSignaturePath) {
@@ -387,7 +272,6 @@ document.addEventListener('DOMContentLoaded', function () {
         newSignaturePath.style.strokeDasharray = length;
         newSignaturePath.style.strokeDashoffset = length;
 
-        console.log('SVG签名路径长度:', length); // 调试信息
     }
 
     // Back to top button functionality
@@ -443,8 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         musicBtn.classList.add("playing");
                         musicBtn.innerHTML = '<i class="fas fa-music"></i>';
                         isPlaying = true;
-                    }).catch((error) => {
-                        console.log("音乐播放失败:", error);
+                    }).catch(() => {
                         // 显示提示信息
                         musicBtn.title = "请先与页面交互后再尝试播放";
                     });
@@ -454,7 +337,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 音乐加载错误处理
         backgroundMusic.addEventListener("error", () => {
-            console.log("音乐文件加载失败");
             musicBtn.style.opacity = "0.5";
             musicBtn.style.cursor = "not-allowed";
             musicBtn.title = "音乐文件加载失败";
@@ -485,6 +367,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const highlights = document.querySelectorAll('.highlight');
 
         highlights.forEach((highlight, index) => {
+            if (highlight.querySelector('.copy-btn')) return;
+
             const pre = highlight.querySelector('pre');
             if (!pre) return;
 
@@ -549,6 +433,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const footnoteLinks = document.querySelectorAll('a.footnote');
 
         footnoteLinks.forEach(link => {
+            if (link.parentElement && link.parentElement.querySelector('.footnote-tooltip')) return;
+
             // 1. 获取脚注定义的 ID (例如，从 href="#fn:1" 中获取 "fn:1")
             const footnoteId = link.href.split('#').pop();
             if (!footnoteId) return;
@@ -573,7 +459,45 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function initLazyImages(root = document) {
+        const images = root.querySelectorAll('img[data-src]');
+        if (!images.length) return;
+
+        if ('IntersectionObserver' in window) {
+            const imgObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        const src = img.getAttribute('data-src');
+                        if (src) {
+                            img.src = src;
+                            img.removeAttribute('data-src');
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imgObserver.observe(img));
+            return;
+        }
+
+        images.forEach(img => {
+            const src = img.getAttribute('data-src');
+            if (src) {
+                img.src = src;
+                img.removeAttribute('data-src');
+            }
+        });
+    }
+
+    window.initializeDynamicArticleContent = function initializeDynamicArticleContent(root = document) {
+        initCodeCopy();
+        createFootnoteTooltips();
+        initLazyImages(root);
+    };
+
     // 执行函数
-    createFootnoteTooltips();
+    window.initializeDynamicArticleContent();
 
 });

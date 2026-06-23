@@ -37,8 +37,6 @@
     left: 0;
     right: 0;
     background: linear-gradient(180deg, rgba(var(--surface-glass-rgb), .94), rgba(var(--surface-glass-rgb), .88));
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--surface-border);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-soft);

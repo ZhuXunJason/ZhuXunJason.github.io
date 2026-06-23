@@ -17,7 +17,6 @@
         }
 
         const encryptedData = JSON.parse(encryptedDataElement.textContent);
-        console.log("解析后的加密数据:", encryptedData);
 
         // 支持旧格式（单一密码）和新格式（多密码）
         if (encryptedData.salt && encryptedData.iv && encryptedData.ciphertext) {
@@ -43,7 +42,6 @@
             }
         }
 
-        console.log("成功加载", Object.keys(encryptedPayloads).length, "套加密内容");
     } catch (e) {
         console.error("解析加密数据失败:", e);
         showError("无法解析加密内容。");
@@ -128,6 +126,28 @@
         return new TextDecoder().decode(decryptedBuffer);
     }
 
+    function renderKatexInContent() {
+        if (typeof renderMathInElement !== 'function') return;
+
+        renderMathInElement(mainArticleContent, {
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            throwOnError: false
+        });
+    }
+
+    function refreshDynamicArticleContent() {
+        renderKatexInContent();
+
+        if (typeof window.initializeDynamicArticleContent === 'function') {
+            window.initializeDynamicArticleContent(mainArticleContent);
+        }
+    }
+
     async function decryptContent(password) {
         errorMessageElement.style.display = 'none';
         if (!password) {
@@ -145,13 +165,10 @@
             // 尝试用输入的密码解密所有内容
             for (const [key, payload] of Object.entries(encryptedPayloads)) {
                 try {
-                    console.log(`尝试解密内容: ${key}`);
                     decryptedContent = await tryDecryptWithPassword(password, key, payload);
                     matchedKey = key;
-                    console.log(`成功解密内容: ${key}`);
                     break;
                 } catch (e) {
-                    console.log(`密码不匹配内容: ${key}`);
                     continue;
                 }
             }
@@ -163,22 +180,10 @@
                 mainArticleContent.style.display = 'block';
                 passwordPromptOverlay.style.display = 'none';
 
-                // 显示解密成功的内容提示
-                if (contentHints[matchedKey]) {
-                    console.log(`解密成功 - ${contentHints[matchedKey]}`);
-                }
-
-                // 重新渲染页面元素（如果有的话）
-                if (typeof window.renderMathJax === 'function') {
-                    window.renderMathJax();
-                }
-
+                refreshDynamicArticleContent();
 
                 const script = document.createElement('script');
                 script.src = '/assets/js/toc.js';
-                script.onload = () => {
-                    console.log('toc.js loaded');
-                };
 
                 document.body.appendChild(script);
                 }

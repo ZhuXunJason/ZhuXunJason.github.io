@@ -4,13 +4,15 @@ title: "Jason's Blog"
 description: >-
   一个由 Jekyll 驱动的，关于技术与生活的个人博客。
 baseurl: ""
-url: "https://ZhuXunJason.github.io"
+url: "https://zhuxunjason.github.io"
 github_username: ZhuXunJason
 
 markdown: kramdown
 highlighter: rouge
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
 # Kramdown 配置
 kramdown:

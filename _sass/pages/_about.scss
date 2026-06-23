@@ -67,8 +67,6 @@
 
 .about-container {
     background: linear-gradient(180deg, var(--page-container-bg), rgba(var(--surface-glass-rgb), .72));
-    backdrop-filter: blur(8px) saturate(102%) brightness(1);
-    -webkit-backdrop-filter: blur(8px) saturate(102%) brightness(1);
     box-sizing: border-box;
     padding: 2.5rem;
     border-radius: var(--border-radius);
@@ -88,8 +86,6 @@
     gap: 2rem;
     margin-bottom: 3rem;
     background: linear-gradient(142deg, rgba(var(--surface-glass-rgb), .88), rgba(var(--surface-glass-rgb), .72));
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
     padding: 2rem 2.2rem;
     border-radius: calc(var(--border-radius) - 2px);
     border: 1px solid var(--surface-border);
@@ -157,8 +153,6 @@
         height: 54px;
         position: relative;
         overflow: hidden;
-        backdrop-filter: blur(4px) saturate(1.04);
-        -webkit-backdrop-filter: blur(4px) saturate(1.04);
 
         &:before {
             content: '';
@@ -191,8 +185,6 @@
     border: 1px solid var(--surface-border);
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
 
     h2 {
         font-size: 1.55rem;

@@ -9,12 +9,12 @@ title: 生活专栏 - Jason's Blog
 <main>
     <section class="category-section">
         <div class="post-grid">
-            {% assign sorted_posts = site.life | sort: 'date' | reverse %}
+            {% assign sorted_posts = site.life | where_exp: 'post', 'post.hidden != true' | sort: 'date' | reverse %}
             {% for post in sorted_posts %}
             <a href="{{ post.url | relative_url }}" class="post-card">
                 <div class="post-img">
                     <img src="{{ post.featured_image | default: '/assets/images/default.webp' | relative_url }}"
-                        alt="{{ post.title }}">
+                        alt="{{ post.title }}" loading="lazy">
                 </div>
                 <div class="post-content">
                     {% if post.tags %}
@@ -33,7 +33,7 @@ title: 生活专栏 - Jason's Blog
                             {% endfor %}
                         </div>
                     {% else %}
-                        <span class="post-category life">生活</span>
+                        <span class="post-tag life">生活</span>
                     {% endif %}
                     <h3>{{ post.title }}</h3>
                     <p class="post-date">{{ post.date | date: "%Y年%m月" }}</p>

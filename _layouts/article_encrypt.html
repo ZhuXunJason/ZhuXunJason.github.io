@@ -41,13 +41,13 @@ layout: default
             </div>
             <h3>🔐 请输入密码查看内容</h3>
             <div class="password-input-wrapper">
-                <input type="password" id="password-input">
+                <input type="password" id="password-input" autocomplete="current-password">
                 <button id="password-submit-button">
                     <i class="fas fa-key"></i>
                     <span>解锁</span>
                 </button>
             </div>
-            <p id="error-message" style="display:none;"></p>
+            <p id="error-message" style="display:none;" aria-live="polite"></p>
             <div class="password-footer">
                 <small>💡 忘记密码？请联系作者获取</small>
             </div>
@@ -87,7 +87,7 @@ layout: default
         </div>
         {% endif %}
 
-        <div class="article-content" id="main-article-content" style="display:none;">
+        <div class="article-content" id="main-article-content" style="display:none;" aria-live="polite">
         </div>
         {% if page.source %}
         <template id="sourceNoticeTemplate">

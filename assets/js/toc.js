@@ -1,43 +1,39 @@
+function initializeToc() {
     const articleContent = document.querySelector(".article-content");
     const tocContainer = document.getElementById("toc-container");
+
+    if (!articleContent || !tocContainer) {
+        return;
+    }
 
     const headings = articleContent.querySelectorAll("h2, h3, h4");
 
     if (headings.length === 0) {
         tocContainer.style.display = "none";
+        return;
     }
 
-    let tocHTML = "";
-    let h2Index = 0;
-    let h3Index = 0;
+    const tocList = document.createElement("ul");
+    tocList.className = "toc-list";
 
     headings.forEach((heading, index) => {
-        const id = `heading-${index}`;
+        const id = heading.id || `heading-${index}`;
         heading.setAttribute("id", id);
+
         const level = heading.tagName.toLowerCase();
         const title = heading.textContent.trim();
+        const listItem = document.createElement("li");
+        const link = document.createElement("a");
 
-        if (level === 'h2') {
-            if (h2Index > 0) {
-                tocHTML += '</li>';
-            }
-            h2Index++;
-            h3Index = 0;
-            tocHTML += `<li><a href="#${id}" class="toc-h2">${title}</a>`;
-        } else if (level === 'h3') {
-            h3Index++;
-            tocHTML += `<li><a href="#${id}" class="toc-h3">${title}</a></li>`;
-        }
-        else if (level === 'h4') {
-            tocHTML += `<li><a href="#${id}" class="toc-h4">${title}</a></li>`;
-        }
+        link.href = `#${id}`;
+        link.className = `toc-${level}`;
+        link.textContent = title;
+
+        listItem.appendChild(link);
+        tocList.appendChild(listItem);
     });
 
-    if (h2Index > 0) {
-        tocHTML += '</li>';
-    }
-    
-    tocContainer.innerHTML = tocHTML;
+    tocContainer.replaceChildren(tocList);
 
     // Scroll-spying functionality
     const tocLinks = tocContainer.querySelectorAll("a");
@@ -45,7 +41,7 @@
 
     window.addEventListener("scroll", () => {
         let current = "";
-        
+
         headingElements.forEach(heading => {
             const headingTop = heading.offsetTop;
             if (pageYOffset >= headingTop - 60) { // 60px offset for header
@@ -60,3 +56,10 @@
             }
         });
     });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeToc);
+} else {
+    initializeToc();
+}

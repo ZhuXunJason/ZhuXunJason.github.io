@@ -22,8 +22,7 @@ is_home: true
     <!-- 学术列表 -->
     <section id="list-academic" class="post-grid" aria-label="学术文章列表">
         {% for post in academic_posts %}
-        <a class="post-card" href="{{ post.url | relative_url }}" data-title="{{ post.title | downcase }}"
-           data-tags="{% if post.tags %}{{ post.tags | join: ' ' | downcase }}{% endif %}">
+        <a class="post-card" href="{{ post.url | relative_url }}">
             <div class="post-img">
                 <img src="{{ post.featured_image | default: '/assets/images/default.webp' | relative_url }}"
                      alt="{{ post.title }}" loading="lazy" />
@@ -54,8 +53,7 @@ is_home: true
     <!-- 生活列表 -->
     <section id="list-life" class="post-grid hidden" aria-label="生活文章列表">
         {% for post in life_posts %}
-        <a class="post-card" href="{{ post.url | relative_url }}" data-title="{{ post.title | downcase }}"
-            data-tags="{% if post.tags %}{{ post.tags | join: ' ' | downcase }}{% endif %}">
+        <a class="post-card" href="{{ post.url | relative_url }}">
             <div class="post-img">
                 <img src="{{ post.featured_image | default: '/assets/images/default.webp' | relative_url }}"
                     alt="{{ post.title }}" loading="lazy" />

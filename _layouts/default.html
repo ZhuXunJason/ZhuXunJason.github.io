@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% seo %}
   <title>{% if page.title %}{{ page.title }} - {% endif %}Jason's Blog</title>
   <script>
     (function () {
@@ -49,15 +50,17 @@
 </head>
 
 <body{% if page.is_home %} class="home-page"{% endif %}>
+<a class="skip-link" href="#main-content">跳到正文</a>
 {% if page.is_home %}
 <div class="bg-blur" aria-hidden="true"></div>
 <div class="bg-overlay" aria-hidden="true"></div>
 <script src="{{ '/assets/js/switch.js' | relative_url }}"></script>
 {% endif %}
+<script src="{{ '/assets/js/posts-data.js' | relative_url }}"></script>
 
   {% include header.html %}
 
-  <div class="content-wrapper">
+  <div class="content-wrapper" id="main-content">
     {{ content }}
   </div>
 

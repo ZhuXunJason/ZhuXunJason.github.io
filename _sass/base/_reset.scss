@@ -46,6 +46,43 @@ body {
     }
 }
 
+.skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 10000;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-3);
+    color: var(--c-heading);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-160%);
+    transition: transform .2s ease;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+.post-card:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}
+
 html,
 body {
     &::-webkit-scrollbar {

@@ -12,8 +12,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentTags = Array.from(tagsElement.querySelectorAll('.post-tag')).map(tag => tag.textContent.trim());
     if (currentTags.length === 0) return;
 
-    fetch('/assets/json/posts.json')
-        .then(response => response.json())
+    const loadPosts = typeof window.loadBlogPostsData === 'function'
+        ? window.loadBlogPostsData()
+        : fetch('/assets/json/posts.json').then(response => response.json());
+
+    const escapeHtml = (value) => String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+
+    loadPosts
         .then(posts => {
             const relatedPosts = posts.map(post => {
                 if (post.url === currentPostUrl) {
@@ -52,14 +62,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 let html = '<div class="related-articles-grid">';
                 relatedPosts.forEach(post => {
                     html += `
-                        <a href="${post.url}" class="post-card">
-                            <div class="post-img"><img src="${post.image || "/assets/images/default.webp"}" alt="${post.title}" loading="lazy"></div>
+                        <a href="${escapeHtml(post.url)}" class="post-card">
+                            <div class="post-img"><img src="${escapeHtml(post.image || "/assets/images/default.webp")}" alt="${escapeHtml(post.title)}" loading="lazy"></div>
                             <div class="post-content">
                                 <div class="post-tags">
-                                    ${post.tags.map(tag => `<span class="post-tag ${getTagClass(tag)}">${tag}</span>`).join('')}
+                                    ${post.tags.map(tag => `<span class="post-tag ${getTagClass(tag)}">${escapeHtml(tag)}</span>`).join('')}
                                 </div>
-                                <h3>${post.title}</h3>
-                                <p class="excerpt">${post.excerpt}</p>
+                                <h3>${escapeHtml(post.title)}</h3>
+                                <p class="excerpt">${escapeHtml(post.excerpt)}</p>
                                 <div class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></div>
                             </div>
                         </a>

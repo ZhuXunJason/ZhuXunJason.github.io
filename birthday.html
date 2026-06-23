@@ -828,7 +828,7 @@
     <div class="balloons" id="balloons" aria-hidden="true"></div>
 
     <!-- Confetti overlay -->
-    <canvas id="confettiCanvas"></canvas>
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
 
     <main class="stage">
         <div class="letter-wrap closed" id="letterWrap">
@@ -839,11 +839,11 @@
                     <div class="body">
                     </div>
                     <div class="password-prompt-box">
-                        <input type="password" id="password-input" placeholder="请输入密码" autocomplete="off">
+                        <input type="password" id="password-input" placeholder="请输入密码" autocomplete="current-password">
                         <button id="password-submit-button">解锁</button>
                     </div>
                     <p id="error-message"></p>
-                    <p id="content-hint" style="display:none;"></p>
+                    <p id="content-hint" style="display:none;" aria-live="polite"></p>
                 </div>
             </div>
 
