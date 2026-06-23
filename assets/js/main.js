@@ -71,25 +71,50 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })();
 
-    // 修复移动端地址栏导致的视口高度抖动：设置 CSS 变量 --vh 为 window.innerHeight 的 1%
+    // 修复移动端地址栏导致的视口高度抖动：设置 CSS 变量 --vh 为当前可视视口高度的 1%
     (function initVhVariable() {
+        let rafId = null;
+
+        function getViewportHeight() {
+            return window.visualViewport && window.visualViewport.height
+                ? window.visualViewport.height
+                : window.innerHeight;
+        }
+
         function setVh() {
             try {
-                document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+                document.documentElement.style.setProperty('--vh', `${getViewportHeight() * 0.01}px`);
             } catch (e) {
                 // 忽略在某些旧浏览器上可能抛出的异常
             }
         }
 
+        function scheduleSetVh() {
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
+
+            rafId = requestAnimationFrame(() => {
+                rafId = null;
+                setVh();
+            });
+        }
+
         // 初始设置
         setVh();
 
-        // 防抖更新（resize 频繁触发）
+        // 桌面端 resize 防抖更新
         let resizeTimer = null;
         window.addEventListener('resize', function () {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(setVh, 120);
         });
+
+        // 移动 Chrome 地址栏隐藏/显示时，visualViewport 会连续变化；用 rAF 尽快同步，避免底部短暂露底。
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', scheduleSetVh);
+            window.visualViewport.addEventListener('scroll', scheduleSetVh);
+        }
 
         // 方向切换可能不会触发 resize 或会延迟，额外调用保障
         window.addEventListener('orientationchange', function () {

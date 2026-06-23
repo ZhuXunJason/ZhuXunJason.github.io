@@ -1,9 +1,24 @@
 /* 首页样式 (Home Page)
 -------------------------------------------------- */
 
+html.home-page-root,
+body.home-page {
+    background:
+        linear-gradient(180deg, var(--home-overlay-start), var(--home-overlay-end)),
+        radial-gradient(1450px 760px at 6% -10%, var(--blob1-color) 0%, transparent 64%),
+        radial-gradient(980px 560px at 92% 14%, var(--blob2-color) 0%, transparent 56%),
+        radial-gradient(760px 420px at 26% 84%, var(--blob3-color) 0%, transparent 52%),
+        url("/assets/images/banner.jpg") center/cover no-repeat,
+        var(--bg-color);
+    background-attachment: scroll;
+}
+
 .bg-blur {
     position: fixed;
-    inset: -80px;
+    top: -80px;
+    left: -80px;
+    width: calc(100% + 160px);
+    height: calc(var(--vh, 1vh) * 100 + 160px);
     z-index: -2;
     background:
         radial-gradient(1450px 760px at 6% -10%, var(--blob1-color) 0%, transparent 64%),
@@ -18,7 +33,10 @@
 
 .bg-overlay {
     position: fixed;
-    inset: -80px;
+    top: -80px;
+    left: -80px;
+    width: calc(100% + 160px);
+    height: calc(var(--vh, 1vh) * 100 + 160px);
     z-index: -1;
     background:
         linear-gradient(180deg, var(--home-overlay-start), var(--home-overlay-end)),
@@ -29,10 +47,13 @@
     .bg-blur,
     .bg-overlay {
         /*
-         * 移动浏览器地址栏收起时 visual viewport 会变高；让固定背景层
-         * 额外覆盖一圈，避免底部在重绘前露出 body 背景色。
+         * 移动浏览器地址栏收起时 visual viewport 会连续变高；显式使用
+         * JS 同步的 --vh 计算固定层高度，并保留额外覆盖，避免底部瞬间露底。
          */
-        inset: -120px;
+        top: -120px;
+        left: -120px;
+        width: calc(100% + 240px);
+        height: calc(var(--vh, 1vh) * 100 + 240px);
     }
 }
 

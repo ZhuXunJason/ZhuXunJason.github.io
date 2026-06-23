@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN"{% if page.is_home %} class="home-page-root"{% endif %}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +48,7 @@
   </script>
 </head>
 
-<body>
+<body{% if page.is_home %} class="home-page"{% endif %}>
 {% if page.is_home %}
 <div class="bg-blur" aria-hidden="true"></div>
 <div class="bg-overlay" aria-hidden="true"></div>
