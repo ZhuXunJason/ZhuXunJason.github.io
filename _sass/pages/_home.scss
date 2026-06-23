@@ -3,7 +3,7 @@
 
 .bg-blur {
     position: fixed;
-    inset: 0;
+    inset: -80px;
     z-index: -2;
     background:
         radial-gradient(1450px 760px at 6% -10%, var(--blob1-color) 0%, transparent 64%),
@@ -11,18 +11,29 @@
         radial-gradient(760px 420px at 26% 84%, var(--blob3-color) 0%, transparent 52%),
         radial-gradient(1200px 640px at 104% 108%, var(--surface-overlay) 0%, transparent 72%),
         linear-gradient(126deg, rgba(var(--surface-glass-rgb), .06), transparent 36%, rgba(var(--focus-ring-rgb), .06) 100%),
-        url("/assets/images/banner.jpg") center/cover no-repeat fixed;
+        url("/assets/images/banner.jpg") center/cover no-repeat;
     filter: blur(var(--bg-blur)) saturate(var(--bg-sat)) brightness(var(--bg-bright));
     transform: scale(1.05);
 }
 
 .bg-overlay {
     position: fixed;
-    inset: 0;
+    inset: -80px;
     z-index: -1;
     background:
         linear-gradient(180deg, var(--home-overlay-start), var(--home-overlay-end)),
         radial-gradient(900px 420px at 12% 8%, rgba(var(--focus-ring-rgb), .08), transparent 62%);
+}
+
+@media (max-width: 768px) {
+    .bg-blur,
+    .bg-overlay {
+        /*
+         * 移动浏览器地址栏收起时 visual viewport 会变高；让固定背景层
+         * 额外覆盖一圈，避免底部在重绘前露出 body 背景色。
+         */
+        inset: -120px;
+    }
 }
 
 .switch {

@@ -16,8 +16,8 @@ is_home: true
         <button role="tab" aria-selected="false" data-target="life">生活</button>
     </div>
 
-    {% assign academic_posts = site.academic | sort: 'date' | reverse %}
-    {% assign life_posts = site.life | sort: 'date' | reverse %}
+    {% assign academic_posts = site.academic | where_exp: 'post', 'post.hidden != true' | sort: 'date' | reverse %}
+    {% assign life_posts = site.life | where_exp: 'post', 'post.hidden != true' | sort: 'date' | reverse %}
 
     <!-- 学术列表 -->
     <section id="list-academic" class="post-grid" aria-label="学术文章列表">
