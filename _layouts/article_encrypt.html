@@ -57,22 +57,7 @@ layout: default
     <!-- 解密后的文章内容 -->
     <div class="article-container">
         <div class="article-header">
-            <div class="post-tags">
-                {% if page.tags %}
-                {% assign tag_string = page.tags | join: ',' %}
-                {% assign tag_list = tag_string | split: ',' %}
-                {% for tag in tag_list %}
-                {% assign trimmed_tag = tag | strip %}
-                {% assign tag_class = 'default' %}
-                {% if trimmed_tag contains '学术' or trimmed_tag contains 'academic' %}
-                {% assign tag_class = 'academic' %}
-                {% elsif trimmed_tag contains '生活' or trimmed_tag contains 'life' %}
-                {% assign tag_class = 'life' %}
-                {% endif %}
-                <span class="post-tag {{ tag_class }}">{{ trimmed_tag }}</span>
-                {% endfor %}
-                {% endif %}
-            </div>
+            {% include post-tags.html %}
             <h1>{{ page.title }}</h1>
             <div class="article-meta">
                 <span>作者：{{ page.author | default: '朱洵' }}</span>
@@ -126,16 +111,20 @@ layout: default
 
 <!-- 音乐控件 - 仅在生活类文章中显示 -->
 {% assign is_life_article = false %}
+{% if page.collection and page.collection == 'life' %}
+{% assign is_life_article = true %}
+{% endif %}
 {% if page.tags %}
-    {% assign tag_string = page.tags | join: ',' %}
-    {% assign tag_list = tag_string | split: ',' %}
-    {% for tag in tag_list %}
-        {% assign trimmed_tag = tag | strip %}
-        {% if trimmed_tag contains '生活' or trimmed_tag contains 'life' %}
-            {% assign is_life_article = true %}
-            {% break %}
-        {% endif %}
-    {% endfor %}
+{% assign tag_string = page.tags | join: ',' %}
+{% assign tag_list = tag_string | split: ',' %}
+{% for tag in tag_list %}
+{% assign trimmed_tag = tag | strip %}
+{% assign tag_lookup = trimmed_tag | downcase %}
+{% if tag_lookup contains '生活' or tag_lookup contains 'life' %}
+{% assign is_life_article = true %}
+{% break %}
+{% endif %}
+{% endfor %}
 {% endif %}
 
 {% if is_life_article %}

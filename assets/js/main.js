@@ -199,18 +199,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const header = document.querySelector('header');
     const scrollThreshold = 50;
 
-    window.addEventListener('scroll', function () {
-        const scrolled = window.scrollY;
+    if (header) {
+        window.addEventListener('scroll', function () {
+            const scrolled = window.scrollY;
 
-        if (scrolled > scrollThreshold) {
-            header.classList.add('scrolled');
-            header.style.backdropFilter = 'blur(10px)';
-        } else {
-            header.classList.remove('scrolled');
-            header.style.backdropFilter = '';
-            header.style.backgroundColor = '';
-        }
-    });
+            if (scrolled > scrollThreshold) {
+                header.classList.add('scrolled');
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.classList.remove('scrolled');
+                header.style.backdropFilter = '';
+                header.style.backgroundColor = '';
+            }
+        });
+    }
 
     // 平滑滚动到锚点
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -222,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                const headerHeight = document.querySelector('header').offsetHeight;
+                const headerHeight = header ? header.offsetHeight : 0;
                 const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
 
                 window.scrollTo({
@@ -302,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let isPlaying = false;
 
         // 设置音乐音量
-        backgroundMusic.volume = 0.08;
+        backgroundMusic.volume = 0.12;
 
         // 音乐控件始终显示（仅在生活类文章中）
         if (musicController) {
@@ -445,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 3. 复制脚注内容。我们使用 innerHTML 来保留格式，并移除返回链接
             let footnoteContent = footnoteElement.innerHTML.trim();
-            footnoteContent = footnoteContent.replace(/<a.+?class="reversefootnote".+?<\/a>/, ''); // 移除 "↩" 返回链接
+            footnoteContent = footnoteContent.replace(/<a\b[^>]*class="[^"]*\breversefootnote\b[^"]*"[^>]*>[\s\S]*?<\/a>/g, ''); // 移除 "↩" 返回链接
 
             // 4. 创建 tooltip 元素
             const tooltip = document.createElement('span');

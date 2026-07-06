@@ -2,19 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 桌面端搜索元素
     const searchInput = document.getElementById('search-input');
     const resultsContainer = document.getElementById('search-results-container');
+    const postUtils = window.BlogPostUtils;
 
     let articles = [];
     let isIndexBuilt = false;
     let searchTimeout = null;
 
-    function escapeHtml(value) {
-        return String(value ?? '')
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
+    if (!searchInput || !resultsContainer || !postUtils) return;
+
+    const { escapeHtml, formatYearMonth, getTagClass } = postUtils;
 
     // 从 /assets/json/posts.json 异步加载文章数据
     function loadArticlesAsync() {
@@ -46,21 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 articles = [];
                 isIndexBuilt = false;
             });
-    }
-
-    // 格式化日期，只显示年份和月份
-    function formatDateForSearch(dateString) {
-        if (!dateString) return '';
-
-        try {
-            const date = new Date(dateString);
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1; // getMonth() 返回 0-11，需要加1
-            return `${year}年${month}月`;
-        } catch (error) {
-            console.warn('Invalid date format:', dateString);
-            return dateString; // 如果解析失败，返回原始字符串
-        }
     }
 
     function escapeRegExp(text) {
@@ -188,17 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (article.tags && article.tags.length > 0) {
                 // 显示所有标签，基于标签内容决定颜色
                 tagsHtml = article.tags.map(tag => {
-                    let tagClass = 'default'; // 默认橙色
-                    const lowerTag = tag.toLowerCase();
-
-                    if (lowerTag === '学术' || lowerTag === 'academic') {
-                        tagClass = 'academic'; // 蓝色
-                    } else if (lowerTag === '生活' || lowerTag === 'life') {
-                        tagClass = 'life'; // 绿色
-                    }
-                    // 其他所有标签使用 general (橙色)
-
-                    return `<span class="search-result-tag ${tagClass}">${escapeHtml(tag)}</span>`;
+                    return `<span class="search-result-tag ${getTagClass(tag)}">${escapeHtml(tag)}</span>`;
                 }).join('');
             }
 
@@ -212,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="search-result-title">${highlightedTitle}</div>
                     <div class="search-result-meta">
                         ${tagsHtml}
-                        ${article.date ? `<span class="search-result-date">${escapeHtml(formatDateForSearch(article.date))}</span>` : ''}
+                        ${article.date ? `<span class="search-result-date">${escapeHtml(formatYearMonth(article.date))}</span>` : ''}
                     </div>
                     <div class="search-result-snippet">${highlightedSnippet}</div>
                 </a>`;

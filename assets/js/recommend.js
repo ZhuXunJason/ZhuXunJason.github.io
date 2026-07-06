@@ -1,27 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
     const relatedPostsContainer = document.getElementById('related-posts-container');
     const currentPostUrl = window.location.pathname;
+    const postUtils = window.BlogPostUtils;
 
-    if (!relatedPostsContainer) {
+    if (!relatedPostsContainer || !postUtils) {
         return;
     }
+
+    const { escapeHtml, getTagClass, normalizeTag } = postUtils;
 
     const tagsElement = document.querySelector('.post-tags');
     if (!tagsElement) return;
 
     const currentTags = Array.from(tagsElement.querySelectorAll('.post-tag')).map(tag => tag.textContent.trim());
+    const currentTagSet = new Set(currentTags.map(normalizeTag));
     if (currentTags.length === 0) return;
 
     const loadPosts = typeof window.loadBlogPostsData === 'function'
         ? window.loadBlogPostsData()
         : fetch('/assets/json/posts.json').then(response => response.json());
-
-    const escapeHtml = (value) => String(value ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
 
     loadPosts
         .then(posts => {
@@ -30,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     return null;
                 }
 
-                const commonTags = post.tags ? post.tags.filter(tag => currentTags.includes(tag)) : [];
+                const postTags = Array.isArray(post.tags) ? post.tags : [];
+                const commonTags = postTags.filter(tag => currentTagSet.has(normalizeTag(tag)));
                 const score = commonTags.length;
                 return { ...post, score };
             })
@@ -39,34 +37,15 @@ document.addEventListener('DOMContentLoaded', function () {
             .slice(0, 2);
 
             if (relatedPosts.length > 0) {
-                // Helper function to get tag class
-                const getTagClass = (tag) => {
-                    const lowerTag = tag.toLowerCase();
-                    if (lowerTag === '学术' || lowerTag === 'academic') {
-                        return 'academic';
-                    } else if (lowerTag === '生活' || lowerTag === 'life') {
-                        return 'life';
-                    } else {
-                        return 'default';
-                    }
-                };
-
-                // Helper function to format date
-                const formatDate = (dateString) => {
-                    const date = new Date(dateString);
-                    const year = date.getFullYear().toString();
-                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                    return `${year}年${month}月`;
-                };
-
                 let html = '<div class="related-articles-grid">';
                 relatedPosts.forEach(post => {
+                    const postTags = Array.isArray(post.tags) ? post.tags : [];
                     html += `
                         <a href="${escapeHtml(post.url)}" class="post-card">
                             <div class="post-img"><img src="${escapeHtml(post.image || "/assets/images/default.webp")}" alt="${escapeHtml(post.title)}" loading="lazy"></div>
                             <div class="post-content">
                                 <div class="post-tags">
-                                    ${post.tags.map(tag => `<span class="post-tag ${getTagClass(tag)}">${escapeHtml(tag)}</span>`).join('')}
+                                    ${postTags.map(tag => `<span class="post-tag ${getTagClass(tag)}">${escapeHtml(tag)}</span>`).join('')}
                                 </div>
                                 <h3>${escapeHtml(post.title)}</h3>
                                 <p class="excerpt">${escapeHtml(post.excerpt)}</p>

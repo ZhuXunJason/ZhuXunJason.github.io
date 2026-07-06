@@ -5,6 +5,8 @@
     const errorMessageElement = document.getElementById('error-message');
     const contentHintElement = document.getElementById('content-hint');
 
+    if (passwordInput && submitButton && passwordPromptOverlay && mainArticleContent && errorMessageElement) {
+
     // 从 HTML 中获取多套加密数据
     let encryptedPayloads = {};
     let contentHints = {};
@@ -110,7 +112,7 @@
             },
             keyMaterial,
             { name: "AES-GCM", length: 256 },
-            true,
+            false,
             ["encrypt", "decrypt"]
         );
 
@@ -229,4 +231,4 @@
         const hintText = hintKeys.map(key => contentHints[key]).join(' / ');
         showContentHint(`可用内容: ${hintText}`);
     }
-
+    }

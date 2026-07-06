@@ -1,0 +1,17 @@
+<div class="post-tags">
+    {% if page.tags %}
+    {% assign tag_string = page.tags | join: ',' %}
+    {% assign tag_list = tag_string | split: ',' %}
+    {% for tag in tag_list %}
+    {% assign trimmed_tag = tag | strip %}
+    {% assign tag_lookup = trimmed_tag | downcase %}
+    {% assign tag_class = 'default' %}
+    {% if tag_lookup contains '学术' or tag_lookup contains 'academic' %}
+    {% assign tag_class = 'academic' %}
+    {% elsif tag_lookup contains '生活' or tag_lookup contains 'life' %}
+    {% assign tag_class = 'life' %}
+    {% endif %}
+    <span class="post-tag {{ tag_class }}">{{ trimmed_tag }}</span>
+    {% endfor %}
+    {% endif %}
+</div>

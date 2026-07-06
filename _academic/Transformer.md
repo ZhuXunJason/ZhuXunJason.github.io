@@ -6,7 +6,7 @@ tags:
   - 学习笔记
   - 深度学习(DL)
 date: 2025-12-05
-featured_image: /assets/images/model.png
+featured_image: /assets/images/model.webp
 excerpt: Transformer是一种采用注意力机制的深度学习架构
 ---
 
@@ -180,7 +180,7 @@ $$
 
 前馈神经网络 (Feed-Forward Network, FFN)主要由两层的多层感知机(Multilayer Perception, MLP)实现。所有Token**并行**通过(对序列中的每一个 Token **独立地**进行变换)。
 
-![](/assets/images/MLP.png)
+![](/assets/images/MLP.webp)
 
 MLP的第一层进行升维，通过激活函数进行非线性变换，然后在第二层降维，最后与输入相加。
 
