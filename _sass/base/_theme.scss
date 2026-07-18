@@ -40,6 +40,8 @@ html[data-theme="light"] {
     --accent-color: #e74c3c;
     --focus-ring: #22c7a7;
     --focus-ring-rgb: 34, 199, 167;
+    --primary-color-rgb: 34, 199, 167;
+    --border-color-rgb: 148, 163, 184;
     --md-secondary: #2980b9;
 
     --c-info-bg: rgba(59, 130, 246, .12);
@@ -183,6 +185,8 @@ html[data-theme="reading"] {
     --accent-color: #b57455;
     --focus-ring: #a36a43;
     --focus-ring-rgb: 163, 106, 67;
+    --primary-color-rgb: 185, 124, 82;
+    --border-color-rgb: 125, 97, 74;
     --md-secondary: #a97752;
 
     --c-info-bg: rgba(120, 138, 154, .14);

@@ -8,6 +8,7 @@ tags:
 date: 2025-07-17
 featured_image: /assets/images/search.jpg
 excerpt: 约束满足问题（Constraint Satisfaction Problems, CSPs）只关心最终的解本身是否满足一系列给定的约束。
+math: true
 ---
 ## 概览
 

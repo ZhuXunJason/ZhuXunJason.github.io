@@ -8,6 +8,7 @@ tags:
 date: 2026-04-06
 featured_image: /assets/images/SVM.png
 excerpt: 支持向量机（Support Vector Machine, SVM）是一种监督式学习模型，主要用于二元分类任务。
+math: true
 ---
 
 

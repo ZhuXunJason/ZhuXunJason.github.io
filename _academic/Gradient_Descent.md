@@ -8,6 +8,7 @@ tags:
 date: 2025-08-19
 featured_image: /assets/images/gradient-descent.png
 excerpt: 梯度下降是机器学习的一种常用方法，目标是找到使成本函数最小的参数值
+math: true
 ---
 梯度下降法用于更新线性回归模型中的参数 ($\boldsymbol{w}, b$)，公式为
 

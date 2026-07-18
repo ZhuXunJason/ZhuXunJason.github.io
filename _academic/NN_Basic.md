@@ -8,6 +8,7 @@ tags:
 date: 2025-08-19
 featured_image: /assets/images/neuron.jpg
 excerpt: 神经网络(Neural Network)通过模仿生物神经元协同工作的方式来处理复杂问题
+math: true
 ---
 人工神经网络 (Artificial Neural Network, ANN)由输入层，隐藏层(Hidden layer)和输出层组成，每一层包括若干个神经元。每个神经元接收来自前一层神经元的输出 $\boldsymbol{x}$ 。首先进行仿射变换（类似线性回归）：
 

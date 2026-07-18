@@ -8,6 +8,7 @@ tags:
 date: 2025-09-27
 featured_image: /assets/images/RL.jpg
 excerpt: 强化学习(Reinforcement learning，RL)是机器学习的一个领域，强调如何基于环境而行动，以取得最大化的预期利益。
+math: true
 ---
 
 强化学习的灵感来源于动物训练，即通过给动物奖励或惩罚，让动物学会特定的行为模式。在强化学习中，智能体（agent）通过与环境持续互动，以试错的方式学习，并在过程中通过奖励或惩罚来优化自己的行为策略，以实现累积回报最大化，尤其适用于解决不确定环境中的决策问题。强化学习的数学框架是马尔可夫决策过程(Markov decision processes，MDP)。

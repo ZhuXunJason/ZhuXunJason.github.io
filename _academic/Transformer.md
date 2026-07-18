@@ -8,6 +8,7 @@ tags:
 date: 2025-12-05
 featured_image: /assets/images/model.webp
 excerpt: Transformer是一种采用注意力机制的深度学习架构
+math: true
 ---
 
 参考视频：

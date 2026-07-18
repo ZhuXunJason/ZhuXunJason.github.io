@@ -8,6 +8,7 @@ tags:
 date: 2025-08-16
 featured_image: /assets/images/gradient-descent.png
 excerpt: 有监督学习(Supervised Learning)是机器学习中的一种类别，输入数据包括 特征(x) 和 标签(y)
+math: true
 ---
 有监督学习(Supervised Learning)是机器学习中的一种类别，输入数据包括 特征(x) 和 标签(y)，主要分为 **回归** 和 **分类** 两类。 
 

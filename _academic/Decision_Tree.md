@@ -8,6 +8,7 @@ tags:
 date: 2026-04-06
 featured_image: /assets/images/decision-tree.png
 excerpt: 决策树（Decision Tree）是一种树形结构的监督学习算法，可以用于分类和回归任务。
+math: true
 ---
 
 一棵决策树主要由三个部分构成：

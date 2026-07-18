@@ -8,6 +8,7 @@ tags:
 date: 2026-05-17
 featured_image: /assets/images/CNN.png
 excerpt: 卷积神经网络 (Convolutional Neural Network, CNN) 是一种前馈神经网络，主要用于处理具有网格结构的数据（如图像、视频、音频）。
+math: true
 ---
 
 使用全连接网络处理图像等高维数据时，常见问题是参数量过大。

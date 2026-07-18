@@ -8,6 +8,7 @@ tags:
 date: 2026-04-13
 featured_image: /assets/images/bayes.webp
 excerpt: 贝叶斯分类器（Bayes Classifier）是一种通过最大化后验概率进行单点估计的分类器。
+math: true
 ---
 根据 贝叶斯定理（Bayes' Theorem），具有特征 $\boldsymbol{x}$ 的样本属于类别 $c$ 的概率为：
 

@@ -8,6 +8,7 @@ tags:
 date: 2026-03-16
 featured_image: /assets/images/gradient-descent.png
 excerpt: 机器学习(Machine Learning, ML)是人工智能(AI)的一个分支，旨在通过算法和统计模型使计算机系统能够从数据中自动学习和改进性能。
+math: true
 ---
 机器学习是人工智能（AI）的一个核心子领域，它致力于研究如何让计算机系统利用经验（数据）来改善自身的性能。
 

@@ -8,6 +8,7 @@ tags:
 date: 2025-07-28
 featured_image: /assets/images/search.jpg
 excerpt: 对抗搜索(Adversarial search)用于存在两个或多个对手博弈的问题
+math: true
 ---
 ## 概览
 
