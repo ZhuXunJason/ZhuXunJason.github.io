@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 显示搜索结果容器
     function showResults() {
-        resultsContainer.style.display = 'block';
+        resultsContainer.style.display = '';
         // 强制重排以确保动画正常工作
         resultsContainer.offsetHeight;
         resultsContainer.classList.add('show');

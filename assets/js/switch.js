@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     switcher.addEventListener('click',e=>{ const btn=e.target.closest('button[role="tab"]'); if(!btn) return; tabs.forEach(b=>{ const act=b===btn; b.classList.toggle('active',act); b.setAttribute('aria-selected',act?'true':'false'); }); const target=btn.dataset.target; setActive(target); slideThumb(); animateList(lists[target]); });
 
-    // 初始化：显示 academic, 隐藏 life
-    setActive('academic'); slideThumb();
+    // 初始化：显示 academic 并播放入场动画, 隐藏 life
+    setActive('academic'); slideThumb(); animateList(lists['academic']);
     window.addEventListener('resize', slideThumb);
 });

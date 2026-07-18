@@ -44,11 +44,14 @@
     overflow-y: auto;
     z-index: 1000;
     margin-top: .55rem;
-    display: none;
     padding: 4px 0;
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) transparent;
-    transition: background .35s ease, box-shadow .4s ease, border-color .4s ease;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: visibility 0s linear .28s, opacity .28s ease, transform .28s ease, background .35s ease, box-shadow .4s ease, border-color .4s ease;
 
     &::-webkit-scrollbar {
         width: var(--scrollbar-size-thin);
@@ -80,14 +83,18 @@
     }
 
     &.show {
-        display: block;
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        transition-delay: 0s;
     }
 
     .search-result-item {
         display: block;
         padding: .75rem 1.05rem .8rem 1.05rem;
         border-bottom: 1px solid var(--surface-border);
-        transition: background .3s ease, color .3s ease;
+        transition: background .3s ease, color .3s ease, transform .18s ease;
         position: relative;
 
         &:last-child {
@@ -97,11 +104,12 @@
         &:hover {
             background: var(--surface-highlight);
             color: var(--primary-color);
+            transform: translateX(2px);
         }
 
         &.selected {
             background: linear-gradient(90deg, rgba(var(--focus-ring-rgb), .18), rgba(var(--focus-ring-rgb), .06));
-            border-left: 4px solid var(--primary-color);
+            box-shadow: inset 4px 0 0 var(--primary-color);
         }
 
         .search-result-title {

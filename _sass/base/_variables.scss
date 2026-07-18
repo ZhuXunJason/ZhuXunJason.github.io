@@ -33,8 +33,6 @@ html[data-theme="light"] {
     --page-noise: none;
     --page-container-bg: rgba(255, 255, 255, .78);
     --page-container-border: rgba(255, 255, 255, .28);
-    --home-overlay-start: rgba(246, 250, 255, .2);
-    --home-overlay-end: rgba(246, 250, 255, .52);
 }
 
 html[data-theme="reading"] {
@@ -61,6 +59,4 @@ html[data-theme="reading"] {
     --page-noise: none;
     --page-container-bg: rgba(255, 248, 240, .82);
     --page-container-border: rgba(163, 106, 67, .14);
-    --home-overlay-start: rgba(246, 239, 230, .12);
-    --home-overlay-end: rgba(246, 239, 230, .42);
 }
