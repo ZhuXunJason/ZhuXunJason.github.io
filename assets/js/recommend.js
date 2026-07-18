@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 </div>
                                 <h3>${escapeHtml(post.title)}</h3>
                                 <p class="excerpt">${escapeHtml(post.excerpt)}</p>
-                                <div class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></div>
+                                <div class="read-more">阅读更多 <i class="fas fa-arrow-right" aria-hidden="true"></i></div>
                             </div>
                         </a>
                     `;

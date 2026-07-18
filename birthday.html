@@ -13,21 +13,21 @@
 
 <body>
     <main class="stage">
-        <section class="entry" id="password-prompt-overlay" aria-labelledby="entry-title">
+        <section class="entry password-prompt-overlay" id="password-prompt-overlay" aria-labelledby="entry-title">
             <div class="entry__ornament" aria-hidden="true"><span class="entry__dot"></span></div>
             <h1 class="entry__title" id="entry-title">一封写给你的信</h1>
             <p class="entry__subtitle">输入密码，展开信笺</p>
 
             <div class="entry__form">
-                <input type="password" id="password-input" placeholder="密码" aria-label="密码" autocomplete="current-password" />
-                <button id="password-submit-button" type="button"><span>展开</span></button>
+                <input type="password" id="password-input" class="password-input" placeholder="密码" aria-label="密码" autocomplete="current-password" />
+                <button id="password-submit-button" class="password-submit-button" type="button"><span>展开</span></button>
             </div>
 
-            <p id="error-message" class="entry__error" role="alert"></p>
-            <p id="content-hint" class="entry__hint" aria-live="polite"></p>
+            <p id="error-message" class="entry__error error-message" role="alert"></p>
+            <p id="content-hint" class="entry__hint content-hint" aria-live="polite"></p>
         </section>
 
-        <div id="main-article-content">
+        <div id="main-article-content" class="main-article-content">
             <!-- 解密后的内容将注入这里 -->
         </div>
     </main>

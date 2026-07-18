@@ -19,16 +19,16 @@
 
         <div class="search-container">
             <div class="search" role="search">
-                <div class="search__wrap" aria-expanded="false">
+                <div class="search__wrap">
                     <svg class="search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="7"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input id="search-input" class="search__input" type="search" placeholder="搜索文章…"
-                        autocomplete="off" />
+                    <input id="search-input" class="search__input search-input" type="search" placeholder="搜索文章…"
+                        autocomplete="off" aria-label="搜索文章" aria-expanded="false" />
                 </div>
-                <div id="search-results-container"></div>
+                <div id="search-results-container" class="search-results-container"></div>
             </div>
         </div>
 

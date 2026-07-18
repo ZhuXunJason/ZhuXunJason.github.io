@@ -197,11 +197,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // 强制重排以确保动画正常工作
         resultsContainer.offsetHeight;
         resultsContainer.classList.add('show');
+        if (searchInput) searchInput.setAttribute('aria-expanded', 'true');
     }
 
     // 隐藏搜索结果容器
     function hideResults() {
         resultsContainer.classList.remove('show');
+        if (searchInput) searchInput.setAttribute('aria-expanded', 'false');
         searchTimeout = setTimeout(() => {
             resultsContainer.style.display = 'none';
         }, 300); // 匹配CSS过渡时间

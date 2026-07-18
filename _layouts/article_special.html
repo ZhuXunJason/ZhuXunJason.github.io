@@ -33,26 +33,26 @@ layout: default
             <div class="divider-line"></div>
             <div class="divider-content">
                 <div class="divider-icon">
-                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart" aria-hidden="true"></i>
                 </div>
                 <h2 class="divider-title">相关推荐</h2>
             </div>
             <div class="divider-line"></div>
         </div>
 
-        <div id="related-posts-container" class="related-articles-section"></div>
+        <div id="related-posts-container" class="related-articles-section related-posts-container"></div>
     </div>
 
-    <section id="toc-container"></section>
+    <section id="toc-container" class="toc-container"></section>
     <script src="{{ '/assets/js/toc.js' | relative_url }}"></script>
     <script src="{{ '/assets/js/recommend.js' | relative_url }}"></script>
 </div>
 
-<button id="back-to-top-btn" title="回到顶部"><i class="fas fa-arrow-up"></i></button>
+<button id="back-to-top-btn" class="back-to-top-btn" title="回到顶部" aria-label="回到顶部"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
 
-<div id="music-controller">
-    <button id="music-btn" title="播放/暂停音乐">
-        <i class="fas fa-music"></i>
+<div id="music-controller" class="music-controller">
+    <button id="music-btn" class="music-btn" title="播放/暂停音乐">
+        <i class="fas fa-music" aria-hidden="true"></i>
     </button>
     <audio id="background-music" preload="auto" loop>
         {% if page.music and page.music != "" %}

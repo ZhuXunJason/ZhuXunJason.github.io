@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 backgroundMusic.pause();
                 musicBtn.classList.remove("playing");
                 musicBtn.classList.add("paused");
-                musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                musicBtn.innerHTML = '<i class="fas fa-music" aria-hidden="true"></i>';
                 isPlaying = false;
             } else {
                 // 尝试播放音乐
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     playPromise.then(() => {
                         musicBtn.classList.remove("paused");
                         musicBtn.classList.add("playing");
-                        musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                        musicBtn.innerHTML = '<i class="fas fa-music" aria-hidden="true"></i>';
                         isPlaying = true;
                     }).catch(() => {
                         // 显示提示信息
@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function () {
         backgroundMusic.addEventListener("ended", () => {
             musicBtn.classList.remove("playing");
             musicBtn.classList.add("paused");
-            musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+            musicBtn.innerHTML = '<i class="fas fa-music" aria-hidden="true"></i>';
             isPlaying = false;
         });
 
@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 创建复制按钮
             const copyBtn = document.createElement('button');
             copyBtn.className = 'copy-btn';
-            copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+            copyBtn.innerHTML = '<i class="fas fa-copy" aria-hidden="true"></i>';
             copyBtn.setAttribute('data-code-index', index);
 
             // 添加复制按钮到highlight容器
@@ -412,12 +412,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // 显示复制成功状态
                     copyBtn.classList.add('copied');
-                    copyBtn.innerHTML = '<i class="fas fa-check"></i>Copied!';
+                    copyBtn.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i>Copied!';
 
                     // 2秒后恢复原状
                     setTimeout(() => {
                         copyBtn.classList.remove('copied');
-                        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                        copyBtn.innerHTML = '<i class="fas fa-copy" aria-hidden="true"></i>';
                     }, 2000);
 
                 } catch (err) {

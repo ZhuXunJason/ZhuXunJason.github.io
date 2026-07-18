@@ -84,7 +84,7 @@
 
         const byteArray = new Uint8Array(cleanHexString.length / 2);
         for (let i = 0; i < byteArray.length; i++) {
-            const hexByte = cleanHexString.substr(i * 2, 2);
+            const hexByte = cleanHexString.substring(i * 2, i * 2 + 2);
             byteArray[i] = parseInt(hexByte, 16);
         }
         return byteArray;
@@ -158,7 +158,7 @@
         }
 
         submitButton.disabled = true;
-        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 解密中...';
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> 解密中...';
 
         try {
             let decryptedContent = null;
@@ -182,6 +182,8 @@
                 mainArticleContent.style.display = 'block';
                 passwordPromptOverlay.style.display = 'none';
 
+                moveFocusToContent();
+
                 refreshDynamicArticleContent();
 
                 const script = document.createElement('script');
@@ -201,7 +203,7 @@
             passwordInput.focus();
         } finally {
             submitButton.disabled = false;
-            submitButton.innerHTML = '<i class="fas fa-key"></i> <span>解锁</span>';
+            submitButton.innerHTML = '<i class="fas fa-key" aria-hidden="true"></i> <span>解锁</span>';
         }
     }
 
@@ -214,7 +216,7 @@
     }
 
     if (passwordInput) {
-        passwordInput.addEventListener('keypress', (e) => {
+        passwordInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const password = passwordInput.value.trim();
                 decryptContent(password);
@@ -223,6 +225,51 @@
 
         // 自动聚焦密码输入框
         passwordInput.focus();
+        setupFocusTrap();
+    }
+
+    // 焦点陷阱：在密码遮罩内循环 Tab
+    function setupFocusTrap() {
+        if (!passwordPromptOverlay) return;
+        const focusableSelectors = 'input, button, [tabindex]:not([tabindex="-1"])';
+
+        passwordPromptOverlay.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (passwordInput) {
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+                return;
+            }
+
+            if (e.key !== 'Tab') return;
+
+            const focusable = passwordPromptOverlay.querySelectorAll(focusableSelectors);
+            if (focusable.length === 0) return;
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (e.shiftKey) {
+                if (document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                }
+            } else {
+                if (document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        });
+    }
+
+    // 解锁成功后焦点管理
+    function moveFocusToContent() {
+        if (mainArticleContent) {
+            mainArticleContent.setAttribute('tabindex', '-1');
+            mainArticleContent.focus();
+        }
     }
 
     // 显示可用内容的提示

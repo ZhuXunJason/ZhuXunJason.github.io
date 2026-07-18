@@ -1027,7 +1027,7 @@ html[data-theme="reading"] {
 }
 
 //回到顶部按钮
-#back-to-top-btn {
+.back-to-top-btn {
     position: fixed;
     top: 8rem;
     right: 1rem;
@@ -1084,14 +1084,14 @@ html[data-theme="reading"] {
 }
 
 // 音乐控件样式 - 增加间距避免重叠
-#music-controller {
+.music-controller {
     position: fixed;
     top: 12.5rem; // 进一步向下移动，增加更多间距
     right: 1rem;
     z-index: 999;
     display: block; // 始终显示
 
-    #music-btn {
+    .music-btn {
         background: var(--floating-button-bg);
         color: var(--floating-button-icon);
         border: 1px solid var(--floating-button-border);
@@ -1228,7 +1228,7 @@ html[data-theme="reading"] {
 }
 
 // 为播放状态添加脉冲效果
-#music-controller #music-btn.playing {
+.music-controller .music-btn.playing {
     animation: musicPulse 2s ease-in-out infinite;
 }
 
@@ -1294,7 +1294,7 @@ html[data-theme="reading"] {
     }
 
     // 移动端返回顶部按钮调整
-    #back-to-top-btn {
+    .back-to-top-btn {
         right: 0.5rem;
         width: 45px;
         height: 45px;
@@ -1302,11 +1302,11 @@ html[data-theme="reading"] {
     }
 
     // 移动端音乐控件调整 - 增加更多间距避免重叠
-    #music-controller {
+    .music-controller {
         right: 0.5rem;
         top: 12rem;
 
-        #music-btn {
+        .music-btn {
             width: 45px;
             height: 45px;
             font-size: 1.1rem;

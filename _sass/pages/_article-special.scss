@@ -383,10 +383,10 @@ html[data-theme="reading"] .article-special .love-letter {
     }
 }
 
-.article-special #password-prompt-overlay {
+.article-special .password-prompt-overlay {
     background: linear-gradient(135deg, rgba(60, 30, 40, .75), rgba(80, 40, 50, .85));
 
-    #password-prompt-container {
+    .password-prompt-container {
         border: 1px solid rgba(255, 180, 195, .3);
         background: linear-gradient(145deg, rgba(255, 252, 253, .96), rgba(255, 248, 250, .92));
         box-shadow: 0 20px 60px rgba(180, 100, 110, .3);
@@ -400,7 +400,7 @@ html[data-theme="reading"] .article-special .love-letter {
             color: var(--rose-deep);
         }
 
-        #password-input {
+        .password-input {
             border-color: rgba(255, 180, 195, .3);
             background: rgba(255, 252, 253, .9);
 
@@ -410,7 +410,7 @@ html[data-theme="reading"] .article-special .love-letter {
             }
         }
 
-        #password-submit-button {
+        .password-submit-button {
             background: linear-gradient(135deg, var(--rose), var(--rose-deep));
             box-shadow: 0 6px 18px rgba(232, 120, 138, .35);
 
@@ -421,8 +421,8 @@ html[data-theme="reading"] .article-special .love-letter {
     }
 }
 
-.article-special ~ #back-to-top-btn,
-.article-special ~ #music-controller #music-btn {
+.article-special ~ .back-to-top-btn,
+.article-special ~ .music-controller .music-btn {
     --article-floating-accent: #e8788a;
     --article-floating-accent-rgb: 232, 120, 138;
     --article-floating-accent-deep: #c75d6f;
@@ -449,8 +449,8 @@ html[data-theme="reading"] .article-special .love-letter {
     }
 }
 
-html[data-theme="reading"] .article-special ~ #back-to-top-btn,
-html[data-theme="reading"] .article-special ~ #music-controller #music-btn {
+html[data-theme="reading"] .article-special ~ .back-to-top-btn,
+html[data-theme="reading"] .article-special ~ .music-controller .music-btn {
     --article-floating-accent: #b97c72;
     --article-floating-accent-rgb: 154, 92, 84;
     --article-floating-accent-deep: #9a5c54;
@@ -459,7 +459,7 @@ html[data-theme="reading"] .article-special ~ #music-controller #music-btn {
     background: linear-gradient(135deg, rgba(255, 248, 244, .94), rgba(var(--article-floating-accent-rgb), .10));
 }
 
-.article-special ~ #music-controller #music-btn {
+.article-special ~ .music-controller .music-btn {
     &.playing {
         border-color: rgba(var(--article-floating-accent-rgb), .70);
         background: linear-gradient(135deg, rgba(255, 220, 228, .98), rgba(var(--article-floating-accent-rgb), .88));

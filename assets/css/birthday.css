@@ -179,7 +179,7 @@ body::before {
     margin-top: 30px;
 }
 
-#password-input {
+.password-input {
     width: 100%;
     min-width: 0;
     padding: 14px 4px;
@@ -193,16 +193,16 @@ body::before {
     transition: border-color .2s ease, box-shadow .2s ease;
 }
 
-#password-input::placeholder {
+.password-input::placeholder {
     color: var(--bd-ink-mute);
 }
 
-#password-input:focus {
+.password-input:focus {
     border-color: var(--bd-accent);
     box-shadow: 0 1px 0 var(--bd-accent);
 }
 
-#password-input.shake {
+.password-input.shake {
     animation: shake .3s ease;
 }
 
@@ -213,7 +213,7 @@ body::before {
     78% { transform: translateX(-2px); }
 }
 
-#password-submit-button {
+.password-submit-button {
     flex: 0 0 auto;
     min-width: 94px;
     padding: 13px 24px;
@@ -228,24 +228,24 @@ body::before {
     transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 
-#password-submit-button:hover {
+.password-submit-button:hover {
     background: var(--bd-accent-deep);
     transform: translateY(-1px);
     box-shadow: 0 10px 24px rgba(168, 120, 80, .24);
 }
 
-#password-submit-button:active {
+.password-submit-button:active {
     transform: translateY(0);
 }
 
-#password-submit-button:disabled {
+.password-submit-button:disabled {
     cursor: wait;
     opacity: .72;
     transform: none;
 }
 
 .entry__error,
-#error-message {
+.error-message {
     min-height: 18px;
     margin: 14px 0 0;
     color: var(--bd-error);
@@ -254,7 +254,7 @@ body::before {
     text-align: center;
 }
 
-#content-hint {
+.content-hint {
     display: none;
     margin-top: 10px;
     color: var(--bd-ink-3);
@@ -262,14 +262,14 @@ body::before {
     line-height: 1.6;
 }
 
-#main-article-content {
+.main-article-content {
     display: none;
     width: min(760px, 100%);
     margin: 0 auto;
 }
 
-#main-article-content.letter-surface,
-#main-article-content > .letter,
+.main-article-content.letter-surface,
+.main-article-content > .letter,
 .letter-wrap > .letter {
     position: relative;
     width: min(760px, 100%);
@@ -286,14 +286,14 @@ body::before {
     transition: opacity .8s cubic-bezier(.22, 1, .36, 1), transform .8s cubic-bezier(.22, 1, .36, 1), box-shadow .3s ease;
 }
 
-#main-article-content.letter-surface:hover,
-#main-article-content > .letter:hover,
+.main-article-content.letter-surface:hover,
+.main-article-content > .letter:hover,
 .letter-wrap > .letter:hover {
     box-shadow: var(--bd-shadow-hover);
 }
 
-#main-article-content.letter-surface::before,
-#main-article-content > .letter::before,
+.main-article-content.letter-surface::before,
+.main-article-content > .letter::before,
 .letter-wrap > .letter::before {
     content: "";
     position: absolute;
@@ -304,15 +304,15 @@ body::before {
     opacity: .45;
 }
 
-#main-article-content.letter-surface > *,
-#main-article-content > .letter > *,
+.main-article-content.letter-surface > *,
+.main-article-content > .letter > *,
 .letter-wrap > .letter > * {
     position: relative;
     z-index: 1;
 }
 
-#main-article-content.visible.letter-surface,
-#main-article-content > .letter.visible,
+.main-article-content.visible.letter-surface,
+.main-article-content > .letter.visible,
 .letter-wrap > .letter.visible {
     opacity: 1;
     transform: none;
@@ -334,17 +334,17 @@ body::before {
     margin: 18px auto 28px;
 }
 
-#main-article-content.visible .letter__rule,
-#main-article-content.visible .divider,
-#main-article-content .letter.visible .letter__rule,
-#main-article-content .letter.visible .divider {
+.main-article-content.visible .letter__rule,
+.main-article-content.visible .divider,
+.main-article-content .letter.visible .letter__rule,
+.main-article-content .letter.visible .divider {
     transform: scaleX(1);
 }
 
 .letter__title,
 .letter .title,
-#main-article-content.letter-surface > h1,
-#main-article-content.letter-surface > h2 {
+.main-article-content.letter-surface > h1,
+.main-article-content.letter-surface > h2 {
     margin: 6px 0 8px;
     font-family: var(--bd-font-display);
     font-size: clamp(26px, 4vw, 38px);
@@ -361,9 +361,9 @@ body::before {
 
 .letter__title.birthday-art-title,
 .letter .title.birthday-art-title,
-#main-article-content.letter-surface > .birthday-art-title,
-#main-article-content.letter-surface > h1.birthday-art-title,
-#main-article-content.letter-surface > h2.birthday-art-title {
+.main-article-content.letter-surface > .birthday-art-title,
+.main-article-content.letter-surface > h1.birthday-art-title,
+.main-article-content.letter-surface > h2.birthday-art-title {
     font-family: var(--bd-font-birthday);
     font-size: clamp(42px, 7.4vw, 76px);
     font-weight: 400;
@@ -391,7 +391,7 @@ body::before {
     transition: opacity .45s ease .35s, transform .45s ease .35s;
 }
 
-#main-article-content.visible .letter-cake-mark,
+.main-article-content.visible .letter-cake-mark,
 .letter.visible .letter-cake-mark {
     opacity: .82;
     transform: none;
@@ -421,7 +421,7 @@ body::before {
 
 .letter__body,
 .letter .content,
-#main-article-content.letter-surface {
+.main-article-content.letter-surface {
     font-family: var(--bd-font-hand);
     font-size: clamp(16px, 1.12vw, 18px);
     font-weight: 400;
@@ -432,7 +432,7 @@ body::before {
 
 .letter__body p,
 .letter .content p,
-#main-article-content.letter-surface > p {
+.main-article-content.letter-surface > p {
     margin: 1.2em 0;
     opacity: 0;
     transform: translateY(12px);
@@ -442,16 +442,16 @@ body::before {
 
 .letter.visible .letter__body p,
 .letter.visible .content p,
-#main-article-content.visible.letter-surface .letter__body p,
-#main-article-content.visible.letter-surface .content p,
-#main-article-content.visible.letter-surface > p {
+.main-article-content.visible.letter-surface .letter__body p,
+.main-article-content.visible.letter-surface .content p,
+.main-article-content.visible.letter-surface > p {
     opacity: 1;
     transform: none;
 }
 
 .letter__body p:first-child,
 .letter .content p:first-child,
-#main-article-content.letter-surface > p:first-of-type {
+.main-article-content.letter-surface > p:first-of-type {
     color: var(--bd-ink);
     font-weight: 400;
 }
@@ -604,9 +604,9 @@ body::before {
 .letter.visible .image-decor,
 .letter.visible .photo-decor,
 .letter.visible .image-sprinkle,
-#main-article-content.visible .image-decor,
-#main-article-content.visible .photo-decor,
-#main-article-content.visible .image-sprinkle {
+.main-article-content.visible .image-decor,
+.main-article-content.visible .photo-decor,
+.main-article-content.visible .image-sprinkle {
     opacity: 1;
     transform: rotate(var(--rot, -2deg)) scale(1);
 }
@@ -629,7 +629,7 @@ body::before {
 
 .letter__body img,
 .letter .content img,
-#main-article-content.letter-surface img {
+.main-article-content.letter-surface img {
     max-width: 100%;
     height: auto;
 }
@@ -664,9 +664,9 @@ body::before {
 }
 
 @media (max-width: 1024px) {
-    #main-article-content,
-    #main-article-content.letter-surface,
-    #main-article-content > .letter,
+    .main-article-content,
+    .main-article-content.letter-surface,
+    .main-article-content > .letter,
     .letter-wrap > .letter {
         width: min(92vw, 760px);
     }
@@ -688,12 +688,12 @@ body::before {
         gap: 12px;
     }
 
-    #password-submit-button {
+    .password-submit-button {
         width: 100%;
     }
 
-    #main-article-content.letter-surface,
-    #main-article-content > .letter,
+    .main-article-content.letter-surface,
+    .main-article-content > .letter,
     .letter-wrap > .letter {
         padding: 24px 20px;
     }
@@ -721,9 +721,9 @@ body::before {
 }
 
 @media (min-width: 1400px) {
-    #main-article-content,
-    #main-article-content.letter-surface,
-    #main-article-content > .letter,
+    .main-article-content,
+    .main-article-content.letter-surface,
+    .main-article-content > .letter,
     .letter-wrap > .letter {
         width: min(760px, 100%);
     }
