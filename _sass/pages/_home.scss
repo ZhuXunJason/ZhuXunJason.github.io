@@ -17,7 +17,7 @@ body.home-page {
             radial-gradient(1160px 620px at 104% 108%, var(--surface-overlay) 0%, transparent 72%),
             var(--page-bg-gradient);
         background-size: 220% 220%;
-        animation: homeFluidDrift var(--page-drift-duration, 66s) linear infinite;
+        animation: fluidDrift var(--page-drift-duration, 66s) linear infinite;
     }
 
     &::after {
@@ -28,40 +28,8 @@ body.home-page {
         background: var(--swirl-colors);
         mix-blend-mode: soft-light;
         opacity: var(--page-swirl-opacity, .12);
-        animation: homeSwirl var(--page-swirl-duration, 220s) linear infinite;
+        animation: swirlRotate var(--page-swirl-duration, 220s) linear infinite;
         pointer-events: none;
-    }
-}
-
-@keyframes homeFluidDrift {
-    0% {
-        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-    }
-
-    25% {
-        transform: translate3d(1.2%, -.8%, 0) scale(1.03) rotate(.3deg);
-    }
-
-    50% {
-        transform: translate3d(-.7%, 1.1%, 0) scale(1.05) rotate(.55deg);
-    }
-
-    75% {
-        transform: translate3d(.9%, -.5%, 0) scale(1.03) rotate(.3deg);
-    }
-
-    100% {
-        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-    }
-}
-
-@keyframes homeSwirl {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
     }
 }
 
@@ -126,9 +94,11 @@ body.home-page {
         display: inline-block;
         font-size: clamp(2.2rem, 6vw, 4rem);
         font-weight: 700;
-        line-height: 1.2;
+        line-height: 1.5;
         letter-spacing: .02em;
-        min-height: 1.2em;
+        min-height: 1.5em;
+        padding: .1em .2em .25em;
+        margin-bottom: -.15em;
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         -webkit-background-clip: text;
         background-clip: text;

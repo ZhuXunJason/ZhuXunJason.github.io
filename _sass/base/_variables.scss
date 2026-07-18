@@ -1,6 +1,12 @@
 /* Shared aliases and page atmosphere */
 :root,
 html[data-theme="light"] {
+    /* Breakpoint tokens (文档锚点，@media 查询仍用字面量) */
+    --bp-sm: 640px;
+    --bp-md: 768px;
+    --bp-lg: 1024px;
+    --bp-xl: 1200px;
+
     --text-color: var(--c-text-1);
     --text-light: var(--c-text-3);
     --card-bg: var(--surface-2);

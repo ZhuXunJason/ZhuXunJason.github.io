@@ -16,7 +16,7 @@
             linear-gradient(180deg, rgba(var(--surface-glass-rgb), .06), transparent 24%),
             var(--page-bg-gradient);
         background-size: 220% 220%;
-        animation: aboutFluidDrift var(--page-drift-duration, 60s) linear infinite;
+        animation: fluidDrift var(--page-drift-duration, 60s) linear infinite;
         z-index: -3;
     }
 
@@ -30,38 +30,6 @@
         animation: swirlRotate var(--page-swirl-duration, 200s) linear infinite;
         pointer-events: none;
         z-index: -4;
-    }
-}
-
-@keyframes swirlRotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes aboutFluidDrift {
-    0% {
-        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-    }
-
-    25% {
-        transform: translate3d(1.2%, -.8%, 0) scale(1.03) rotate(.3deg);
-    }
-
-    50% {
-        transform: translate3d(-.7%, 1.1%, 0) scale(1.05) rotate(.55deg);
-    }
-
-    75% {
-        transform: translate3d(.9%, -.5%, 0) scale(1.03) rotate(.3deg);
-    }
-
-    100% {
-        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
     }
 }
 
@@ -318,7 +286,7 @@
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@include reduced-motion {
     .about-page::before,
     .about-page::after {
         animation: none;

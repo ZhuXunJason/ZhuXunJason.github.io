@@ -61,7 +61,7 @@ h4 {
 a {
     color: var(--primary-color);
     text-decoration: none;
-    transition: var(--transition-fast);
+    transition: color .2s ease-in-out;
 
     &:hover {
         color: var(--secondary-color);

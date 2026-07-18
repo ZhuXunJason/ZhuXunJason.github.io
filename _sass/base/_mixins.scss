@@ -1,0 +1,85 @@
+/* SASS Mixins (扩展集)
+-------------------------------------------------- */
+
+/// 统一滚动条样式（WebKit）
+/// @param {String} $track - track 背景值
+/// @param {String} $thumb - thumb 背景值
+/// @param {String} $size [var(--scrollbar-size)] - 滚动条宽高
+@mixin scrollbar($track, $thumb, $size: var(--scrollbar-size)) {
+    &::-webkit-scrollbar {
+        width: $size;
+        height: $size;
+    }
+    &::-webkit-scrollbar-track {
+        background: linear-gradient(180deg, transparent 0%, #{$track} 28%, transparent 100%);
+        border-radius: var(--scrollbar-radius);
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: var(--scrollbar-radius);
+        border: 2px solid transparent;
+        background-clip: padding-box;
+        background: $thumb;
+    }
+    &::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+}
+
+/// 流体背景层（::before blob + ::after swirl）
+/// @param {String} $drift-keyframe - drift 动画名
+/// @param {String} $drift-duration - drift 持续时间
+/// @param {String} $swirl-duration - swirl 持续时间
+@mixin fluid-background($drift-keyframe, $drift-duration, $swirl-duration) {
+    &::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(1450px 760px at 6% -10%, var(--blob1-color) 0%, transparent 64%),
+                    radial-gradient(980px 560px at 90% 16%, var(--blob2-color) 0%, transparent 56%),
+                    radial-gradient(760px 420px at 26% 84%, var(--blob3-color) 0%, transparent 52%),
+                    radial-gradient(1160px 620px at 104% 108%, var(--surface-overlay) 0%, transparent 72%),
+                    var(--page-bg-gradient);
+        background-size: 220% 220%;
+        animation: #{$drift-keyframe} $drift-duration linear infinite;
+        z-index: -3;
+    }
+    &::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: var(--swirl-colors);
+        mix-blend-mode: soft-light;
+        opacity: var(--page-swirl-opacity, 0.12);
+        animation: swirlRotate $swirl-duration linear infinite;
+        pointer-events: none;
+        z-index: -4;
+    }
+}
+
+/// 减少动画偏好
+@mixin reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}
+
+/// focus-visible 焦点环
+/// @param {String} $ring [var(--focus-ring)] - 焦点环颜色
+/// @param {Length} $offset [3px] - 偏移量
+@mixin focus-visible($ring: var(--focus-ring), $offset: 3px) {
+    &:focus-visible {
+        outline: 2px solid $ring;
+        outline-offset: $offset;
+    }
+}
+
+/// 玻璃拟态表面
+/// @param {String} $bg - 背景色
+/// @param {String} $border - 边框色
+/// @param {Length} $blur [var(--bg-blur)] - 模糊半径
+@mixin glass-surface($bg, $border, $blur: var(--bg-blur)) {
+    background: $bg;
+    border: 1px solid $border;
+    backdrop-filter: blur($blur);
+    -webkit-backdrop-filter: blur($blur);
+}

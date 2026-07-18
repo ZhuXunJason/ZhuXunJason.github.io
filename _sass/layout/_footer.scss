@@ -34,7 +34,7 @@
         background: var(--surface-1);
         border: 1px solid var(--surface-border);
         color: var(--text-light);
-        transition: var(--transition-normal);
+        transition: background-color .3s ease-in-out, border-color .3s ease-in-out, color .3s ease-in-out, transform .3s ease-in-out;
 
         &:hover {
             background: var(--primary-color);

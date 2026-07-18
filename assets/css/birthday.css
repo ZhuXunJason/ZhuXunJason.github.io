@@ -4,26 +4,26 @@
     --bd-glow: rgba(255, 250, 240, .55);
     --bd-card: #fffdf9;
     --bd-card-2: #fdf8f0;
-    --ink: #2c2823;
-    --ink-2: #4a443c;
-    --ink-3: #7a7268;
-    --ink-mute: #a89e92;
-    --accent: #c9956b;
-    --accent-soft: #e8d5c1;
-    --accent-deep: #a87850;
-    --accent-line: #d4b896;
-    --success: #6b9e7a;
-    --error: #c47b6b;
-    --shadow-card: 0 1px 2px rgba(44, 40, 35, .04), 0 8px 24px rgba(44, 40, 35, .08);
-    --shadow-hover: 0 2px 4px rgba(44, 40, 35, .06), 0 12px 36px rgba(44, 40, 35, .12);
-    --shadow-soft: 0 4px 16px rgba(44, 40, 35, .06);
-    --radius: 16px;
-    --radius-sm: 10px;
-    --radius-xs: 6px;
-    --font-display: Georgia, "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
-    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", sans-serif;
-    --font-hand: "Semi-cursive", var(--font-body);
-    --font-birthday: "Cheese", "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive;
+    --bd-ink: #2c2823;
+    --bd-ink-2: #4a443c;
+    --bd-ink-3: #7a7268;
+    --bd-ink-mute: #a89e92;
+    --bd-accent: #c9956b;
+    --bd-accent-soft: #e8d5c1;
+    --bd-accent-deep: #a87850;
+    --bd-accent-line: #d4b896;
+    --bd-success: #6b9e7a;
+    --bd-error: #c47b6b;
+    --bd-shadow-card: 0 1px 2px rgba(44, 40, 35, .04), 0 8px 24px rgba(44, 40, 35, .08);
+    --bd-shadow-hover: 0 2px 4px rgba(44, 40, 35, .06), 0 12px 36px rgba(44, 40, 35, .12);
+    --bd-shadow-soft: 0 4px 16px rgba(44, 40, 35, .06);
+    --bd-radius: 16px;
+    --bd-radius-sm: 10px;
+    --bd-radius-xs: 6px;
+    --bd-font-display: Georgia, "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --bd-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", sans-serif;
+    --bd-font-hand: "Semi-cursive", var(--bd-font-body);
+    --bd-font-birthday: "Cheese", "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive;
 }
 
 @font-face {
@@ -54,8 +54,8 @@ html {
 body {
     min-height: 100%;
     margin: 0;
-    font-family: var(--font-body);
-    color: var(--ink);
+    font-family: var(--bd-font-body);
+    color: var(--bd-ink);
     background:
         radial-gradient(ellipse 800px 600px at 50% 0%, var(--bd-glow), transparent 70%),
         linear-gradient(180deg, var(--bd-page), var(--bd-page-2));
@@ -104,8 +104,8 @@ body::before {
     text-align: center;
     background: linear-gradient(180deg, rgba(255, 253, 249, .86), rgba(253, 248, 240, .74));
     border: 1px solid rgba(212, 184, 150, .38);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-card);
+    border-radius: var(--bd-radius);
+    box-shadow: var(--bd-shadow-card);
     backdrop-filter: blur(10px);
     transition: opacity .4s ease, transform .4s ease;
 }
@@ -118,7 +118,7 @@ body::before {
     justify-content: center;
     gap: 10px;
     margin-bottom: 18px;
-    color: var(--accent);
+    color: var(--bd-accent);
 }
 
 .entry__ornament::before,
@@ -130,13 +130,13 @@ body::before {
     content: "";
     width: 60px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent-line));
+    background: linear-gradient(90deg, transparent, var(--bd-accent-line));
 }
 
 .entry__ornament::after,
 .letter__ornament::after,
 .top-decor::after {
-    background: linear-gradient(90deg, var(--accent-line), transparent);
+    background: linear-gradient(90deg, var(--bd-accent-line), transparent);
 }
 
 .entry__dot,
@@ -145,7 +145,7 @@ body::before {
     height: 6px;
     flex: 0 0 auto;
     border-radius: 999px;
-    background: var(--accent);
+    background: var(--bd-accent);
     box-shadow: 0 0 0 5px rgba(201, 149, 107, .08);
 }
 
@@ -156,12 +156,12 @@ body::before {
 
 .entry__title {
     margin: 0;
-    font-family: var(--font-display);
+    font-family: var(--bd-font-display);
     font-size: clamp(22px, 3.5vw, 32px);
     font-weight: 400;
     line-height: 1.25;
     letter-spacing: .04em;
-    color: var(--ink);
+    color: var(--bd-ink);
 }
 
 .entry__subtitle,
@@ -169,7 +169,7 @@ body::before {
     margin: 12px 0 0;
     font-size: 14px;
     line-height: 1.7;
-    color: var(--ink-3);
+    color: var(--bd-ink-3);
 }
 
 .entry__form {
@@ -184,22 +184,22 @@ body::before {
     min-width: 0;
     padding: 14px 4px;
     border: 0;
-    border-bottom: 1px solid var(--accent-line);
+    border-bottom: 1px solid var(--bd-accent-line);
     border-radius: 0;
     background: transparent;
-    color: var(--ink);
-    font: 15px/1.4 var(--font-body);
+    color: var(--bd-ink);
+    font: 15px/1.4 var(--bd-font-body);
     outline: none;
     transition: border-color .2s ease, box-shadow .2s ease;
 }
 
 #password-input::placeholder {
-    color: var(--ink-mute);
+    color: var(--bd-ink-mute);
 }
 
 #password-input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 1px 0 var(--accent);
+    border-color: var(--bd-accent);
+    box-shadow: 0 1px 0 var(--bd-accent);
 }
 
 #password-input.shake {
@@ -218,10 +218,10 @@ body::before {
     min-width: 94px;
     padding: 13px 24px;
     border: 0;
-    border-radius: var(--radius-sm);
-    background: var(--accent);
+    border-radius: var(--bd-radius-sm);
+    background: var(--bd-accent);
     color: #fffdf9;
-    font: 600 15px/1.35 var(--font-body);
+    font: 600 15px/1.35 var(--bd-font-body);
     letter-spacing: .04em;
     cursor: pointer;
     box-shadow: 0 8px 18px rgba(201, 149, 107, .22);
@@ -229,7 +229,7 @@ body::before {
 }
 
 #password-submit-button:hover {
-    background: var(--accent-deep);
+    background: var(--bd-accent-deep);
     transform: translateY(-1px);
     box-shadow: 0 10px 24px rgba(168, 120, 80, .24);
 }
@@ -248,7 +248,7 @@ body::before {
 #error-message {
     min-height: 18px;
     margin: 14px 0 0;
-    color: var(--error);
+    color: var(--bd-error);
     font-size: 13px;
     line-height: 1.4;
     text-align: center;
@@ -257,7 +257,7 @@ body::before {
 #content-hint {
     display: none;
     margin-top: 10px;
-    color: var(--ink-3);
+    color: var(--bd-ink-3);
     font-size: 12px;
     line-height: 1.6;
 }
@@ -277,10 +277,10 @@ body::before {
     padding: clamp(28px, 5vw, 56px) clamp(24px, 4.5vw, 48px);
     overflow: hidden;
     border: 1px solid rgba(212, 184, 150, .34);
-    border-radius: var(--radius);
+    border-radius: var(--bd-radius);
     background: linear-gradient(180deg, rgba(255, 253, 249, .98), rgba(253, 248, 240, .98));
-    box-shadow: var(--shadow-card);
-    color: var(--ink-2);
+    box-shadow: var(--bd-shadow-card);
+    color: var(--bd-ink-2);
     opacity: 0;
     transform: translateY(24px) scale(.97);
     transition: opacity .8s cubic-bezier(.22, 1, .36, 1), transform .8s cubic-bezier(.22, 1, .36, 1), box-shadow .3s ease;
@@ -289,7 +289,7 @@ body::before {
 #main-article-content.letter-surface:hover,
 #main-article-content > .letter:hover,
 .letter-wrap > .letter:hover {
-    box-shadow: var(--shadow-hover);
+    box-shadow: var(--bd-shadow-hover);
 }
 
 #main-article-content.letter-surface::before,
@@ -323,7 +323,7 @@ body::before {
     width: min(120px, 60%);
     height: 1px;
     margin: 0 auto 28px;
-    background: linear-gradient(90deg, transparent, var(--accent-line), transparent);
+    background: linear-gradient(90deg, transparent, var(--bd-accent-line), transparent);
     transform: scaleX(0);
     transform-origin: center;
     transition: transform .6s cubic-bezier(.22, 1, .36, 1) .3s;
@@ -346,13 +346,13 @@ body::before {
 #main-article-content.letter-surface > h1,
 #main-article-content.letter-surface > h2 {
     margin: 6px 0 8px;
-    font-family: var(--font-display);
+    font-family: var(--bd-font-display);
     font-size: clamp(26px, 4vw, 38px);
     font-weight: 500;
     line-height: 1.25;
     letter-spacing: .06em;
     text-align: center;
-    color: var(--ink);
+    color: var(--bd-ink);
     background: none;
     -webkit-text-fill-color: currentColor;
     text-shadow: none;
@@ -364,12 +364,12 @@ body::before {
 #main-article-content.letter-surface > .birthday-art-title,
 #main-article-content.letter-surface > h1.birthday-art-title,
 #main-article-content.letter-surface > h2.birthday-art-title {
-    font-family: var(--font-birthday);
+    font-family: var(--bd-font-birthday);
     font-size: clamp(42px, 7.4vw, 76px);
     font-weight: 400;
     line-height: .92;
     letter-spacing: .012em;
-    color: var(--accent-deep);
+    color: var(--bd-accent-deep);
     -webkit-text-fill-color: currentColor;
     text-shadow:
         0 1px 0 rgba(255, 253, 249, .95),
@@ -380,7 +380,7 @@ body::before {
     width: 58px;
     height: 58px;
     margin: 0 auto 18px;
-    color: var(--accent);
+    color: var(--bd-accent);
     opacity: .82;
 }
 
@@ -414,7 +414,7 @@ body::before {
 .date-line {
     margin: 0 0 26px;
     text-align: center;
-    color: var(--ink-3);
+    color: var(--bd-ink-3);
     font-size: 13px;
     letter-spacing: .08em;
 }
@@ -422,12 +422,12 @@ body::before {
 .letter__body,
 .letter .content,
 #main-article-content.letter-surface {
-    font-family: var(--font-hand);
+    font-family: var(--bd-font-hand);
     font-size: clamp(16px, 1.12vw, 18px);
     font-weight: 400;
     line-height: 1.95;
     letter-spacing: .01em;
-    color: var(--ink-2);
+    color: var(--bd-ink-2);
 }
 
 .letter__body p,
@@ -452,7 +452,7 @@ body::before {
 .letter__body p:first-child,
 .letter .content p:first-child,
 #main-article-content.letter-surface > p:first-of-type {
-    color: var(--ink);
+    color: var(--bd-ink);
     font-weight: 400;
 }
 
@@ -465,11 +465,11 @@ body::before {
 .letter .signature {
     margin-top: 2em;
     text-align: right;
-    font-family: var(--font-hand);
+    font-family: var(--bd-font-hand);
     font-size: 1.02em;
     font-weight: 400;
     font-style: italic;
-    color: var(--ink-3);
+    color: var(--bd-ink-3);
 }
 
 .photos,
@@ -491,9 +491,9 @@ body::before {
     margin: 0;
     overflow: hidden;
     border: 0;
-    border-radius: var(--radius-sm);
+    border-radius: var(--bd-radius-sm);
     background: var(--bd-card-2);
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--bd-shadow-soft);
     aspect-ratio: 4 / 5;
     opacity: 0;
     transform: scale(.95);
@@ -576,7 +576,7 @@ body::before {
 .image-decor--soft,
 .photo-decor--soft,
 .image-sprinkle--soft {
-    border-radius: var(--radius-sm);
+    border-radius: var(--bd-radius-sm);
 }
 
 .image-decor--left,
@@ -647,7 +647,7 @@ body::before {
     z-index: 1;
     margin: -54px 0 38px;
     text-align: center;
-    color: var(--ink-mute);
+    color: var(--bd-ink-mute);
     font-size: 11px;
     letter-spacing: .1em;
 }
@@ -663,7 +663,7 @@ body::before {
     }
 }
 
-@media (max-width: 880px) {
+@media (max-width: 1024px) {
     #main-article-content,
     #main-article-content.letter-surface,
     #main-article-content > .letter,
