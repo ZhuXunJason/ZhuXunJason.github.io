@@ -80,7 +80,7 @@ body.home-page {
     z-index: 0;
 }
 
-/* Hero 区（极简 · 60vh）
+/* Hero 区（滚动叙事起点 · 60vh）
  * -------------------------------------------------- */
 .hero {
     min-height: 60vh;
@@ -89,6 +89,9 @@ body.home-page {
     justify-content: center;
     text-align: center;
     padding: 2rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 0;
 
     .typewriter-text {
         display: inline-block;
@@ -103,6 +106,113 @@ body.home-page {
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
+        will-change: transform, opacity;
+    }
+}
+
+/* 滚动叙事：Hero 标题随滚动渐隐上移
+ * 现代浏览器用 CSS scroll-timeline，旧浏览器由 main.js 兜底
+ * -------------------------------------------------- */
+@supports (animation-timeline: scroll()) {
+    .hero .typewriter-text {
+        animation: heroFadeUp linear both;
+        animation-timeline: scroll();
+        animation-range: 0 50vh;
+    }
+
+    @keyframes heroFadeUp {
+        from { opacity: 1; transform: translateY(0); }
+        to   { opacity: 0; transform: translateY(-40px); }
+    }
+}
+
+/* 不支持 scroll-timeline 的浏览器：通过 JS 设置 --scroll-ratio */
+@supports not (animation-timeline: scroll()) {
+    .hero .typewriter-text {
+        opacity: calc(1 - var(--scroll-ratio, 0));
+        transform: translateY(calc(var(--scroll-ratio, 0) * -40px));
+    }
+}
+
+/* 文章容器包裹层（玻璃拟态）
+ * -------------------------------------------------- */
+.articles-section {
+    background: linear-gradient(180deg,
+        rgba(var(--surface-glass-rgb), .86) 0%,
+        rgba(var(--surface-glass-rgb), .72) 100%);
+    border: 1px solid var(--surface-border);
+    border-radius: calc(var(--border-radius) + 8px);
+    box-shadow: var(--shadow-strong);
+    padding: 2.5rem 2rem 2rem;
+    margin: 2rem auto 3rem;
+    max-width: 1180px;
+    position: relative;
+    overflow: hidden;
+
+    /* 顶部高光线 */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg,
+            transparent,
+            rgba(var(--focus-ring-rgb), .3) 22%,
+            rgba(var(--focus-ring-rgb), .12) 78%,
+            transparent);
+    }
+
+    &__header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    &__title {
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin: 0;
+        letter-spacing: .04em;
+        background: linear-gradient(135deg, var(--brand-strong), var(--brand));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    /* 切换器在容器内居中 */
+    .switch {
+        margin-top: 0;
+    }
+
+    /* 卡片网格在容器内，间距收紧 */
+    .post-grid {
+        margin-top: 2rem;
+        gap: 1.5rem;
+    }
+}
+
+/* 容器入场动画 */
+.articles-section {
+    animation: containerEnter .8s cubic-bezier(.22, 1, .36, 1) both;
+    animation-delay: .2s;
+}
+
+@keyframes containerEnter {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 移动端容器收紧 */
+@media (max-width: 768px) {
+    .articles-section {
+        padding: 1.5rem 1rem;
+        margin: 1rem auto 2rem;
+        border-radius: var(--border-radius);
+
+        &__title {
+            font-size: 1.4rem;
+        }
     }
 }
 
@@ -139,5 +249,19 @@ body.home-page {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* 尊重减少动画偏好
+ * -------------------------------------------------- */
+@include reduced-motion {
+    .hero .typewriter-text {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .articles-section {
+        animation: none !important;
     }
 }

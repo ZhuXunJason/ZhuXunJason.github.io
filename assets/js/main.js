@@ -195,6 +195,30 @@ document.addEventListener('DOMContentLoaded', function () {
     // 执行打字机效果
     typeWriter();
 
+    // Hero 滚动叙事兜底：在不支持 animation-timeline 的浏览器中
+    // 通过 --scroll-ratio CSS 变量驱动标题渐隐上移
+    (function initHeroScrollFade() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        // 检测是否原生支持 animation-timeline
+        const testEl = document.createElement('div');
+        testEl.style.animationTimeline = 'scroll()';
+        if (testEl.style.animationTimeline === 'scroll()') return;
+
+        const hero = document.querySelector('.hero');
+        if (!hero) return;
+
+        let rafId = null;
+        window.addEventListener('scroll', function () {
+            if (rafId) return;
+            rafId = requestAnimationFrame(function () {
+                rafId = null;
+                const ratio = Math.min(window.scrollY / (window.innerHeight * 0.5), 1);
+                hero.style.setProperty('--scroll-ratio', ratio.toFixed(3));
+            });
+        }, { passive: true });
+    })();
+
     // 导航栏滚动效果增强
     const header = document.querySelector('header');
     const scrollThreshold = 50;
