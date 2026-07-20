@@ -6,7 +6,7 @@ tags:
   - 学习笔记
   - 机器学习(ML)
 date: 2026-04-13
-featured_image: /assets/images/bayes.webp
+featured_image: /assets/images/bayes.jpg
 excerpt: 贝叶斯分类器（Bayes Classifier）是一种通过最大化后验概率进行单点估计的分类器。
 math: true
 ---

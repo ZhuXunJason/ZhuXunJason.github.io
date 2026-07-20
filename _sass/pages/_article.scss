@@ -401,6 +401,16 @@
             display: flex;
             flex-direction: column;
 
+            // callout 内无序列表：圆点避开左侧 ::before 图标块（占 2.7rem）
+            ul,
+            ol {
+                padding-left: 2rem;
+            }
+
+            ul li::before {
+                left: -0.4rem;
+            }
+
             &::after {
                 order: -1;
                 display: block;

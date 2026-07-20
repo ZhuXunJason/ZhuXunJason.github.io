@@ -144,9 +144,9 @@
 }
 
 .mode-toggle {
-    gap: .55rem;
-    padding: 0 .9rem 0 .78rem;
-    min-width: 80px;
+    flex: 0 0 40px;
+    border-radius: 50%;
+    padding: 0;
 }
 
 .about-link:hover,
@@ -180,12 +180,6 @@
     opacity: 0;
     transform: scale(.76);
     transition: opacity .2s ease, transform .2s ease;
-}
-
-.mode-toggle__label {
-    font-size: .78rem;
-    font-weight: 600;
-    letter-spacing: .04em;
 }
 
 html[data-theme-preference="light"] .icon-sun,
@@ -264,16 +258,6 @@ html[data-theme-preference="reading"] .icon-sun {
     .header__inner {
         gap: 10px;
         padding: 0 1rem;
-    }
-
-    .mode-toggle {
-        min-width: 70px;
-        padding: 0 .72rem 0 .64rem;
-        gap: .42rem;
-    }
-
-    .mode-toggle__label {
-        font-size: .74rem;
     }
 
     .header.is-searching .mode-toggle {

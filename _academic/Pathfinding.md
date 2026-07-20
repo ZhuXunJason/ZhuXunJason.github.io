@@ -3,7 +3,7 @@ layout: article_unencrypt
 title: 寻路问题
 tags: [学术,学习笔记,搜索]
 date: 2025-07-13
-featured_image: /assets/images/search.jpg
+featured_image: /assets/images/search.png
 excerpt: 寻路（pathfinding）是指规划从一个状态到另一个状态的最短路线
 math: true
 ---

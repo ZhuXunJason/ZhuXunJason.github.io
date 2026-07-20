@@ -6,7 +6,7 @@ tags:
   - 学习笔记
   - 强化学习(RL)
 date: 2025-09-27
-featured_image: /assets/images/RL.jpg
+featured_image: /assets/images/RL.png
 excerpt: 强化学习(Reinforcement learning，RL)是机器学习的一个领域，强调如何基于环境而行动，以取得最大化的预期利益。
 math: true
 ---
