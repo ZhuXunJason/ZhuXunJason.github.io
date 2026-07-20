@@ -376,4 +376,11 @@ document.addEventListener('DOMContentLoaded', () => {
             updateSelection(items);
         }
     });
+
+    // 鼠标移出结果容器时清除选中状态
+    resultsContainer.addEventListener('mouseleave', () => {
+        const items = resultsContainer.querySelectorAll('.search-result-item:not(.no-results):not(.loading):not(.error):not(.more-results)');
+        selectedIndex = -1;
+        updateSelection(items);
+    });
 });
