@@ -91,12 +91,13 @@
         &:hover {
             background: var(--surface-highlight);
             color: var(--primary-color);
-            transform: translateX(2px);
+            transform: scale(1.02);
         }
 
         &.selected {
             background: linear-gradient(90deg, rgba(var(--focus-ring-rgb), .18), rgba(var(--focus-ring-rgb), .06));
-            box-shadow: inset 4px 0 0 var(--primary-color);
+            color: var(--primary-color);
+            transform: scale(1.02);
         }
 
         .search-result-title {
