@@ -54,6 +54,10 @@
 {% endif %}
 <script src="{{ '/assets/js/posts-data.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/post-utils.js' | relative_url }}"></script>
+{% if page.is_archive %}
+<script src="{{ '/assets/js/category-config.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/archive.js' | relative_url }}"></script>
+{% endif %}
 
   {% include header.html %}
 

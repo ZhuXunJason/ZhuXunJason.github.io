@@ -1,0 +1,309 @@
+/* 文章聚合页 (Archive Page)
+ * 设计语言与首页 _home.scss 保持一致：玻璃拟态容器 + 品牌渐变
+ * 全部走 CSS 变量，light / reading 双主题自动适配
+ * -------------------------------------------------- */
+
+/* 玻璃容器（复刻 .articles-section 四件套 + 顶部高光线）
+ * -------------------------------------------------- */
+.archive-section {
+    background: linear-gradient(180deg,
+        rgba(var(--surface-glass-rgb), .86) 0%,
+        rgba(var(--surface-glass-rgb), .72) 100%);
+    border: 1px solid var(--surface-border);
+    border-radius: calc(var(--border-radius) + 8px);
+    box-shadow: var(--shadow-strong);
+    padding: 2.5rem 2rem 2rem;
+    margin: 2rem auto 3rem;
+    max-width: 1180px;
+    position: relative;
+    overflow: hidden;
+    animation: containerEnter .8s cubic-bezier(.22, 1, .36, 1) both;
+    animation-delay: .1s;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg,
+            transparent,
+            rgba(var(--focus-ring-rgb), .3) 22%,
+            rgba(var(--focus-ring-rgb), .12) 78%,
+            transparent);
+    }
+}
+
+/* 布局：左树右内容
+ * -------------------------------------------------- */
+.archive-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* 树形导航
+ * -------------------------------------------------- */
+.archive-tree {
+    position: sticky;
+    top: calc(var(--header-height) + 1rem);
+    max-height: calc(100vh - var(--header-height) - 2rem);
+    overflow: auto;
+    padding-right: .25rem;
+    @include scrollbar(var(--scrollbar-track), var(--scrollbar-thumb), var(--scrollbar-size-thin));
+
+    &[hidden] {
+        display: none;
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        margin: .15rem 0;
+    }
+}
+
+.archive-tree__children {
+    margin-left: .7rem;
+    padding-left: .8rem !important;
+    border-left: 1px solid var(--surface-border);
+}
+
+.archive-tree__row {
+    display: flex;
+    align-items: center;
+    gap: .15rem;
+}
+
+.archive-tree__expander {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    width: 1.4rem;
+    height: 1.4rem;
+    flex: 0 0 1.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .65rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color .2s ease, background .2s ease;
+    @include focus-visible;
+
+    &:hover {
+        color: var(--c-heading);
+        background: var(--surface-overlay);
+    }
+
+    i {
+        transition: transform .25s ease;
+    }
+
+    &--placeholder {
+        cursor: default;
+        pointer-events: none;
+    }
+}
+
+li[aria-expanded="true"] > .archive-tree__row .archive-tree__expander i {
+    transform: rotate(90deg);
+}
+
+.archive-tree__btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    padding: .45rem .6rem;
+    border-radius: var(--radius-sm);
+    color: var(--c-text-2);
+    font-size: .95rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: background .25s ease, color .25s ease, box-shadow .25s ease, transform .2s ease;
+    @include focus-visible;
+
+    &:hover {
+        background: var(--surface-overlay);
+        color: var(--c-heading);
+    }
+
+    &.active {
+        background: var(--table-head-bg);
+        color: var(--surface-ink);
+        font-weight: 600;
+        box-shadow: 0 10px 18px -14px rgba(var(--focus-ring-rgb), .36);
+
+        .archive-tree__count {
+            background: rgba(255, 255, 255, .22);
+            color: inherit;
+        }
+    }
+}
+
+.archive-tree__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.archive-tree__count {
+    flex: 0 0 auto;
+    font-size: .72rem;
+    font-weight: 600;
+    padding: .1rem .5rem;
+    border-radius: 999px;
+    background: rgba(var(--focus-ring-rgb), .12);
+    color: var(--muted);
+}
+
+/* 工具栏：面包屑 + 计数
+ * -------------------------------------------------- */
+.archive-toolbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: .5rem;
+}
+
+.archive-breadcrumb {
+    color: var(--muted);
+    font-size: .9rem;
+
+    &__sep {
+        margin: 0 .5rem;
+        opacity: .5;
+    }
+
+    &__item.current {
+        color: var(--c-heading);
+        font-weight: 600;
+    }
+}
+
+.archive-count {
+    color: var(--muted);
+    font-size: .85rem;
+    white-space: nowrap;
+    margin: 0;
+}
+
+/* 空态
+ * -------------------------------------------------- */
+.archive-empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 3rem 1rem;
+
+    i {
+        color: var(--brand);
+        margin-right: .4rem;
+    }
+}
+
+/* 无 JS 降级列表
+ * -------------------------------------------------- */
+.archive-fallback {
+    margin-top: 1rem;
+}
+
+/* 卡片入场动画（复用首页 homeCardEnter）
+ * -------------------------------------------------- */
+.archive-section .post-card.appearing {
+    animation: homeCardEnter .5s ease backwards;
+    animation-delay: var(--d, 0ms);
+}
+
+/* 移动端面板开关（桌面端隐藏）
+ * -------------------------------------------------- */
+.archive-tree-toggle {
+    display: none;
+}
+
+/* 移动端（≤768px）：树折叠为顶部面板
+ * -------------------------------------------------- */
+@media (max-width: 768px) {
+    .archive-section {
+        padding: 1.5rem 1rem;
+        margin: 1rem auto 2rem;
+        border-radius: var(--border-radius);
+    }
+
+    .archive-tree-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        appearance: none;
+        cursor: pointer;
+        font-size: .85rem;
+        font-weight: 600;
+        color: var(--muted);
+        padding: .45rem 1rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(180deg,
+            rgba(var(--surface-glass-rgb), .86),
+            rgba(var(--surface-glass-rgb), .72));
+        border: 1px solid var(--surface-border);
+        border-radius: 999px;
+        box-shadow: var(--shadow-soft);
+        transition: color .2s ease, border-color .25s ease;
+        @include focus-visible;
+
+        &:hover {
+            color: var(--c-heading);
+            border-color: var(--surface-border-strong);
+        }
+    }
+
+    .archive-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .archive-tree {
+        position: static;
+        max-height: 0;
+        overflow: hidden;
+        padding-right: 0;
+        transition: max-height .35s ease;
+
+        &.open {
+            max-height: 60vh;
+            overflow: auto;
+        }
+    }
+}
+
+/* 尊重减少动画偏好
+ * -------------------------------------------------- */
+@include reduced-motion {
+    .archive-section {
+        animation: none !important;
+    }
+
+    .archive-tree,
+    .archive-tree__expander i,
+    .archive-tree__btn {
+        transition: none !important;
+    }
+
+    .archive-section .post-card.appearing {
+        animation: none !important;
+    }
+}

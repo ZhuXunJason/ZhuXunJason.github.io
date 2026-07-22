@@ -80,6 +80,57 @@ body.home-page {
     z-index: 0;
 }
 
+/* 全部文章入口（文章区块右上角）
+ * 玻璃胶囊外壳与 .switch 同款材质，hover 抬升与 .post-card 同语言
+ * -------------------------------------------------- */
+.archive-link {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.6rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .45rem 1rem;
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--muted);
+    background: linear-gradient(180deg, rgba(var(--surface-glass-rgb), .86), rgba(var(--surface-glass-rgb), .72));
+    border: 1px solid var(--surface-border);
+    border-radius: 999px;
+    box-shadow: var(--shadow-soft);
+    transition: transform .2s ease, border-color .25s ease, color .25s ease, box-shadow .25s ease;
+    @include focus-visible;
+
+    i {
+        font-size: .75rem;
+        transition: transform .2s ease;
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+        color: var(--c-heading);
+        border-color: var(--surface-border-strong);
+        box-shadow: var(--shadow-strong);
+
+        i {
+            transform: translateX(3px);
+        }
+    }
+}
+
+/* 移动端：放弃绝对定位，流内右对齐一行，避免遮挡 .switch */
+@media (max-width: 768px) {
+    .archive-link {
+        position: static;
+        display: flex;
+        width: fit-content;
+        margin: 0 0 0 auto;
+        font-size: .8rem;
+        padding: .4rem .85rem;
+    }
+}
+
 /* Hero 区（滚动叙事起点 · 60vh）
  * -------------------------------------------------- */
 .hero {
