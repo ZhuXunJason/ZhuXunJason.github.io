@@ -1242,6 +1242,34 @@ html[data-theme="reading"] {
     animation: musicPulse 2s ease-in-out infinite;
 }
 
+// QQ 音乐外链 iframe：默认隐藏，悬浮钮点击后展开可见
+// iframe 尺寸对齐 QQ 官方设计（.wrap height:66px），消除播放器下方空白
+// iframe 跨域无法 play/pause 同步真实播放状态，悬浮钮 playing/paused 仅表示面板是否展开
+.qq-music-frame {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + .4rem);
+    width: 300px;
+    height: 66px;
+    border: 0;
+    border-radius: 8px;
+    box-shadow: 0 12px 30px -12px rgba(0, 0, 0, .42), 0 4px 12px -6px rgba(0, 0, 0, .28);
+    background: rgba(var(--surface-glass-rgb), .96);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px) scale(.98);
+    transition: opacity .25s ease, transform .25s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .25s;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.music-controller.is-open .qq-music-frame {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    transition: opacity .25s ease, transform .25s cubic-bezier(.22, 1, .36, 1);
+}
+
 // 响应式设计
 @media (max-width: 768px) {
 

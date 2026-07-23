@@ -75,13 +75,9 @@ layout: default
     <button id="music-btn" class="music-btn" title="播放/暂停音乐">
         <i class="fas fa-music" aria-hidden="true"></i>
     </button>
-    <audio id="background-music" preload="auto" loop>
-        {% if page.music and page.music != "" %}
-        <source src="{{ page.music | relative_url }}" type="audio/mpeg">
-        {% else %}
-        <source src="{{ '/assets/music/Summer (菊次郎的夏天)  - 久石让.mp3' | relative_url }}" type="audio/mpeg">
-        {% endif %}
-        您的浏览器不支持音频播放。
-    </audio>
+    <iframe id="qq-music-frame" class="qq-music-frame"
+        src="https://i.y.qq.com/n2/m/outchain/player/index.html?songid={% if page.song_id %}{{ page.song_id }}{% else %}396826{% endif %}&songtype=0"
+        frameborder="0" scrolling="no" loading="lazy" allow="autoplay; encrypted-media"
+        aria-hidden="true" title="背景音乐"></iframe>
 </div>
 {% endif %}

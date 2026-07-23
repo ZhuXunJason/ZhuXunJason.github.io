@@ -318,69 +318,41 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 音乐控件功能
+    // QQ 音乐外链 iframe 跨域，无法用 JS 控制 play/pause，也不支持 autoplay。
+    // 方案：点击悬浮钮展开/收起 iframe（QQ 自带封面+播放按钮），
+    // 用户在 iframe 内点封面播放按钮即可出声，无需 JS 跨域控制。
     function initMusicController() {
         const musicController = document.getElementById("music-controller");
         const musicBtn = document.getElementById("music-btn");
-        const backgroundMusic = document.getElementById("background-music");
 
-        if (!musicController || !musicBtn || !backgroundMusic) return;
+        if (!musicController || !musicBtn) return;
 
-        let isPlaying = false;
+        // 音乐控件显示（仅在生活类文章中）
+        musicController.style.display = "block";
 
-        // 设置音乐音量
-        backgroundMusic.volume = 0.12;
+        let isOpen = false;
 
-        // 音乐控件始终显示（仅在生活类文章中）
-        if (musicController) {
-            musicController.style.display = "block";
-        }
-
-        // 播放/暂停切换功能
+        // 点击悬浮钮展开/收起 QQ 音乐 iframe 播放器
         musicBtn.addEventListener("click", () => {
-            if (isPlaying) {
-                backgroundMusic.pause();
+            isOpen = !isOpen;
+            if (isOpen) {
+                musicController.classList.add("is-open");
+                musicBtn.classList.remove("paused");
+                musicBtn.classList.add("playing");
+                musicBtn.innerHTML = '<i class="fas fa-music" aria-hidden="true"></i>';
+            } else {
+                musicController.classList.remove("is-open");
                 musicBtn.classList.remove("playing");
                 musicBtn.classList.add("paused");
                 musicBtn.innerHTML = '<i class="fas fa-music" aria-hidden="true"></i>';
-                isPlaying = false;
-            } else {
-                // 尝试播放音乐
-                const playPromise = backgroundMusic.play();
-
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        musicBtn.classList.remove("paused");
-                        musicBtn.classList.add("playing");
-                        musicBtn.innerHTML = '<i class="fas fa-music" aria-hidden="true"></i>';
-                        isPlaying = true;
-                    }).catch(() => {
-                        // 显示提示信息
-                        musicBtn.title = "请先与页面交互后再尝试播放";
-                    });
-                }
             }
         });
 
-        // 音乐加载错误处理
-        backgroundMusic.addEventListener("error", () => {
-            musicBtn.style.opacity = "0.5";
-            musicBtn.style.cursor = "not-allowed";
-            musicBtn.title = "音乐文件加载失败";
-        });
-
-        // 音乐播放结束时重置状态
-        backgroundMusic.addEventListener("ended", () => {
+        // 页面离开时收起 iframe 并重置 UI
+        window.addEventListener("beforeunload", () => {
+            musicController.classList.remove("is-open");
             musicBtn.classList.remove("playing");
             musicBtn.classList.add("paused");
-            musicBtn.innerHTML = '<i class="fas fa-music" aria-hidden="true"></i>';
-            isPlaying = false;
-        });
-
-        // 页面离开时暂停音乐
-        window.addEventListener("beforeunload", () => {
-            if (!backgroundMusic.paused) {
-                backgroundMusic.pause();
-            }
         });
     }
 

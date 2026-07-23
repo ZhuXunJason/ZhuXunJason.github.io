@@ -5,7 +5,7 @@ author: 衫圳
 tags: ["生活", "转载"]
 date: 2015-05-06
 excerpt: "从你离开的那一刻开始，我的青春就随你一起离我而去了..."
-music: /assets/music/瞬 - 郑润泽.mp3
+song_id: 422061155
 source: 百度贴吧
 ---
 
