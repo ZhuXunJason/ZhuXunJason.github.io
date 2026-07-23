@@ -143,14 +143,17 @@ li[aria-expanded="true"] > .archive-tree__row .archive-tree__expander i {
     }
 
     &.active {
-        background: var(--table-head-bg);
-        color: var(--surface-ink);
+        background: linear-gradient(180deg,
+            rgba(var(--focus-ring-rgb), .14) 0%,
+            rgba(var(--focus-ring-rgb), .08) 100%);
+        border: 1px solid rgba(var(--focus-ring-rgb), .24);
+        color: var(--brand);
         font-weight: 600;
-        box-shadow: 0 10px 18px -14px rgba(var(--focus-ring-rgb), .36);
+        box-shadow: 0 4px 12px -10px rgba(var(--focus-ring-rgb), .28);
 
         .archive-tree__count {
-            background: rgba(255, 255, 255, .22);
-            color: inherit;
+            background: rgba(var(--focus-ring-rgb), .2);
+            color: var(--brand);
         }
     }
 }
