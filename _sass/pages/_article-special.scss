@@ -461,13 +461,13 @@ html[data-theme="reading"] .article-special ~ .music-controller .music-btn {
 
 .article-special ~ .music-controller .music-btn {
     &.playing {
-        border-color: rgba(var(--article-floating-accent-rgb), .70);
-        background: linear-gradient(135deg, rgba(255, 220, 228, .98), rgba(var(--article-floating-accent-rgb), .88));
-        color: #fff;
-        animation: articleSpecialMusicPulse 2s ease-in-out infinite;
+        // 特殊主题（粉色）选中态弱化：淡边框 + 品牌粉文字 + 保留旋转动画
+        border-color: rgba(var(--article-floating-accent-rgb), .24);
+        background: linear-gradient(135deg, rgba(255, 239, 243, .98), rgba(var(--article-floating-accent-rgb), .12));
+        color: var(--article-floating-accent-deep);
 
         i {
-            color: #fff;
+            color: var(--article-floating-accent-deep);
         }
     }
 

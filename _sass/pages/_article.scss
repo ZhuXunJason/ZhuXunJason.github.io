@@ -1144,30 +1144,32 @@ html[data-theme="reading"] {
         }
 
         &.playing {
-            background: var(--floating-button-active-bg);
-            border-color: var(--floating-button-active-border);
-            color: var(--floating-button-active-text);
+            // 选中态弱化：保留 hover 同款淡玻璃背景，仅用淡边框 + 品牌色文字指示
+            // 旋转音符动画本身已表达状态，不依赖饱和背景
+            background: var(--floating-button-hover-bg);
+            border-color: rgba(var(--focus-ring-rgb), .24);
+            color: var(--brand);
             box-shadow:
-                0 10px 22px -12px rgba(var(--floating-button-active-shadow-rgb), 0.42),
-                0 4px 10px -8px rgba(var(--floating-button-active-shadow-rgb), 0.26);
+                0 10px 22px -14px rgba(var(--focus-ring-rgb), .16),
+                0 4px 10px -8px rgba(var(--focus-ring-rgb), .10);
 
             &::before {
                 background: linear-gradient(135deg,
                     rgba(255, 255, 255, 0.32) 0%,
                     rgba(255, 255, 255, 0.08) 52%,
-                    rgba(var(--floating-button-active-shadow-rgb), 0.08) 100%);
+                    rgba(var(--focus-ring-rgb), 0.08) 100%);
             }
 
             i {
                 animation: musicRotate 3s linear infinite;
-                color: var(--floating-button-active-text);
+                color: var(--brand);
             }
 
             &:hover {
                 transform: translateY(-2px) scale(1.05);
                 box-shadow:
-                    0 12px 28px -12px rgba(var(--floating-button-active-shadow-rgb), 0.48),
-                    0 6px 14px -10px rgba(var(--floating-button-active-shadow-rgb), 0.32);
+                    0 12px 28px -12px rgba(var(--focus-ring-rgb), .22),
+                    0 6px 14px -10px rgba(var(--focus-ring-rgb), .14);
             }
         }
 
@@ -1242,13 +1244,14 @@ html[data-theme="reading"] {
     animation: musicPulse 2s ease-in-out infinite;
 }
 
-// QQ 音乐外链 iframe：默认隐藏，悬浮钮点击后展开可见
+// QQ 音乐外链 iframe：默认隐藏，悬浮钮点击后在悬浮钮下方展开可见
+// 位置必须在悬浮钮下方而非上方，否则会遮挡回到顶部钮（top:8rem，与悬浮钮 top:12.5rem 在同一右列）
 // iframe 尺寸对齐 QQ 官方设计（.wrap height:66px），消除播放器下方空白
 // iframe 跨域无法 play/pause 同步真实播放状态，悬浮钮 playing/paused 仅表示面板是否展开
 .qq-music-frame {
     position: absolute;
     right: 0;
-    bottom: calc(100% + .4rem);
+    top: calc(100% + .4rem);
     width: 300px;
     height: 66px;
     border: 0;
@@ -1257,7 +1260,7 @@ html[data-theme="reading"] {
     background: rgba(var(--surface-glass-rgb), .96);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(6px) scale(.98);
+    transform: translateY(-6px) scale(.98);
     transition: opacity .25s ease, transform .25s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .25s;
     z-index: 1000;
     overflow: hidden;
