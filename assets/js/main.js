@@ -300,22 +300,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
-    // Back to top button functionality
-    const backToTopButton = document.getElementById("back-to-top-btn");
-
-    if (backToTopButton) {
-        window.addEventListener("scroll", () => {
-            if (window.pageYOffset > 300) { // Show button after scrolling 300px
-                backToTopButton.style.display = "block";
-            } else {
-                backToTopButton.style.display = "none";
-            }
-        });
-
-        backToTopButton.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
+    // Back to top button functionality —— 已合并到文章页 TOC（见 toc.js）
 
     // 音乐控件功能
     // QQ 音乐外链 iframe 跨域，无法用 JS 控制 play/pause，也不支持 autoplay。

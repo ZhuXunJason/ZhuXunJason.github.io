@@ -1036,62 +1036,7 @@ html[data-theme="reading"] {
     }
 }
 
-//回到顶部按钮
-.back-to-top-btn {
-    position: fixed;
-    top: 8rem;
-    right: 1rem;
-    z-index: 999;
-    background: var(--floating-button-bg);
-    color: var(--floating-button-icon);
-    border: 1px solid var(--floating-button-border);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    box-shadow:
-        0 8px 20px -14px rgba(0, 0, 0, 0.42),
-        0 3px 6px -4px rgba(0, 0, 0, 0.28);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    display: none;
-    overflow: hidden;
-
-    // 内阴影效果
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: var(--floating-button-highlight);
-        border-radius: 50%;
-        z-index: -1;
-    }
-
-    &:hover {
-        background: var(--floating-button-hover-bg);
-        border-color: var(--floating-button-hover-border);
-        color: var(--floating-button-hover-icon);
-        transform: translateY(-2px) scale(1.02);
-        box-shadow:
-            0 12px 24px -14px rgba(0, 0, 0, 0.44),
-            0 6px 12px -10px rgba(var(--focus-ring-rgb), 0.24);
-    }
-
-    i {
-        transform: scale(0.95);
-        z-index: 1;
-        position: relative;
-    }
-
-    // 点击时的反馈效果
-    &:active {
-        transform: translateY(0) scale(0.98);
-        transition: transform 0.1s ease;
-    }
-}
+// 回到顶部按钮 —— 已合并到文章页 TOC（参见 components/_toc.scss）
 
 // 音乐控件样式 - 增加间距避免重叠
 .music-controller {
@@ -1332,14 +1277,6 @@ html[data-theme="reading"] {
                 }
             }
         }
-    }
-
-    // 移动端返回顶部按钮调整
-    .back-to-top-btn {
-        right: 0.5rem;
-        width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
     }
 
     // 移动端音乐控件调整 - 增加更多间距避免重叠
