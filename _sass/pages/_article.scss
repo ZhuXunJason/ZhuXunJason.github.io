@@ -504,6 +504,71 @@
             color: var(--c-code);
         }
 
+        // 脚本就绪后才隐藏非当前语言；禁用 JavaScript 时仍展示全部代码。
+        .code-tabs--ready {
+            position: relative;
+            margin: 2rem 0;
+            min-width: 0;
+
+            > .highlighter-rouge {
+                margin: 0;
+
+                &[hidden] {
+                    display: none;
+                }
+
+                .highlight::after,
+                .lang-label {
+                    display: none;
+                }
+            }
+
+            .code-tabs__nav {
+                position: absolute;
+                top: 0.5rem;
+                left: 0.75rem;
+                right: 6rem;
+                display: flex;
+                gap: 0.35rem;
+                overflow-x: auto;
+                z-index: 3;
+            }
+
+            .code-tabs__tab {
+                flex-shrink: 0;
+                padding: 0.3rem 0.7rem;
+                border: 1px solid transparent;
+                border-radius: 6px;
+                background: transparent;
+                color: var(--code-label);
+                font: inherit;
+                font-size: 0.85rem;
+                line-height: 1.5;
+                cursor: pointer;
+
+                &:hover {
+                    background: var(--code-control-hover-bg);
+                    color: var(--code-control-hover-text);
+                }
+
+                &[aria-selected="true"] {
+                    background: var(--code-control-bg);
+                    border-color: var(--code-control-border);
+                    color: var(--code-control-hover-text);
+                }
+            }
+
+            .code-tabs__tab:focus-visible {
+                outline: 2px solid var(--code-label);
+                outline-offset: -3px;
+            }
+
+            > [role="tabpanel"]:focus-visible {
+                outline: 2px solid var(--code-label);
+                outline-offset: 2px;
+            }
+        }
+
         .highlighter-rouge {
             margin: 2rem 0;
 
@@ -832,6 +897,24 @@
                 color: var(--primary-color);
                 padding: 0 1rem;
                 font-size: 1.2rem;
+            }
+        }
+
+        // 宽表格独立滚动，避免挤压正文或撑开移动端页面。
+        .table-scroll {
+            max-width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: var(--border-radius);
+
+            > table {
+                min-width: 42rem;
+                margin: 0;
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--primary-color);
+                outline-offset: 2px;
             }
         }
 

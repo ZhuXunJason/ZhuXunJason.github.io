@@ -30,6 +30,7 @@ window.BLOG_CATEGORY_TREE = [
                     { id: 'rl',     label: '强化学习',     match: ['强化学习(RL)'] }
                 ]
             },
+            { id: 'programming', label: '编程笔记', match: ['学术', '编程笔记'] },
             { id: 'papers', label: '论文', match: ['论文'] }
         ]
     },

@@ -344,10 +344,84 @@ document.addEventListener('DOMContentLoaded', function () {
     // 初始化音乐控件
     initMusicController();
 
+    // 用 <div class="code-tabs" markdown="1"> 包住同一示例的不同语言代码围栏。
+    // 显式分组，避免自动合并相邻但用途不同的代码。
+    const codeLanguageLabels = { cpp: 'C++', python: 'Python' };
+    let codeTabsId = 0;
+
+    function getCodeLanguage(element) {
+        const container = element.closest('[class*="language-"]');
+        const match = container && container.className.match(/\blanguage-([\w+-]+)/);
+        const language = match ? match[1].toLowerCase() : 'text';
+        return { 'c++': 'cpp', cxx: 'cpp', py: 'python' }[language] || language;
+    }
+
+    function initCodeTabs(root = document) {
+        root.querySelectorAll('.code-tabs').forEach(group => {
+            if (group.classList.contains('code-tabs--ready')) return;
+
+            const panels = Array.from(group.children);
+            const languages = panels.map(getCodeLanguage);
+            if (panels.length < 2 ||
+                panels.some(panel => !panel.matches('.highlighter-rouge') || !panel.querySelector('pre')) ||
+                languages.some(language => !codeLanguageLabels[language]) ||
+                new Set(languages).size !== languages.length) return;
+
+            const groupId = `article-code-tabs-${++codeTabsId}`;
+            const tabList = document.createElement('div');
+            tabList.className = 'code-tabs__nav';
+            tabList.setAttribute('role', 'tablist');
+            tabList.setAttribute('aria-label', '代码语言');
+
+            function selectTab(selectedIndex, focus = false) {
+                panels.forEach((panel, index) => {
+                    const selected = index === selectedIndex;
+                    const tab = tabList.children[index];
+                    tab.setAttribute('aria-selected', String(selected));
+                    tab.tabIndex = selected ? 0 : -1;
+                    panel.hidden = !selected;
+                });
+                if (focus) tabList.children[selectedIndex].focus();
+            }
+
+            panels.forEach((panel, index) => {
+                const tab = document.createElement('button');
+                tab.type = 'button';
+                tab.className = 'code-tabs__tab';
+                tab.id = `${groupId}-tab-${index}`;
+                tab.textContent = codeLanguageLabels[languages[index]];
+                tab.setAttribute('role', 'tab');
+                tab.setAttribute('aria-controls', `${groupId}-panel-${index}`);
+                panel.id = `${groupId}-panel-${index}`;
+                panel.setAttribute('role', 'tabpanel');
+                panel.setAttribute('aria-labelledby', tab.id);
+                panel.tabIndex = 0;
+
+                tab.addEventListener('click', () => selectTab(index));
+                tab.addEventListener('keydown', event => {
+                    let nextIndex;
+                    if (event.key === 'ArrowRight') nextIndex = (index + 1) % panels.length;
+                    else if (event.key === 'ArrowLeft') nextIndex = (index + panels.length - 1) % panels.length;
+                    else if (event.key === 'Home') nextIndex = 0;
+                    else if (event.key === 'End') nextIndex = panels.length - 1;
+                    else return;
+
+                    event.preventDefault();
+                    selectTab(nextIndex, true);
+                });
+                tabList.appendChild(tab);
+            });
+
+            group.prepend(tabList);
+            group.classList.add('code-tabs--ready');
+            selectTab(0);
+        });
+    }
+
     // 代码块复制功能
-    function initCodeCopy() {
+    function initCodeCopy(root = document) {
         // 为所有代码块添加复制按钮和文件类型标签
-        const highlights = document.querySelectorAll('.highlight');
+        const highlights = root.querySelectorAll('.highlight');
 
         highlights.forEach((highlight, index) => {
             if (highlight.querySelector('.copy-btn')) return;
@@ -355,29 +429,20 @@ document.addEventListener('DOMContentLoaded', function () {
             const pre = highlight.querySelector('pre');
             if (!pre) return;
 
-            // 检测语言类型
-            let language = 'text';
-            const languageClass = highlight.className.match(/language-(\w+)/);
-            if (languageClass) {
-                language = languageClass[1];
-            } else {
-                // 从父元素或其他地方检测语言
-                const parent = highlight.closest('[class*="language-"]');
-                if (parent) {
-                    const match = parent.className.match(/language-(\w+)/);
-                    if (match) language = match[1];
-                }
-            }
+            const language = getCodeLanguage(highlight);
 
             // 创建语言标签
             const langLabel = document.createElement('span');
             langLabel.className = 'lang-label';
-            langLabel.textContent = language;
+            langLabel.textContent = codeLanguageLabels[language] || language;
             highlight.appendChild(langLabel);
 
             // 创建复制按钮
             const copyBtn = document.createElement('button');
+            copyBtn.type = 'button';
             copyBtn.className = 'copy-btn';
+            copyBtn.setAttribute('aria-label', '复制代码');
+            copyBtn.title = '复制代码';
             copyBtn.innerHTML = '<i class="fas fa-copy" aria-hidden="true"></i>';
             copyBtn.setAttribute('data-code-index', index);
 
@@ -407,9 +472,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
-
-    // 初始化代码复制功能
-    initCodeCopy();
 
     function createFootnoteTooltips() {
         // kramdown 会为脚注引用生成 class="footnote" 的 <a> 标签
@@ -475,7 +537,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     window.initializeDynamicArticleContent = function initializeDynamicArticleContent(root = document) {
-        initCodeCopy();
+        initCodeTabs(root);
+        initCodeCopy(root);
         createFootnoteTooltips();
         initLazyImages(root);
     };

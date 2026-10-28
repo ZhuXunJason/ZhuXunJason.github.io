@@ -90,6 +90,8 @@ T&: [~]\}
 
 - 方案一：检查一个赋值是否与现有约束冲突
 
+<div class="code-tabs" markdown="1">
+
 ```python
 def checking(variable:str, assignment:dict[str, str], constraints:dict[str, list[str]]):
     for neighbor, color in assignment.items():
@@ -110,6 +112,8 @@ bool checking(const string& var, const map<string, string>& assignment, const ma
     return true;
 }
 ```
+
+</div>
 
 - 方案二：**前向检查**
 <div class="callout note" title="前向检查(Forward Checking)">

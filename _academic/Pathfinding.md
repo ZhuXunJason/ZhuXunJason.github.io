@@ -55,6 +55,8 @@ math: true
 
 ### 算法实现
 
+<div class="code-tabs" markdown="1">
+
 ```cpp
 void search()(
     std::map<State, std::pair<int, State>> parent_map;
@@ -137,5 +139,7 @@ def search():
   
 return list()
 ```
+
+</div>
 
 [^1]: 由于我们事先并不知道最优路径，因此每次找到一个节点时都需要关注对应的cost，通过比较替换找到g(n)
